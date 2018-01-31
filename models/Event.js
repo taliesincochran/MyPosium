@@ -25,7 +25,9 @@ var EventSchema = new Schema({
 		type: String,
 		required: true
 	},
-	attendees: [
+	'category': []
+	},
+	'attendees': [
 		{
 			type: Schema.types.ObjectId,
 			ref: "User"

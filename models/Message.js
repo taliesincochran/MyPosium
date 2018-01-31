@@ -15,6 +15,10 @@ var MessageSchema = new Schema({
 	},
 	"message": {
 		type: String,
+	},
+	"createdAt": {
+		type: Date,
+		default: Date.now()
 	}
 });
 var User = mongoose.model("Message", MessageSchema);
