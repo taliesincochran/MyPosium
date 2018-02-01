@@ -1,6 +1,6 @@
-var mongoose = require('mongoose');
-var Schema = mongoose.Schema;
-var MessageSchema = new Schema({
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
+const messageSchema = new Schema({
 	'from': {
 		type: String,
 		required: true
@@ -9,7 +9,6 @@ var MessageSchema = new Schema({
 		type: String,
 		required: true
 	},
-	{
 	"header": {
 		type: String,
 	},
@@ -21,5 +20,4 @@ var MessageSchema = new Schema({
 		default: Date.now()
 	}
 });
-var User = mongoose.model("Message", MessageSchema);
-module.exports = User;
+const Message = module.exports = mongoose.model("Message", messageSchema);

@@ -1,12 +1,9 @@
-var mongoose = require('mongoose');
-var Schema = mongoose.Schema;
-var userSchema = new Schema({
-	'email': {
-		type: String,
-		unique: true,
-		required: true
-	},
-	'name': {
+const mongoose = require('mongoose');
+const bcrypt = require('bcrypt-nodejs')
+
+const Schema = mongoose.Schema;
+const userSchema = new Schema({
+	'username': {
 		type: String,
 		required: true
 	},
@@ -14,12 +11,29 @@ var userSchema = new Schema({
 		type: String,
 		required: true
 	},
-	"intrests": [],
-	"messages": 
-		{
-			type: Schema.types.ObjectId,
+	zipcode: {
+		type: String,
+		required: true
+	},
+	"interests": [],
+	"sentMessages": {
+			type: Schema.Types.ObjectId,
 			ref: "Message"
-		}
+	},
+	"receivedMessages": {
+		type: Schema.Types.ObjectId,
+		ref: "message"
+	}
 });
-var User = mongoose.model("User", UserSchema);
-module.exports = User;
+
+// generating a hash
+userSchema.methods.generateHash = function(password) {
+    return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null);
+};
+
+// checking if password is valid
+userSchema.methods.validPassword = function(password) {
+    return bcrypt.compareSync(password, this.password);
+};
+
+const User = module.exports = mongoose.model("User", userSchema);
