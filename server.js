@@ -32,7 +32,7 @@ app.use(express.static("client/build"));
 const MongoDBStore = require('connect-mongodb-session')(session);
 const store = new MongoDBStore({
   uri: MONGODB_URI,
-  collection: 'mySessions'
+  collection: 'sessions'
 });
 
 store
@@ -46,7 +46,7 @@ app.use(session({
     secret: '52e0d0v5h5t5r2e0s0s2cvb1j1j2k25u', // session secret
     cookie: { maxAge: 24 * 60 * 60 * 1000 },
     unset: 'destroy',
-    resave: true,
+    resave: false,
     saveUninitialized: false,
     store: store
 }));

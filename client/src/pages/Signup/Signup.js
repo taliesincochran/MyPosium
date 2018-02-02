@@ -1,18 +1,19 @@
 import React, { Component } from 'react';
-import { Field, Label, Control, Input, Button } from 'bloomer';
+import { Container, Field, Label, Control, Input, Button } from 'bloomer';
+import { Link } from "react-router-dom";
 import axios from 'axios';
 
 export default class Signup extends Component {
   state = {
     username: '',
-    email: '',
+    password: '',
     password2: '',
-    zipcode: '',
+    zipcode: ''
   }
 
   handleChange = e => {
     let { name, value } = e.target;
-    this.setState({[name]: value});
+    this.setState({ [name]: value });
   }
 
   handleSubmit = e => {
@@ -26,14 +27,15 @@ export default class Signup extends Component {
     axios
       .post('api/users/signup', user)
       .then(result => {
-        console.log(result);
+        result.data.isAuth ? (window.location.href = '/dashboard') : (window.location.href = '/signup')
       })
       .catch(err => console.log(err));
   }
 
   render() {
     return(
-      <div>
+      <Container>
+        <Link to="/">Go Home</Link>
         <Field>
             <Label>User Name:</Label>
             <Control>
@@ -85,7 +87,7 @@ export default class Signup extends Component {
         <Control>
             <Button isColor='primary' onClick={this.handleSubmit}>Submit</Button>
         </Control>
-      </div>
+      </Container>
     )
   }
 }
