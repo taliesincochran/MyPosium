@@ -18,8 +18,8 @@ const App = () =>
         <Route exact path="/login" component={ Login } />
         <Route exact path="/dashboard" component={ Dashboard } />
         <Route exact path="/dashboard/:eventID" component={ Event} />
-        <Route exact path="/dashboard/settings" = { UpdateUser } />
-        <Route exact path="/dashboard/create" = { CreateEvent } />
+        <Route exact path="/dashboard/settings" component={ UpdateUser } />
+        <Route exact path="/dashboard/create" component={ CreateEvent } />
         <Route component={ NoMatch } />
       </Switch>
     </div>
