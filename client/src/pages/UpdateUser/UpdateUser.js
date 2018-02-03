@@ -7,3 +7,7 @@ export default class UpdateUser extends Component
 state = {
 
 }
+
+render(){
+	return <h1>USER UPDATE</h1>
+}

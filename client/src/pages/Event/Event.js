@@ -6,3 +6,7 @@ import axios from 'axios';
 export default class Event extends Component {
   state = {
   }
+
+  render(){
+	return <h1>EVENT LISTINGGGGG!!!!!</h1>
+}

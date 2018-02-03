@@ -7,3 +7,7 @@ export default class CreateEvent extends Component {
   state = {
 
   }
+
+  render(){
+	return <h1>EVENT CREATION</h1>
+}
