@@ -4,6 +4,9 @@ import Signup from "./pages/Signup";
 import Landing from "./pages/Landing";
 import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
+import Event from "./pages/Dashboard";
+import UpdateUser from "./pages/Dashboard";
+import CreateEvent from "./pages/Dashboard";
 import NoMatch from "./pages/NoMatch";
 
 const App = () =>
@@ -14,6 +17,9 @@ const App = () =>
         <Route exact path="/signup" component={ Signup } />
         <Route exact path="/login" component={ Login } />
         <Route exact path="/dashboard" component={ Dashboard } />
+        <Route exact path="/dashboard/:eventID" component={ Event} />
+        <Route exact path="/dashboard/settings" = { UpdateUser } />
+        <Route exact path="/dashboard/create" = { CreateEvent } />
         <Route component={ NoMatch } />
       </Switch>
     </div>
