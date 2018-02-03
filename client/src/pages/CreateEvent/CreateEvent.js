@@ -9,5 +9,10 @@ export default class CreateEvent extends Component {
   }
 
   render(){
-	return <h1>EVENT CREATION</h1>
+	return (
+		<Container>
+			<h1>EVENT CREATION</h1>
+		</Container>
+	)
+	}
 }
