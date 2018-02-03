@@ -4,9 +4,9 @@ import Signup from "./pages/Signup";
 import Landing from "./pages/Landing";
 import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
-import Event from "./pages/Dashboard";
-import UpdateUser from "./pages/Dashboard";
-import CreateEvent from "./pages/Dashboard";
+import Event from "./pages/Event";
+import UpdateUser from "./pages/UpdateUser";
+import CreateEvent from "./pages/CreateEvent";
 import NoMatch from "./pages/NoMatch";
 
 const App = () =>
