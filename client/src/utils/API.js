@@ -1,20 +1,80 @@
 import axios from "axios";
 
 export default {
-  // Gets all books
-  getBooks: function() {
-    return axios.get("/api/books");
+
+  //ALL THE GODDAMN GETS
+  //Message Get
+
+  getMessage: function(id){
+    return axios.get("/api/message/" + id);
   },
-  // Gets the book with the given id
-  getBook: function(id) {
-    return axios.get("/api/books/" + id);
+
+  //Event Gets
+  
+  // Gets specific event
+  getEvent: function(id) {
+    return axios.get("/api/event/"+ id);
   },
-  // Deletes the book with the given id
-  deleteBook: function(id) {
-    return axios.delete("/api/books/" + id);
+  // Gets events based on category
+  getEventsCategory: function(category) {
+    return axios.get("/api/event/" + category);
   },
-  // Saves a book to the database
-  saveBook: function(bookData) {
-    return axios.post("/api/books", bookData);
+
+ // Gets events based on category
+  getFeatured: function(){
+    return axios.get("/api/event/");
+  },
+
+//User Gets--These may all be redundant!
+  getUser: function(id){
+    return axios.get("/api/user/" + id);
+  },
+
+  //Logout--May be redundant
+  getUserLogout: function(id){
+    return axios.get("/api/user/logout/"+ id);
+  },
+
+  //All the goddamn posts!
+  //Message Post
+  postMessage: function(){
+    return axios.post("/api/message/");
+  },
+
+  //Event posts
+  postEvent: function(){
+    return axios.post("/api/event");
+  },
+  postEventUpdate: function(id){
+    return axios.post("/api/event/" + id);
+  },
+
+  //User Posts
+  //Initial post of the user
+  postUser: function(){
+    return axios.post("/api/user/");
+  },
+  //updating user attributes
+  postUserUpdate: function(id){
+    return axios.post("/api/user/"+id);
+  },
+
+  //Lonely update
+  updateUser: function(id){
+    return axios.put("/api/user/" + id);
+  },
+
+  //ALL THE DELETES
+  deleteMessage: function(id){
+    return axios.delete("/api/message/delete/" + id);
+  },
+
+  deleteEvent: function(id){
+    return axios.delete("/api/event/" + id);
+  },
+
+  deleteUser: function(id){
+    return axios.delete("/api/user/" + id);
   }
+
 };
