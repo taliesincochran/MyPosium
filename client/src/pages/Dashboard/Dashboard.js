@@ -2,16 +2,22 @@ import React, { Component } from 'react';
 import { Container, Button } from 'bloomer';
 import { Redirect } from 'react-router-dom';
 import axios from 'axios';
+import {authObj} from '../../authenticate'
 
 export default class Dashboard extends Component {
   state = {
-    logout: false
+    logout: false,
+  }
+
+  componentDidMount() {
+
   }
 
   handleLogout = () => {
     axios
       .get('api/users/logout')
       .then(response => {
+        authObj.logout();
         if (response.status === 200){
           this.setState({logout:true});
         }

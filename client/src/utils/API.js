@@ -10,7 +10,7 @@ export default {
   },
 
   //Event Gets
-  
+
   // Gets specific event
   getEvent: function(id) {
     return axios.get("/api/event/"+ id);
@@ -27,7 +27,7 @@ export default {
 
 //User Gets--These may all be redundant!
   getUser: function(id){
-    return axios.get("/api/user/" + id);
+    return axios.get("/api/user/checkAuth");
   },
 
   //Logout--May be redundant
@@ -61,7 +61,7 @@ export default {
 
   //Lonely update
   updateUser: function(id){
-    return axios.put("/api/user/" + id);
+    return axios.post("/api/user/" + id);
   },
 
   //ALL THE DELETES

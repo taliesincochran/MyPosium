@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Field, Label, Control, Input, Button, Container } from 'bloomer';
 import { Link, Redirect } from "react-router-dom";
 import axios from 'axios';
+import {authObj} from '../../authenticate'
 
 export default class Login extends Component {
   state = {
@@ -9,6 +10,7 @@ export default class Login extends Component {
     password: '',
     isLoggedIn: false
   }
+
 
   handleChange = e => {
     let { name, value } = e.target;
@@ -26,10 +28,12 @@ export default class Login extends Component {
     axios
       .post('api/users/login', user)
       .then(result => {
-        console.log(result)
-        if (result.data.isAuth){
-          this.setState({isLoggedIn: true});
-        }
+        authObj.authenticate()
+        setTimeout( () => {
+          if (result.data.isAuth){
+            this.setState({isLoggedIn: true});
+          }
+        }, 100)
       })
       .catch(err => console.log(err));
   }
