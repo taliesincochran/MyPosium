@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Container, Field, Label, Control, Input, Button } from 'bloomer';
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import axios from 'axios';
 
 export default class Signup extends Component {
@@ -8,7 +8,8 @@ export default class Signup extends Component {
     username: '',
     password: '',
     password2: '',
-    zipcode: ''
+    zipcode: '',
+    isLoggedIn: false
   }
 
   handleChange = e => {
@@ -27,7 +28,9 @@ export default class Signup extends Component {
     axios
       .post('api/users/signup', user)
       .then(result => {
-        result.data.isAuth ? (window.location.href = '/dashboard') : (window.location.href = '/signup')
+        if(result.data.isAuth){
+           this.setState({isLoggedIn: true})
+        }
       })
       .catch(err => console.log(err));
   }
@@ -87,6 +90,7 @@ export default class Signup extends Component {
         <Control>
             <Button isColor='primary' onClick={this.handleSubmit}>Submit</Button>
         </Control>
+        {this.state.isLoggedIn? (<Redirect to="/dashboard" />) : null}
       </Container>
     )
   }
