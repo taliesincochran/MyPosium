@@ -27,6 +27,7 @@ export default class Signup extends Component {
     axios
       .post('api/users/signup', user)
       .then(result => {
+        console.log(result.data);
         result.data.isAuth ? (window.location.href = '/dashboard') : (window.location.href = '/signup')
       })
       .catch(err => console.log(err));
