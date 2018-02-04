@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Container, Field, Label, Control, Input, Button } from 'bloomer';
 import { Link, Redirect } from "react-router-dom";
 import axios from 'axios';
+import {authObj} from '../../authenticate'
 
 export default class Signup extends Component {
   state = {
@@ -28,11 +29,12 @@ export default class Signup extends Component {
     axios
       .post('api/users/signup', user)
       .then(result => {
-        console.log(result.data);
-        result.data.isAuth ? (window.location.href = '/dashboard') : (window.location.href = '/signup')
-        if(result.data.isAuth){
-           this.setState({isLoggedIn: true})
-        }
+        authObj.authenticate()
+        setTimeout( () => {
+          if (result.data.isAuth){
+            this.setState({isLoggedIn: true});
+          }
+        }, 100)
       })
       .catch(err => console.log(err));
   }
@@ -92,7 +94,7 @@ export default class Signup extends Component {
         <Control>
             <Button isColor='primary' onClick={this.handleSubmit}>Submit</Button>
         </Control>
-        {this.state.isLoggedIn? (<Redirect to="/dashboard" />) : null}
+        {this.state.isLoggedIn? (<Redirect to="/profile" />) : null}
       </Container>
     )
   }
