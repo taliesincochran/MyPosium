@@ -9,10 +9,6 @@ export default class Dashboard extends Component {
     logout: false,
   }
 
-  componentDidMount() {
-
-  }
-
   handleLogout = () => {
     axios
       .get('api/users/logout')
