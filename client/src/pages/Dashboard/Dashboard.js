@@ -43,7 +43,9 @@ componentWillMount() {
       this.state.isAuth ?
       <Container>
         <h1>Dashboard</h1>
+        {this.props.children}
         <Button onClick={this.handleLogout}>Logout</Button>
+        <Button href="/dashboard/create">Create</Button>
       </Container>:
       <div>
         <h2>You need to log in to do that.</h2>
@@ -52,4 +54,4 @@ componentWillMount() {
       </div>
     )
   }
-}
+
