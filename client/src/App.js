@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { BrowserRouter as Router, Redirect, Route, Switch } from "react-router-dom";
 import axios from 'axios';
 import Signup from "./pages/Signup";
+import Profile from "./pages/Profile";
 import Landing from "./pages/Landing";
 import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
@@ -33,5 +34,4 @@ export default class App extends Component{
       </Router>
     )
   }
-
 }
