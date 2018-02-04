@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import { Field, Label, Control, Input, Button, Container } from 'bloomer';
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import axios from 'axios';
 
 export default class Login extends Component {
   state = {
     username: '',
-    password: ''
+    password: '',
+    isLoggedIn: false
   }
 
   handleChange = e => {
@@ -17,7 +18,7 @@ export default class Login extends Component {
   handleSubmit = e => {
     let { username, password } = this.state;
     let user = { username, password };
-    e.preventDefault();
+    e.preventDefault()
     this.submitUser(user);
   }
 
@@ -26,7 +27,9 @@ export default class Login extends Component {
       .post('api/users/login', user)
       .then(result => {
         console.log(result)
-        result.data.isAuth ? (window.location.href = '/dashboard') : (window.location.href = '/login')
+        if (result.data.isAuth){
+          this.setState({isLoggedIn: true});
+        }
       })
       .catch(err => console.log(err));
   }
@@ -62,6 +65,7 @@ export default class Login extends Component {
         <Control>
             <Button isColor='primary' onClick={this.handleSubmit}>Submit</Button>
         </Control>
+        {this.state.isLoggedIn? (<Redirect to="/dashboard"/>): null}
       </Container>
     )
   }
