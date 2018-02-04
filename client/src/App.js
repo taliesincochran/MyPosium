@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { BrowserRouter as Router, Redirect, Route, Switch } from "react-router-dom";
 import axios from 'axios';
 import Signup from "./pages/Signup";
+import Profile from "./pages/Profile";
 import Landing from "./pages/Landing";
 import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
@@ -13,25 +14,6 @@ import PrivateRoute from "./components/PrivateRoute"
 
 
 export default class App extends Component{
-  state = {
-    user: "",
-  }
-
-checkAuth = () => {
-    axios
-    .get('/api/users/checkAuth')
-    .then(response => {
-      console.log('??????????????????????????',response)
-      if (!response.data.isAuth){
-        console.log('firing')
-        return(<Redirect to="/" />)
-      } else {
-        return true;
-      }
-      // this.setState({user: response.data.user})
-      // console.log(this.state)
-    })
-  }
 
   render() {
     return(
@@ -43,7 +25,6 @@ checkAuth = () => {
             <Route exact path="/login" component={ Login } />
             <Route exact path="/profile" component={ UpdateUser } />
             <PrivateRoute path='/dashboard' component={ Dashboard }/>
-            {/* <Route exact path='/dashboard' component={ Dashboard } user={this.state.user} onEnter={this.checkAuth}/> */}
             <Route exact path="/dashboard/:eventID" component={ Event} />
             <Route exact path="/dashboard/settings" component={ UpdateUser } />
             <Route exact path="/dashboard/create" component={ CreateEvent } />
@@ -53,5 +34,4 @@ checkAuth = () => {
       </Router>
     )
   }
-
 }
