@@ -22,6 +22,7 @@ export default class App extends Component{
             <Route exact path="/" component={ Landing } />
             <Route exact path="/signup" component={ Signup } />
             <Route exact path="/login" component={ Login } />
+
             <Route exact path='/dashboard' component={ Dashboard } />
               <Switch>
                 <Route exact path="/dashboard/:eventID" component={ Event} />

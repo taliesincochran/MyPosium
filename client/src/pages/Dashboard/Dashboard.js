@@ -54,5 +54,4 @@ componentWillMount() {
       </div>
     )
   }
-}
-      //*{this.state.logout? (<Redirect to="/" />) : null}*/}
+
