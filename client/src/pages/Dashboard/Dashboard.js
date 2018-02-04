@@ -30,8 +30,8 @@ componentWillMount() {
         if (response.status === 200){
           console.log(this.props.location.state)
         this.setState({user: '', isAuth: false})
-        return  <Redirect to="/" />
-          // window.location.href = '/';
+        // return  <Redirect to="/" />
+          window.location.href = '/';
         }
       })
       .catch(err => console.log(err));
@@ -43,7 +43,9 @@ componentWillMount() {
       this.state.isAuth ?
       <Container>
         <h1>Dashboard</h1>
+        {this.props.children}
         <Button onClick={this.handleLogout}>Logout</Button>
+        <Button href="/dashboard/create">Create</Button>
       </Container>:
       <div>
         <h2>You need to log in to do that.</h2>
@@ -53,3 +55,4 @@ componentWillMount() {
     )
   }
 }
+      //*{this.state.logout? (<Redirect to="/" />) : null}*/}

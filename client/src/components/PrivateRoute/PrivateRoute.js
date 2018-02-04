@@ -72,47 +72,47 @@ import { Route, Redirect } from "react-router-dom";
 // }
 export default PrivateRoute;
 
-// Best one so far
-// const PrivateRoute = ({ component: Component, ...rest }) => {
-//   axios
-//     .get('/api/users/checkAuth')
-//     .then(response => {
-//       var isAuthenticated = false;
-//       if (response){
-//         isAuthenticated = response.data.isAuth;
-//       }
-//       console.log(isAuthenticated)
-//       return(
-//         <Route {...rest} render={props => (
-//           !isAuthenticated ? (
-//             <Component {...props}/>
-//           ) : (
-//             <Redirect to='/' />
-//           )
-//         )}/>
-//       )
-//     })
-//     .catch(err => console.log(err))
-// }
+Best one so far
+const PrivateRoute = ({ component: Component, ...rest }) => {
+  axios
+    .get('/api/users/checkAuth')
+    .then(response => {
+      var isAuthenticated = false;
+      if (response){
+        isAuthenticated = response.data.isAuth;
+      }
+      console.log(isAuthenticated)
+      return(
+        <Route {...rest} render={props => (
+          !isAuthenticated ? (
+            <Component {...props}/>
+          ) : (
+            <Redirect to='/' />
+          )
+        )}/>
+      )
+    })
+    .catch(err => console.log(err))
+}
 
 
-// export const PrivateRoute = props => {
-//   axios
-//    .get('api/users/checkAuth')
-//    .then(response => {
-//      let isAuth = response.data.isAuth;
-//      isAuth?
-//      (<Route path={props.path} component={props.component}/>):
-//      (<Redirect to={{
-//        pathname: '/',
-//        state: { from: props.location }
-//      }}/>)
-//    })
-//    .catch(err => console.log(err));
-// }
+export const PrivateRoute = props => {
+  axios
+   .get('api/users/checkAuth')
+   .then(response => {
+     let isAuth = response.data.isAuth;
+     isAuth?
+     (<Route path={props.path} component={props.component}>{props.children}</Route>):
+     (<Redirect to={{
+       pathname: '/',
+       state: { from: props.location }
+     }}/>)
+   })
+   .catch(err => console.log(err));
+}
 // export default const PrivateRoute = ({ component: Component, ...rest }) => {
 //   let isAuthorized = false;
-//
+
 //   <Route {...rest} render={props => (
 //     fakeAuth.isAuthenticated ? (
 //       <Component {...props}/>
@@ -122,5 +122,5 @@ export default PrivateRoute;
 //         state: { from: props.location }
 //       }}/>
 //     )
-//   )}/>
-// }
+  )}/>
+}
