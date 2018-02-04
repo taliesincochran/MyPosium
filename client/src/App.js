@@ -10,7 +10,9 @@ import CreateEvent from "./pages/CreateEvent";
 import NoMatch from "./pages/NoMatch";
 import PrivateRoute from "./components/PrivateRoute"
 
+
 export default class App extends Component{
+
 
   render() {
     return(
