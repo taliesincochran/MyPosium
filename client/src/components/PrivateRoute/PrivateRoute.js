@@ -46,31 +46,31 @@ import { Route, Redirect } from "react-router-dom";
 //     })
 // }
 
-export default class PrivateRoute extends React.Component {
-  state = {
-    user: '',
-    isAuth: false
-  }
+// export default class PrivateRoute extends React.Component {
+//   state = {
+//     user: '',
+//     isAuth: false
+//   }
 
-componentWillReceiveProps() {
-  axios
-    .get('api/users/checkAuth')
-    .then(response => {
-      let { user, isAuth } = response.data;
-      this.setState({user,isAuth})
-      console.log(this.state);
-    })
-}
-   render(){
+// componentWillReceiveProps() {
+//   axios
+//     .get('api/users/checkAuth')
+//     .then(response => {
+//       let { user, isAuth } = response.data;
+//       this.setState({user,isAuth})
+//       console.log(this.state);
+//     })
+// }
+//    render(){
 
-     return (
-      this.state.isAuth ?
-      (<Route {...this.props} />) :
-      (<Redirect to="/" />)
-    )
-  }
-}
-// export default PrivateRoute;
+//      return (
+//       this.state.isAuth ?
+//       (<Route {...this.props} />) :
+//       (<Redirect to="/" />)
+//     )
+//   }
+// }
+export default PrivateRoute;
 
 // Best one so far
 // const PrivateRoute = ({ component: Component, ...rest }) => {

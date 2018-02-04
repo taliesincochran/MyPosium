@@ -8,7 +8,7 @@ import Event from "./pages/Event";
 import UpdateUser from "./pages/UpdateUser";
 import CreateEvent from "./pages/CreateEvent";
 import NoMatch from "./pages/NoMatch";
-import PrivateRoute from "./components/PrivateRoute"
+// import PrivateRoute from "./components/PrivateRoute"
 
 
 export default class App extends Component{
@@ -22,7 +22,7 @@ export default class App extends Component{
             <Route exact path="/" component={ Landing } />
             <Route exact path="/signup" component={ Signup } />
             <Route exact path="/login" component={ Login } />
-            <PrivateRoute exact path='/dashboard' component={ Dashboard } />
+            <Route exact path='/dashboard' component={ Dashboard } />
             <Route exact path="/dashboard/:eventID" component={ Event} />
             <Route exact path="/dashboard/settings" component={ UpdateUser } />
             <Route exact path="/dashboard/create" component={ CreateEvent } />
