@@ -30,7 +30,6 @@ export default class Login extends Component {
         if (result.data.isAuth){
           this.setState({isLoggedIn: true});
         }
-        // result.data.isAuth ? (window.location.href = '/dashboard') : (window.location.href = '/login')
       })
       .catch(err => console.log(err));
   }
