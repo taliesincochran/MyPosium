@@ -30,8 +30,8 @@ componentWillMount() {
         if (response.status === 200){
           console.log(this.props.location.state)
         this.setState({user: '', isAuth: false})
-        return  <Redirect to="/" />
-          // window.location.href = '/';
+        // return  <Redirect to="/" />
+          window.location.href = '/';
         }
       })
       .catch(err => console.log(err));
