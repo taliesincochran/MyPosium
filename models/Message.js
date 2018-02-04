@@ -1,11 +1,11 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const messageSchema = new Schema({
-	'from': {
+	'sender': {
 		type: String,
 		required: true
 	},
-	'to': {
+	'reciever': {
 		type: String,
 		required: true
 	},

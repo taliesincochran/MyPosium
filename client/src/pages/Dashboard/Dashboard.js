@@ -8,18 +8,24 @@ export default class Dashboard extends Component {
   }
 
   handleLogout = () => {
+    console.log("api/users/logout called")
     axios
       .get('api/users/logout')
       .then(response => {
         console.log('firing',response)
         console.log(response.status)
+        return response;
+      })
+      .then(response => {
         if (response.status === 200){
           window.location.href = '/';
         }
       })
       .catch(err => console.log(err));
   }
+  componentWillUnmount = () => {
 
+  }
   render() {
     return(
       <Container>

@@ -32,11 +32,17 @@ module.exports = function(passport) {
     db.User
       .findOne({ 'username' :  req.body.username })
       .then(user => {
+//======================================================
+        console.log('login called');
+//======================================================
         if (!user){
           return done(null, false, req.flash('loginMessage', 'No user found.'));
         } else if (!user.validPassword(password)) {
             return done(null, false, req.flash('loginMessage', 'Oops! Wrong password.'));
         } else {
+//=====================================================
+          console.log('login: ', user);
+//=====================================================
           return done(null,user)
         }
       })
@@ -50,6 +56,9 @@ module.exports = function(passport) {
       passReqToCallback : true // allows us to pass in the req from our route (lets us check if a user is logged in or not)
   },
   function(req, username, password, done) {
+//======================================================
+        console.log('signup called');
+//======================================================
     if (!req.user) {
       db.User
         .findOne({ 'username' :  req.body.username })
@@ -57,6 +66,9 @@ module.exports = function(passport) {
           if (result) {
               return done(null, false, req.flash('signupMessage', 'That email is already taken.'));
           } else {
+//======================================================
+        console.log('signup ', req.body);
+//======================================================
             let newUser = new db.User(req.body);
             newUser.password = newUser.generateHash(req.body.password);
 
