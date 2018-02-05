@@ -18,14 +18,10 @@ export default class Landing extends Component {
       navbarStart={
         [
           {
-            href:"/login", 
-            style:"color:'black'", 
-            helper:'isHoverable', 
+            href:"/login",  
             text: "Login"
           }, {
-            href:"/signup", 
-            style:"color:'blue'", 
-            helper:'isHoverable', 
+            href:"/signup",  
             text: 'SignUp'
           }
         ]
