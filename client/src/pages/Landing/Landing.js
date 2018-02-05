@@ -10,9 +10,6 @@ export default class Landing extends Component {
 		      hasBrand={true}
 		      navbarStyle={{boxShadow: '2px 2px 5px'}}
 		      brandText='Myposium'
-		      hasBox={true} 
-		      boxText="MyPosium"
-		      boxAlign='left'
 		      burgerActive={true} 
 		      isActive={true} 
 		      burgerActive={true}
