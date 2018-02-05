@@ -28,7 +28,7 @@ const NavbarHeader = props => {
 				</NavbarBrand> 
 				<NavbarMenu isActive={props.isActive} onClick={props.onClickNav}>
 			    <NavbarStart>
-			    	{navbarStart.map(item => (<NavbarItem href={item.href}>{item.text}</NavbarItem>))}
+			    	{props.navbarStart.map(item => (<NavbarItem href={item.href}>{item.text}</NavbarItem>))}
 			    </NavbarStart>
 			    <NavbarEnd>
 			    	{props.navbarEnd.map(item => (<NavbarItem href={item.href}>{item.text}</NavbarItem>))}
