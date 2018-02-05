@@ -25,16 +25,22 @@ const passport = require('passport')
 
   // process the logout request
   router.get('/logout', function(req, res) {
-    console.log('9999999999999999999999999:', req.user)
     req.logout();
     req.session.destroy(function (err) {
       if (!err) {
-        res.sendStatus(200).clearCookie('connect.sid', {path: '/'});
+        res.clearCookie('connect.sid', {path: '/'}).send(200);
         console.log('no error')
       } else {
         console.log('Error from session destroy:', err)
       }
     });
   });
+
+  router.get('/checkAuth', function (req,res){
+    let authObj = {};
+    authObj.user = req.user || null;
+    authObj.isAuth = req.isAuthenticated();
+    res.json(authObj);
+  })
 
 module.exports = router;
