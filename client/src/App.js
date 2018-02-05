@@ -8,12 +8,14 @@ import Event from "./pages/Dashboard";
 import UpdateUser from "./pages/Dashboard";
 import CreateEvent from "./pages/Dashboard";
 import NoMatch from "./pages/NoMatch";
+import NavbarHeader from "./components/Nav/Navbar";
+;
 
 
 const App = () =>
   <Router>
     <div>
-      <Switch>
+    <Switch>
         <Route exact path="/" component={ Landing } />
         <Route exact path="/signup" component={ Signup } />
         <Route exact path="/login" component={ Login } />
