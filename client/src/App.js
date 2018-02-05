@@ -11,9 +11,8 @@ import CreateEvent from "./pages/CreateEvent";
 import SentMessages from './pages/SentMessages'
 import ReceivedMessages from './pages/ReceivedMessages'
 import NoMatch from "./pages/NoMatch";
-
-import PrivateRoute from "./components/PrivateRoute"
-
+import NavbarHeader from "./components/Nav/Navbar";
+import PrivateRoute from "./components/PrivateRoute";
 
 export default class App extends Component{
 

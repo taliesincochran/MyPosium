@@ -37,7 +37,9 @@ export default class Login extends Component {
       })
       .catch(err => console.log(err));
   }
-
+  componentWillMount = props => {
+    
+  }
   render() {
     return(
       <Container>

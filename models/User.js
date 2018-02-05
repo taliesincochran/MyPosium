@@ -16,14 +16,14 @@ const userSchema = new Schema({
 		required: true
 	},
 	"interests": [],
-	"sentMessages": {
+	"sentMessages": [{
 			type: Schema.Types.ObjectId,
 			ref: "Message"
-	},
-	"receivedMessages": {
+	}],
+	"receivedMessages": [{
 		type: Schema.Types.ObjectId,
 		ref: "message"
-	}
+	}]
 });
 
 // generating a hash
