@@ -10,7 +10,7 @@ const NavEnd = props => {
 	if(hasEnd) {
 		return(
 				<NavbarEnd>
-			    	{props.navbarEnd.map(item => (<NavbarItem href={item.href} style={item.style}><p style={item.textStyle}>{item.text}</p></NavbarItem>))}
+			    	{props.navbarEnd.map((item,i) => (<NavbarItem key={i} href={item.href} style={item.style}><p style={item.textStyle}>{item.text}</p></NavbarItem>))}
 			    </NavbarEnd>
 			)
 	} else {

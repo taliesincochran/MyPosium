@@ -1,5 +1,15 @@
 import React, { Component } from 'react';
 import NavbarHeader from '../../components/Nav/Navbar';
+import { Box,
+	Image,
+	Container,
+	Column,
+	Row,
+	Section,
+	Title,
+	Subtitle,
+	Columns
+	} from 'bloomer';
 export default class Landing extends Component {
   render() {
     return(
@@ -18,12 +28,15 @@ export default class Landing extends Component {
 		        [
 		          {  
 		            text: "Create",
+		            href: "#create",
 		            style: {marginLeft: '100px'}
 		          }, {
 		            text: 'Discover',
+		            href: "#discover",
 		            style: {marginLeft: '150px'}
 		          }, {
 		          	text: 'Connect',
+		          	href: "#connect",
 		            style: {marginLeft: '150px'}
 		          }
 		        ]
@@ -38,17 +51,46 @@ export default class Landing extends Component {
 		            text: 'SignUp',
 		            textStyle: {textDecoration: 'underline', color: '#4C4CFF'}
 		          }]}
-		      navbarDropdown={[
-		      	{
-		            href:"/login",  
-		            text: "Login",
-		            style: {border: "1px solid black"},
-		            textStyle: {color: "blue"}
-		          }, {
-		            href:"/signup",  
-		            text: 'SignUp'
-		          }]}
 		    />
+		    <Section>
+			    <Columns>
+			    	<a name="connect" />
+			    	<Column isSize='1/3' isGrid={true}>
+			    		<Image src = "https://media.defense.gov/2017/Nov/14/2001842780/-1/-1/0/171114-F-ZZ999-1004.JPG" />
+			    	</Column>
+			    	<Column isSize='2/3' isGrid={true}>
+			            <Title>Section</Title>
+			            <Subtitle> A simple container to divide your page into <strong>sections</strong>, like the one you're currently reading
+			            </Subtitle>
+			      </Column>
+			    </Columns>
+		    </Section>
+		        <Section>
+			    <Columns>
+			    	<a name="discover" />
+			    	<Column isSize='2/3'>
+			            <Title>Section</Title>
+			            <Subtitle> A simple container to divide your page into <strong>sections</strong>, like the one you're currently reading
+			            </Subtitle>
+			      </Column>
+			    	<Column isSize='1/3'>
+			    		<Image src = "https://media.defense.gov/2017/Nov/14/2001842780/-1/-1/0/171114-F-ZZ999-1004.JPG" />
+			    	</Column>
+			    </Columns>
+			        <Section>
+	    <Columns>
+	    	<a name="connect" />
+	    	<Column isSize='1/3'>
+	    		<Image src = "https://media.defense.gov/2017/Nov/14/2001842780/-1/-1/0/171114-F-ZZ999-1004.JPG" />
+	    	</Column>
+	    	<Column isSize='2/3'>
+	            <Title>Section</Title>
+	            <Subtitle> A simple container to divide your page into <strong>sections</strong>, like the one you're currently reading
+	            </Subtitle>
+	      </Column>
+	    </Columns>
+    </Section>
+		    </Section>
       </div>
     )
   }
