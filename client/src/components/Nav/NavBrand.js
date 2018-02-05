@@ -6,8 +6,8 @@ import {
 import NavbarItem from './navbarHelpers';
 
 const NavBrand = props => {
-	const hasNavbarBrand = props.hasNavbarBrand;
-	if(hasNavbarBrand) {
+	const hasBrand = props.hasBrand;
+	if(hasBrand) {
 		return(
 				<NavbarBrand>
 					<NavbarItem isHidden={props.brandHidden} href={props.brandHref}>
