@@ -9,6 +9,6 @@ export default class Event extends Component {
   }
 
   render(){
-	  return <h1>EVENT LISTINGGGGG!!!!!</h1>
+	  return <h1>Don't go to this incorrectly ya dick!</h1>
 	}
 }
