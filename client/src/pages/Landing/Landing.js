@@ -6,26 +6,25 @@ export default class Landing extends Component {
       <div>
         <NavbarHeader 
         	hasStart={true}
+        	hasEnd={true}
 		      hasBrand={true}
-		      brandText=''
-		      brandImage='http://p1cdn4static.sharpschool.com/UserFiles/Servers/Server_1005942/Image/News/calendar.png'
-		      hasBox={true} 
-		      boxText="MyPosium"
-		      boxAlign='left'
+		      navbarStyle={{boxShadow: '2px 2px 5px'}}
+		      brandText='Myposium'
 		      burgerActive={true} 
 		      isActive={true} 
 		      burgerActive={true}
 		      hasTextColor={'black'}
 		      navbarStart={
 		        [
-		          {
-		            href:"/login",  
-		            text: "Login",
-		            style: {border: "1px solid black"},
-		            textStyle: {color: "blue"}
+		          {  
+		            text: "Create",
+		            style: {marginLeft: '100px'}
 		          }, {
-		            href:"/signup",  
-		            text: 'SignUp'
+		            text: 'Discover',
+		            style: {marginLeft: '150px'}
+		          }, {
+		          	text: 'Connect',
+		            style: {marginLeft: '150px'}
 		          }
 		        ]
 		      }
@@ -33,11 +32,11 @@ export default class Landing extends Component {
 		      	{
 		            href:"/login",  
 		            text: "Login",
-		            style: {border: "1px solid black"},
-		            textStyle: {color: "blue"}
+		            textStyle: {textDecoration: 'underline', color: '#4C4CFF'}
 		          }, {
 		            href:"/signup",  
-		            text: 'SignUp'
+		            text: 'SignUp',
+		            textStyle: {textDecoration: 'underline', color: '#4C4CFF'}
 		          }]}
 		      navbarDropdown={[
 		      	{
