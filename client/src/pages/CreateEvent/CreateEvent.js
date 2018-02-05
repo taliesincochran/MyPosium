@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Container, Button, Select, Input, option, Label, Control, Field, TextArea} from 'bloomer';
+import { Checkbox, Container, Button, Select, Input, option, Label, Control, Field, TextArea} from 'bloomer';
 import { Link, Redirect } from "react-router-dom";
 import axios from 'axios';
 
@@ -108,6 +108,13 @@ export default class CreateEvent extends Component {
       				onChange={this.handleChange}
       			/>
       		</Control>
+      		<Control>
+      			<Checkbox
+      				name="remote"
+      				value={this.state.remote}
+      				onChange={this.handleChange}
+      				>Remote Attendance</Checkbox>
+      		</Control>
         </Field>
         <Field>
       		<Label>Minimum Attending:</Label>
@@ -153,7 +160,7 @@ export default class CreateEvent extends Component {
       		</Control>
         </Field>
         <Control>
-        	<Button isColor='primary'>Create</Button>
+        	<Button isColor='primary'>Create!</Button>
         </Control>
 
 

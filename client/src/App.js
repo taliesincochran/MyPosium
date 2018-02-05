@@ -29,7 +29,7 @@ export default class App extends Component{
             <Route path='/messages/sent' component={ SentMessages } />
             <Route path='/messages/received' component={ ReceivedMessages } />
             <Route exact path="/dashboard/create" component={ CreateEvent } />
-            <Route exact path="/dashboard/:eventID" component={ Event} />
+            <Route exact path="/dashboard/:eventId" component={ Event} />
             <Route exact path="/dashboard/settings" component={ UpdateUser } />
             <Route component={ NoMatch } />
           </Switch>
