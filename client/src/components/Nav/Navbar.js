@@ -16,9 +16,9 @@ const NavbarHeader = props => {
 		<div>
 			{props.hasBox? (<Box isFullWidth={true} hasTextAlign={props.boxAlign}><h1>{props.boxText}</h1></Box>): (null)}
 			<Navbar style={props.navbarStyle}>
-				<NavDropdown hasDropdown={props.hasDropdown} navbarDropdown={props.navbarDropdown} />
-				<NavBrand hasBrand={props.hasBrand} brandHidden={props.brandHidden} brandHref={props.brandHref} brandImage={props.brandImage} brandText={props.brandText} burgerActive={props.burgerActive} burgerOnClick={props.burgerOnClick} />
-				<NavbarMenu isActive={props.isActive} onClick={props.onClickNav}>
+				<NavBrand hasBrand={props.hasBrand} brandHidden={props.brandHidden} brandHref={props.brandHref} brandImage={props.brandImage} brandText={props.brandText} burgerActive={props.burgerActive} onClick={props.onClick} />
+				<NavbarMenu isActive={props.isActive} onClick={props.onClick}>
+					<NavDropdown hasDropdown={props.hasDropdown} navbarDropdown={props.navbarDropdown} />
 				    <NavStart hasStart={props.hasStart} navbarStart={props.navbarStart} />
 				    <NavEnd hasEnd={props.hasEnd} navbarEnd={props.navbarEnd} />
 				</NavbarMenu>
