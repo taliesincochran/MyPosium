@@ -7,6 +7,8 @@ import {authObj} from '../../authenticate'
 export default class Dashboard extends Component {
   state = {
     logout: false,
+    checkMessages: false,
+    createEvent: false,
   }
 
   handleLogout = () => {
@@ -21,14 +23,22 @@ export default class Dashboard extends Component {
       })
       .catch(err => console.log(err));
   }
-  componentWillUnmount = () => {
+  checkMessages = () => {
+    this.setState({checkMessages: true});
+  }
 
+  createEvent = () => {
+    this.setState({createEvent: true});
   }
   render() {
     return(
       <Container>
         <h1>Dashboard</h1>
         <Button onClick={this.handleLogout}>Logout</Button>
+        <Button onClick={this.checkMessages}>Check Messages</Button>
+        <Button onClick={this.createEvent}>Create Event</Button>
+        {this.state.createEvent? (<Redirect to="/event/create" />) : null}
+        {this.state.checkMessages? (<Redirect to="/messages/sent" />) : null}
         {this.state.logout? (<Redirect to="/" />) : null}
       </Container>
     )

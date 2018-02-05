@@ -1,17 +1,16 @@
 import React from 'react';
-import { 
+import {
 	Navbar,
 	NavbarMenu,
 	Box
 	} from 'bloomer';
-	import NavbarItem from './navbarHelpers'
+	// import NavbarItem from './navbarHelpers'
 	import NavDropdown from './NavDropdown';
 	import NavBrand from './NavBrand'
 	import NavStart from './NavStart';
 	import NavEnd from './NavEnd';
 
 const NavbarHeader = props => {
-	console.log(props)
 	return(
 		<div>
 			{props.hasBox? (<Box isFullWidth={true} hasTextAlign={props.boxAlign}><h1>{props.boxText}</h1></Box>): (null)}

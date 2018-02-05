@@ -1,12 +1,10 @@
 import React from 'react';
 import {
 	NavbarStart,
-	NavbarLink
 } from 'bloomer';
 import NavbarItem from './navbarHelpers';
 
 const NavStart = props => {
-	console.log("NavStart Props ", props)
 	const hasStart= props.hasStart;
 	if(hasStart) {
 		return(

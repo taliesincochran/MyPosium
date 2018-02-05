@@ -1,7 +1,6 @@
 import React from 'react';
 import {
 	NavbarEnd,
-	NavbarLink
 } from 'bloomer';
 import NavbarItem from './navbarHelpers';
 
