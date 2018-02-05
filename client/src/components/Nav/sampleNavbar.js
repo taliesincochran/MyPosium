@@ -1,3 +1,10 @@
+    onClickNav = () => {
+        this.setState((state) => ({ isActive: !state.isActive }));
+    }
+    onClickDropdown = () => {
+        this.setState((state) => ({ isDropdownOpen: !state.isDropdownOpen }));
+    }
+
     <NavbarHeader 
     //========================================================================================================
     //================================Navbar Left Buttons=====================================================
@@ -47,6 +54,7 @@
       hasDropdown={true}
       dropDownText={"More"}
       dropDownHref={'/'}
+      dropDownOnClick={this.onClickDropdown}
       navbarDropdown={
         [
           {
@@ -72,7 +80,7 @@
       brandText='Navbar'
       brandImage='http://p1cdn4static.sharpschool.com/UserFiles/Servers/Server_1005942/Image/News/calendar.png'
       burgerActive={true}
-      burgerOnClick={()=>{console.log("Stay away from my burger!")}}
+      burgerOnClick={this.onClickNav}
       burgerActive={true} 
     //========================================================================================================
     //================================Box Above Navbar========================================================
@@ -85,7 +93,7 @@
     //========================================================================================================
       navbarStyle={{backgroundColor: 'aliceBlue'}} 
       isActive={true} 
-      onClick={()=>{console.log("You Clicked Me!")}}
+      onClick={this.onClickNav}
     //========================================================================================================
     //================================Bloomer Helpers (applied to NavbarItem)=================================
     //==========================https://bloomer.js.org/#/documentation/overview/helpers=======================
