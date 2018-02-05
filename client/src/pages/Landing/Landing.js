@@ -1,10 +1,7 @@
 import React, { Component } from 'react';
 import NavbarHeader from '../../components/Nav/Navbar';
-import { Box,
-	Image,
-	Container,
+import { Image,
 	Column,
-	Row,
 	Section,
 	Title,
 	Subtitle,
@@ -30,14 +27,14 @@ export default class Landing extends Component {
         	hasEnd={true}
 		      hasBrand={true}
 		      navbarStyle={{boxShadow: '2px 2px 5px', position:"fixed", top:"0", left:"0", zIndex: '998', width: '100%'}}
-		      brandText='Myposium' 
+		      brandText='Myposium'
 		      burgerActive={this.state.isActive}
 		      isActive={this.state.isActive}
 		      onClick={this.onClickNav}
 		      hasTextColor={'black'}
 		      navbarStart={
 		        [
-		          {  
+		          {
 		            text: "Create",
 		            href: "#create",
 		            style: {marginLeft: '150px'}
@@ -54,30 +51,30 @@ export default class Landing extends Component {
 		      }
 		      navbarEnd={[
 		      	{
-		            href:"/login",  
+		            href:"/login",
 		            text: "Login",
 		            textStyle: {textDecoration: 'underline', color: '#4C4CFF'}
 		          }, {
-		            href:"/signup",  
+		            href:"/signup",
 		            text: 'SignUp',
 		            textStyle: {textDecoration: 'underline', color: '#4C4CFF'}
 		          }]}
 		    />
-			<a name="create" style={{marginTop: "20px"}}/>
+			<a name="create" style={{marginTop: "20px"}}> </a>
 			<div style={{height:'20px'}}/>
 		    <Section>
 			    <Columns>
-			    	<Column isSize='1/3' isGrid={true}>
-			    		<Image src = "https://media.defense.gov/2017/Nov/14/2001842780/-1/-1/0/171114-F-ZZ999-1004.JPG" />
+			    	<Column isSize='1/3'>
+			    		<Image src = "/img/tempImage.JPG" />
 			    	</Column>
-			    	<Column isSize='2/3' isGrid={true}>
+			    	<Column isSize='2/3'>
 			            <Title>Create</Title>
 			            <Subtitle> A simple container to divide your page into <strong>sections</strong>, like the one you're currently reading
 			            </Subtitle>
 			      </Column>
 			    </Columns>
 		    </Section>
-				<a name="discover" style={{marginTop: "20px"}}/>
+				<a name="discover" style={{marginTop: "20px"}}> </a>
 		        <Section>
 			    <Columns>
 			    	<Column isSize='2/3'>
@@ -86,15 +83,15 @@ export default class Landing extends Component {
 			            </Subtitle>
 			      </Column>
 			    	<Column isSize='1/3'>
-			    		<Image src = "https://media.defense.gov/2017/Nov/14/2001842780/-1/-1/0/171114-F-ZZ999-1004.JPG" />
+			    		<Image src = "/img/tempImage.JPG" />
 			    	</Column>
 			    </Columns>
 			</Section>
-	    <a name="connect" style={{marginTop: "20px"}}/>
+	    <a name="connect" style={{marginTop: "20px"}}> </a>
 			<Section>
 			    <Columns>
 			    	<Column isSize='1/3'>
-			    		<Image src = "https://media.defense.gov/2017/Nov/14/2001842780/-1/-1/0/171114-F-ZZ999-1004.JPG" />
+			    		<Image src = "/img/tempImage.JPG" />
 			    	</Column>
 			    	<Column isSize='2/3'>
 			            <Title>Connect</Title>

@@ -11,7 +11,7 @@ import CreateEvent from "./pages/CreateEvent";
 import SentMessages from './pages/SentMessages'
 import ReceivedMessages from './pages/ReceivedMessages'
 import NoMatch from "./pages/NoMatch";
-import NavbarHeader from "./components/Nav/Navbar";
+// import NavbarHeader from "./components/Nav/Navbar";
 import PrivateRoute from "./components/PrivateRoute";
 
 export default class App extends Component{
@@ -28,7 +28,7 @@ export default class App extends Component{
             <PrivateRoute exact path='/dashboard' component={ Dashboard }/>
             <Route path='/messages/sent' component={ SentMessages } />
             <Route path='/messages/received' component={ ReceivedMessages } />
-            <Route exact path="/dashboard/create" component={ CreateEvent } />
+            <Route exact path="/event/create" component={ CreateEvent } />
             <Route exact path="/dashboard/:eventID" component={ Event} />
             <Route exact path="/dashboard/settings" component={ UpdateUser } />
             <Route component={ NoMatch } />

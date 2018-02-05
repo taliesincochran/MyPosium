@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Container, Button, Select, Input, option, Label, Control, Field, TextArea} from 'bloomer';
-import { Link, Redirect } from "react-router-dom";
-import axios from 'axios';
+import { Link} from "react-router-dom";
+// import axios from 'axios';
 
 export default class CreateEvent extends Component {
   state = {
@@ -74,7 +74,7 @@ export default class CreateEvent extends Component {
 	                <option>Comics</option>
 	                <option>Performing Arts</option>
 	                <option>Miscellaneous</option>
-	                <option>Health and Beauty</option>            
+	                <option>Health and Beauty</option>
         		</Select>
     		</Control>
 		</Field>
@@ -153,7 +153,7 @@ export default class CreateEvent extends Component {
       		</Control>
         </Field>
         <Control>
-        	<Button isColor='primary'>Create</Button>
+        	<Button isColor='primary' >Create</Button>
         </Control>
 
 
@@ -161,4 +161,3 @@ export default class CreateEvent extends Component {
     )
 	}
 }
-
