@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Container, Field, Label, Control, Input, Button } from 'bloomer';
+import { Section, Container, Field, Label, Control, Input, Button } from 'bloomer';
 import { Link, Redirect } from "react-router-dom";
 import axios from 'axios';
 import {authObj} from '../../authenticate'
@@ -41,61 +41,63 @@ export default class Signup extends Component {
 
   render() {
     return(
-      <Container>
-        <Link to="/">Go Home</Link>
-        <Field>
-            <Label>User Name:</Label>
-            <Control>
-                <Input
-                  type="text"
-                  placeholder='Enter User Name'
-                  name="username"
-                  value={this.state.username}
-                  onChange={this.handleChange}
-                />
-            </Control>
-        </Field>
-        <Field>
-            <Label>Password</Label>
-            <Control>
-                <Input
-                  type="password"
-                  placeholder='Enter Password'
-                  name="password"
-                  value={this.state.password}
-                  onChange={this.handleChange}
-                />
-            </Control>
-        </Field>
-        <Field>
-            <Label>Re-Enter Password</Label>
-            <Control>
-                <Input
-                  type="password"
-                  placeholder='Re-Enter Password'
-                  name="password2"
-                  value={this.state.password2}
-                  onChange={this.handleChange}
-                />
-            </Control>
-        </Field>
-        <Field>
-            <Label>Zipcode</Label>
-            <Control>
-                <Input
-                  type="text"
-                  placeholder='Enter Zipcode'
-                  name="zipcode"
-                  value={this.state.zipcode}
-                  onChange={this.handleChange}
-                />
-            </Control>
-        </Field>
-        <Control>
-            <Button isColor='primary' onClick={this.handleSubmit}>Submit</Button>
-        </Control>
-        {this.state.isLoggedIn? (<Redirect to="/profile" />) : null}
-      </Container>
+      <Section>
+        <Container>
+          <Link to="/">Go Home</Link>
+          <Field>
+              <Label>User Name:</Label>
+              <Control>
+                  <Input
+                    type="text"
+                    placeholder='Enter User Name'
+                    name="username"
+                    value={this.state.username}
+                    onChange={this.handleChange}
+                  />
+              </Control>
+          </Field>
+          <Field>
+              <Label>Password</Label>
+              <Control>
+                  <Input
+                    type="password"
+                    placeholder='Enter Password'
+                    name="password"
+                    value={this.state.password}
+                    onChange={this.handleChange}
+                  />
+              </Control>
+          </Field>
+          <Field>
+              <Label>Re-Enter Password</Label>
+              <Control>
+                  <Input
+                    type="password"
+                    placeholder='Re-Enter Password'
+                    name="password2"
+                    value={this.state.password2}
+                    onChange={this.handleChange}
+                  />
+              </Control>
+          </Field>
+          <Field>
+              <Label>Zipcode</Label>
+              <Control>
+                  <Input
+                    type="text"
+                    placeholder='Enter Zipcode'
+                    name="zipcode"
+                    value={this.state.zipcode}
+                    onChange={this.handleChange}
+                  />
+              </Control>
+          </Field>
+          <Control>
+              <Button isColor='primary' onClick={this.handleSubmit}>Submit</Button>
+          </Control>
+          {this.state.isLoggedIn? (<Redirect to="/profile" />) : null}
+        </Container>
+      </Section>
     )
   }
 }
