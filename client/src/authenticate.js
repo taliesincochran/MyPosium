@@ -1,10 +1,12 @@
 import axios from 'axios';
 
-export const isAuthenticated = () => {
-  axios
+const isAuthenticated = () => {
+  return axios
     .get('/api/users/checkAuth')
     .then(response => {
+    	console.log('response', response);
       return response.data.isAuth;
     })
-    .catch(err);
+    .catch(err => console.log(err));
 }
+export default isAuthenticated;

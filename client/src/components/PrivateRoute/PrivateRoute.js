@@ -1,6 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import { Route, Redirect } from "react-router-dom";
+import auth from "../../authenticate.js"
 // import {isAuthenticated} from '../../authenticate.js';
 
 // const PrivateRoute = props => (
@@ -70,7 +71,7 @@ import { Route, Redirect } from "react-router-dom";
 //     )
 //   }
 // }
-export default PrivateRoute;
+// export default PrivateRoute;
 
 // Best one so far
 // const PrivateRoute = ({ component: Component, ...rest }) => {
@@ -96,7 +97,7 @@ export default PrivateRoute;
 // }
 
 
-// export const PrivateRoute = props => {
+// const PrivateRoute = props => {
 //   axios
 //    .get('api/users/checkAuth')
 //    .then(response => {
@@ -112,7 +113,7 @@ export default PrivateRoute;
 // }
 // export default const PrivateRoute = ({ component: Component, ...rest }) => {
 //   let isAuthorized = false;
-//
+
 //   <Route {...rest} render={props => (
 //     fakeAuth.isAuthenticated ? (
 //       <Component {...props}/>
@@ -124,3 +125,22 @@ export default PrivateRoute;
 //     )
 //   )}/>
 // }
+
+const PrivateRoute = (Component, props) => {
+// ({ component: Component, ...rest }) => {
+return
+  (
+//   <Route {...rest} render={props => (
+//     props.auth ? (
+      <Component props={props}/>
+//     ) :
+//      ( 
+//       <Redirect to={{
+//         pathname: '/login',
+//         state: { from: props.location }
+//       }}/>
+    )
+//  )}/>
+// )
+}
+export default PrivateRoute;

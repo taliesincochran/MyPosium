@@ -26,10 +26,12 @@ export default class Login extends Component {
     axios
       .post('api/users/login', user)
       .then(result => {
-        console.log(result)
+        console.log(result.data)
         if (result.data.isAuth){
           this.setState({isLoggedIn: true});
+
         }
+
       })
       .catch(err => console.log(err));
   }
@@ -67,6 +69,7 @@ export default class Login extends Component {
         </Control>
         {this.state.isLoggedIn? (<Redirect to="/dashboard"/>): null}
       </Container>
-    )
+      )
+    
   }
 }
