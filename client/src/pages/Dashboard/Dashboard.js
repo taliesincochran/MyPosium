@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import { Container, Button } from 'bloomer';
+import { Redirect } from 'react-router-dom';
 import axios from 'axios';
+import {authObj} from '../../authenticate'
 
 export default class Dashboard extends Component {
   state = {
-
+    logout: false,
   }
 
   handleLogout = () => {
@@ -12,13 +14,9 @@ export default class Dashboard extends Component {
     axios
       .get('api/users/logout')
       .then(response => {
-        console.log('firing',response)
-        console.log(response.status)
-        return response;
-      })
-      .then(response => {
+        authObj.logout();
         if (response.status === 200){
-          window.location.href = '/';
+          this.setState({logout:true});
         }
       })
       .catch(err => console.log(err));
@@ -31,6 +29,7 @@ export default class Dashboard extends Component {
       <Container>
         <h1>Dashboard</h1>
         <Button onClick={this.handleLogout}>Logout</Button>
+        {this.state.logout? (<Redirect to="/" />) : null}
       </Container>
     )
   }
