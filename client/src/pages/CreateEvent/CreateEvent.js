@@ -2,26 +2,38 @@ import React, { Component } from 'react';
 import { Checkbox, Container, Button, Select, Input, option, Label, Control, Field, TextArea} from 'bloomer';
 import { Link, Redirect } from "react-router-dom";
 import axios from 'axios';
+import APIUtility from "../../utils/API"
 
 export default class CreateEvent extends Component {
   state = {
-  	username: '',
-  	password: '',
-  	category: '',
-  	zipcode: '',
   	title:'',
+  	zipcode: '',
+  	username: '',
+  	date:'',
+  	time:'',
+  	isRemote:false,
+  	cost:'',
+  	category: '',
   	imgURL:'',
   	description:'',
   	minAttending:'',
-  	maxAttending:'',
-  	date:'',
-  	time:'',
-  	remote:false
+  	maxAttending:''
   }
 
   handleChange = e => {
     let { name, value } = e.target;
     this.setState({ [name]: value });
+  }
+
+  handleSubmit = e=> {
+  	e.preventDefault();
+  	let {title, zipcode, username, date, time, isRemote, cost, category, imgURL, description, minAttending, maxAttending} = this.state;
+  	let newEvent = {title, zipcode, username, date, time, isRemote, cost, category, imgURL, description, minAttending, maxAttending};
+  	this.submitEvent(newEvent);
+  }
+
+  submitEvent = event=>{
+  	APIUtility.postEvent(event);
   }
 
   render(){
@@ -110,8 +122,8 @@ export default class CreateEvent extends Component {
       		</Control>
       		<Control>
       			<Checkbox
-      				name="remote"
-      				value={this.state.remote}
+      				name="isRemote"
+      				value={this.state.isRemote}
       				onChange={this.handleChange}
       				>Remote Attendance</Checkbox>
       		</Control>

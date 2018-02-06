@@ -5,13 +5,17 @@ const eventSchema = new Schema({
 		type: String,
 		required: true
 	},
-	'location': {
+	'zipcode': {
 		type: String,
 		required: true
 	},
-	'organizer': {
+	'username': {
 		type: String,
 		required: true
+	},
+	'date':{
+		type:String,
+		required:true
 	},
 	'time': {
 		type: String,
@@ -25,7 +29,26 @@ const eventSchema = new Schema({
 		type: String,
 		required: true
 	},
-	'category': [],
+	'category': {
+		type: String,
+		required: true
+	},
+	'imgURL': {
+		type: String,
+		required: true
+	},
+	'description': {
+		type: String,
+		required:true
+	},
+	'minAttending':{
+		type: Number,
+		required:true
+	},
+	'maxAttending':{
+		type: Number,
+		required:true
+	},
 	'attendees': [
 		{
 			type: Schema.Types.ObjectId,
