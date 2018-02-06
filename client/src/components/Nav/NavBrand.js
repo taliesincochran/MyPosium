@@ -6,15 +6,17 @@ import {
 import NavbarItem from './navbarHelpers';
 
 const NavBrand = props => {
-	const hasNavbarBrand = props.hasNavbarBrand;
-	if(hasNavbarBrand) {
+	const hasBrand = props.hasBrand;
+	if(hasBrand) {
 		return(
-				<NavbarBrand>
-					<NavbarItem isHidden={props.brandHidden} href={props.brandHref}>
+				<NavbarBrand style={props.brandStyle}>
+					<NavbarItem isHidden='tablet' isHidden='mobile' href={props.brandHref}>
 						<img src={props.brandImage} />
 						{props.brandText}
 					</NavbarItem>
-					<NavbarBurger isActive={props.burgerActive} onClick={props.burgerOnClick} />
+					<NavbarBurger isHidden='desktop' isActive={props.burgerActive} style={{position: 'absolute', right: '0px', top: '0px', zIndex:'999'}} onClick={props.onClick}>
+						<div height="40px" />
+					</NavbarBurger>
 				</NavbarBrand> 
 			)
 	} else {

@@ -90,7 +90,7 @@ export default class CreateEvent extends Component {
 	                <option>Comics</option>
 	                <option>Performing Arts</option>
 	                <option>Miscellaneous</option>
-	                <option>Health and Beauty</option>            
+	                <option>Health and Beauty</option>
         		</Select>
     		</Control>
 		</Field>
@@ -195,4 +195,3 @@ export default class CreateEvent extends Component {
     )
 	}
 }
-
