@@ -2,13 +2,13 @@ import React, { Component } from 'react';
 import { Checkbox, Container, Button, Select, Input, option, Label, Control, Field, TextArea} from 'bloomer';
 import { Link, Redirect } from "react-router-dom";
 import axios from 'axios';
-import APIUtility from "../../utils/API"
+import API from "../../utils/API";
 
 export default class CreateEvent extends Component {
   state = {
   	title:'',
   	zipcode: '',
-  	username: '',
+  	username: 'Vytas',
   	date:'',
   	time:'',
   	isRemote:false,
@@ -27,13 +27,17 @@ export default class CreateEvent extends Component {
 
   handleSubmit = e=> {
   	e.preventDefault();
+  	console.log("Submit button clicked");
   	let {title, zipcode, username, date, time, isRemote, cost, category, imgURL, description, minAttending, maxAttending} = this.state;
   	let newEvent = {title, zipcode, username, date, time, isRemote, cost, category, imgURL, description, minAttending, maxAttending};
+  	console.log(newEvent);
   	this.submitEvent(newEvent);
   }
 
   submitEvent = event=>{
-  	APIUtility.postEvent(event);
+  	console.log("event being submitted:");
+  	console.log(event);
+  	API.postEvent(event);
   }
 
   render(){
@@ -160,6 +164,17 @@ export default class CreateEvent extends Component {
         	</Control>
         </Field>
         <Field>
+        	<Label>Event Cost</Label>
+        	<Control>
+        		<TextArea
+        			type="text"
+        			name="cost"
+        			value={this.state.cost}
+        			onChange={this.handleChange}
+        		/>
+        	</Control>
+        </Field>
+        <Field>
       		<Label>Image for Event:</Label>
       		<Control>
       			<Input
@@ -172,7 +187,7 @@ export default class CreateEvent extends Component {
       		</Control>
         </Field>
         <Control>
-        	<Button isColor='primary'>Create!</Button>
+        	<Button isColor='primary' onClick={this.handleSubmit}>Create!</Button>
         </Control>
 
 

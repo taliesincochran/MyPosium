@@ -1,4 +1,5 @@
 const router = require("express").Router();
+import eventController from "../../controllers";
 
 // Matches with "/api/event"
  //process the event creation
@@ -7,6 +8,7 @@ const router = require("express").Router();
     //===================================================================================================
     console.log("Event is:" newEvent)
     //==================================================================================================
+    eventController.createEvent(newEvent);
     return res.json(newEvent);
   });
 
