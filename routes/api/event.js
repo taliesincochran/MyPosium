@@ -4,11 +4,10 @@ import eventController from "../../controllers";
 // Matches with "/api/event"
  //process the event creation
   router.post('/', function (req,res){
-    let newEvent = {event: req.event};
     //===================================================================================================
-    console.log("Event is:" newEvent)
+    console.log("event should be" + req.body);
     //==================================================================================================
-    eventController.createEvent(newEvent);
+    eventController.createEvent(req.body);
     return res.json(newEvent);
   });
 

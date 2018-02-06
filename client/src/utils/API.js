@@ -2,7 +2,7 @@ import {Component} from "react";
 import axios from "axios";
 import {authObj} from "../authenticate";
 
-export default class APIUtility extends Component{
+export default class API extends Component{
 
   //ALL THE GODDAMN GETS
   //Message Get
