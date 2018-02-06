@@ -1,28 +1,43 @@
 import React, { Component } from 'react';
 import { Checkbox, Container, Button, Select, Input, option, Label, Control, Field, TextArea} from 'bloomer';
 import { Link, Redirect } from "react-router-dom";
-// import axios from 'axios';
-
+import axios from 'axios';
+import API from "../../utils/API";
 
 export default class CreateEvent extends Component {
   state = {
-  	username: '',
-  	password: '',
-  	category: '',
-  	zipcode: '',
   	title:'',
+  	zipcode: '',
+  	username: 'Vytas',
+  	date:'',
+  	time:'',
+  	isRemote:false,
+  	cost:'',
+  	category: '',
   	imgURL:'',
   	description:'',
   	minAttending:'',
-  	maxAttending:'',
-  	date:'',
-  	time:'',
-  	remote:false
+  	maxAttending:''
   }
 
   handleChange = e => {
     let { name, value } = e.target;
     this.setState({ [name]: value });
+  }
+
+  handleSubmit = e=> {
+  	e.preventDefault();
+  	console.log("Submit button clicked");
+  	let {title, zipcode, username, date, time, isRemote, cost, category, imgURL, description, minAttending, maxAttending} = this.state;
+  	let newEvent = {title, zipcode, username, date, time, isRemote, cost, category, imgURL, description, minAttending, maxAttending};
+  	console.log(newEvent);
+  	this.submitEvent(newEvent);
+  }
+
+  submitEvent = event=>{
+  	console.log("event being submitted:");
+  	console.log(event);
+  	API.postEvent(event);
   }
 
   render(){
@@ -111,8 +126,8 @@ export default class CreateEvent extends Component {
       		</Control>
       		<Control>
       			<Checkbox
-      				name="remote"
-      				value={this.state.remote}
+      				name="isRemote"
+      				value={this.state.isRemote}
       				onChange={this.handleChange}
       				>Remote Attendance</Checkbox>
       		</Control>
@@ -149,6 +164,17 @@ export default class CreateEvent extends Component {
         	</Control>
         </Field>
         <Field>
+        	<Label>Event Cost</Label>
+        	<Control>
+        		<TextArea
+        			type="text"
+        			name="cost"
+        			value={this.state.cost}
+        			onChange={this.handleChange}
+        		/>
+        	</Control>
+        </Field>
+        <Field>
       		<Label>Image for Event:</Label>
       		<Control>
       			<Input
@@ -161,7 +187,7 @@ export default class CreateEvent extends Component {
       		</Control>
         </Field>
         <Control>
-        	<Button isColor='primary'>Create!</Button>
+        	<Button isColor='primary' onClick={this.handleSubmit}>Create!</Button>
         </Control>
 
 
