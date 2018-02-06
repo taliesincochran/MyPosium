@@ -3,51 +3,51 @@ const Schema = mongoose.Schema;
 const eventSchema = new Schema({
 	'title': {
 		type: String,
-		required: true
+		// required: true
 	},
 	'zipcode': {
 		type: String,
-		required: true
+		// required: true
 	},
 	'username': {
 		type: String,
-		required: true
+		// required: true
 	},
 	'date':{
 		type:String,
-		required:true
+		// required:true
 	},
 	'time': {
 		type: String,
-		required: true
+		// required: true
 	},
 	'isRemote': {
 		type: Boolean,
-		default: false
+		// default: false
 	},
 	'cost': {
 		type: String,
-		required: true
+		// required: true
 	},
 	'category': {
 		type: String,
-		required: true
+		// required: true
 	},
 	'imgURL': {
 		type: String,
-		required: true
+		// required: true
 	},
 	'description': {
 		type: String,
-		required:true
+		// required:true
 	},
 	'minAttending':{
 		type: Number,
-		required:true
+		// required:true
 	},
 	'maxAttending':{
 		type: Number,
-		required:true
+		// required:true
 	},
 	'attendees': [
 		{

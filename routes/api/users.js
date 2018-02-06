@@ -22,7 +22,7 @@ const passport = require('passport')
     req.logout();
     req.session.destroy(function (err) {
       if (!err) {
-        res.clearCookie('connect.sid', {path: '/'}).send(200);
+        res.clearCookie('connect.sid', {path: '/'}).sendStatus(200);
         console.log('no error')
       } else {
         console.log('Error from session destroy:', err)

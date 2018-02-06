@@ -1,8 +1,8 @@
 import {Component} from "react";
 import axios from "axios";
-import {authObj} from "../authenticate";
+// import {authObj} from "../authenticate";
 
-export default class APIUtility extends Component{
+export default class API extends Component{
 
   //ALL THE GODDAMN GETS
   //Message Get
@@ -48,7 +48,7 @@ export default class APIUtility extends Component{
       .post("/api/event/", event)
       .then(result =>{
         })
-      .catch(err=> console.log(err));  
+      .catch(err=> console.log(err));
   }
 
   postEventUpdate=  id=>{
