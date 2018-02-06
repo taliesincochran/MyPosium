@@ -14,6 +14,7 @@ const passport = require('passport')
   // process the signup form
   router.post('/signup', passport.authenticate('local-signup'), function (req,res) {
     let authObj = {user: req.user, isAuth: req.isAuthenticated()};
+    console.log(authObj)
     return res.json(authObj);
   });
 

@@ -20,6 +20,14 @@ export default class Signup extends Component {
   onClickNav = () => {
       this.setState((state) => ({ isActive: !state.isActive }));
   }
+  state = {
+    username: '',
+    password: '',
+    password2: '',
+    zipcode: '',
+    isLoggedIn: false
+  }
+
   handleChange = e => {
     let { name, value } = e.target;
     this.setState({ [name]: value });
@@ -53,7 +61,7 @@ export default class Signup extends Component {
           hasEnd={true}
           hasBrand={true}
           navbarStyle={{boxShadow: '2px 2px 5px', position:"fixed", top:"0", left:"0", zIndex: '998', width: '100%'}}
-          brandText='Myposium'
+          brandText='Myposium' 
           burgerActive={this.state.isActive}
           isActive={this.state.isActive}
           onClick={this.onClickNav}
@@ -66,7 +74,7 @@ export default class Signup extends Component {
                 textStyle: {textDecoration: 'underline', color: '#4C4CFF'}
               },
               {
-                href:"/login",
+                href:"/login",  
                 text: 'Login',
                 textStyle: {textDecoration: 'underline', color: '#4C4CFF'}
               }
@@ -75,6 +83,7 @@ export default class Signup extends Component {
         />
         <div style={{height: '40px'}} />
         <Container>
+          <Link to="/">Go Home</Link>
           <Field>
               <Label>User Name:</Label>
               <Control>
@@ -126,10 +135,7 @@ export default class Signup extends Component {
           <Control>
               <Button isColor='primary' onClick={this.handleSubmit}>Submit</Button>
           </Control>
-          {this.state.isLoggedIn ? (<Redirect to={{
-            pathname: "/profile",
-            state: this.state
-          }} />) : console.log("User isn't logged in")}
+          {this.state.isLoggedIn? (<Redirect to="/profile" />) : null}
         </Container>
       </Section>
     )

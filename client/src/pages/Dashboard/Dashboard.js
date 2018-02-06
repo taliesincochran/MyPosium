@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Container, Button } from 'bloomer';
+import { Container, Button, Columns, Column} from 'bloomer';
 import { Redirect } from 'react-router-dom';
 import axios from 'axios';
 import {authObj} from '../../authenticate'
@@ -41,7 +41,9 @@ class Dashboard extends Component {
         {this.state.createEvent? (<Redirect to="/event/create" />) : null}
         {this.state.checkMessages? (<Redirect to="/messages/sent" />) : null}
         {this.state.logout? (<Redirect to="/" />) : null}
+
       </Container>
+
     )
   }
 }
