@@ -2,13 +2,13 @@ import axios from 'axios';
 export const authObj = {
   isAuthenticated: false,
   authenticate() {
-    axios
+    return axios
       .get('api/users/checkAuth')
-      .then(response=> this.isAuthenticated = true)
-      .catch(err => console.log(err))
+      // .then(response=> this.isAuthenticated = true)
+      // .catch(err => console.log(err))
   },
   logout() {
-    axios
+    return axios
       .get('api/users/checkAuth')
       .then(response=> this.isAuthenticated = false)
       .catch(err => console.log(err))
