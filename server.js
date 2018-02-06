@@ -7,6 +7,8 @@ const cookieParser = require('cookie-parser');
 const session      = require('express-session');
 const passport     = require('passport');
 const userRoutes   = require("./routes/api/users");
+const eventRoutes  = require("./routes/api/event");
+
 
 // Set up promises with mongoose
 mongoose.Promise = global.Promise;
@@ -59,6 +61,7 @@ require('./config/passport')(passport);
 
 //bring in routes
 app.use('/api/users', userRoutes);
+app.use('/api/event', eventRoutes);
 
 // Start the API server
 const PORT = process.env.PORT || 3001;

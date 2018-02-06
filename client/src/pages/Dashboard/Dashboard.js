@@ -6,6 +6,7 @@ import {authObj} from '../../authenticate'
 
 export default class Dashboard extends Component {
   state = {
+    username:'',
     logout: false,
     checkMessages: false,
     createEvent: false,
@@ -31,13 +32,17 @@ export default class Dashboard extends Component {
     this.setState({createEvent: true});
   }
   render() {
+    console.log(this.props);
     return(
       <Container>
         <h1>Dashboard</h1>
         <Button onClick={this.handleLogout}>Logout</Button>
         <Button onClick={this.checkMessages}>Check Messages</Button>
         <Button onClick={this.createEvent}>Create Event</Button>
-        {this.state.createEvent? (<Redirect to="/event/create" />) : null}
+        {this.state.createEvent? (<Redirect to={{
+            pathname: "/event/create",
+            state: this.state
+            }} />) : null}
         {this.state.checkMessages? (<Redirect to="/messages/sent" />) : null}
         {this.state.logout? (<Redirect to="/" />) : null}
       </Container>

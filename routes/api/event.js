@@ -1,9 +1,9 @@
 const router = require("express").Router();
-import eventController from "../../controllers";
+import eventController from "../../controllers/eventController";
 
 // Matches with "/api/event"
  //process the event creation
-  router.post('/', function (req,res){
+  router.post('/create', function (req,res){
     let newEvent = {event: req.event};
     //===================================================================================================
     console.log("Event is:" newEvent)
