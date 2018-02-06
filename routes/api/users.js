@@ -37,4 +37,9 @@ const passport = require('passport')
     res.json(authObj);
   })
 
+  router.post('/updateprofile', function(req, res) {
+    console.log(req.body);
+    res.json({});
+  });
+
 module.exports = router;

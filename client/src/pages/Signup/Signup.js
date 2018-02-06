@@ -39,7 +39,6 @@ export default class Signup extends Component {
         authObj
           .authenticate()
           .then(response => {
-            console.log(response)
             authObj.isAuthenticated = response.data.isAuth;
             this.setState({isLoggedIn: true});
           })
