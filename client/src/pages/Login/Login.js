@@ -107,8 +107,9 @@ export default class Login extends Component {
         <Control>
             <Button isColor='primary' onClick={this.handleSubmit}>Submit</Button>
         </Control>
-        {this.state.isLoggedIn? (<Redirect to="/dashboard"/>): null}
+        {this.state.isLoggedIn? (<Redirect to={{pathname:"/dashboard", state:this.state}}/>): null}
       </Container>
-    )
+      )
+    
   }
 }

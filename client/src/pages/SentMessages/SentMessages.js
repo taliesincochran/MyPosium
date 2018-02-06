@@ -43,6 +43,12 @@ export default class SentMessages extends Component {
                   <span>Received Messages</span>
               </Link>
             </Tab>
+            <Tab>
+              <Link to="/dashboard">
+                <Icon isSize='small'><span className='fas fa-align-justify' aria-hidden='true' /></Icon>
+                <span>Dashboard</span>
+              </Link>
+            </Tab>
           </TabList>
         </Tabs>
         <Columns>

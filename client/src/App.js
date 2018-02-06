@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { Link, Route, Switch, withRouter, Redirect, BrowserRouter as Router } from "react-router-dom";
 import Signup from "./pages/Signup";
 import Profile from "./pages/Profile";
 import Landing from "./pages/Landing";
@@ -11,7 +11,6 @@ import CreateEvent from "./pages/CreateEvent";
 import SentMessages from './pages/SentMessages'
 import ReceivedMessages from './pages/ReceivedMessages'
 import NoMatch from "./pages/NoMatch";
-// import NavbarHeader from "./components/Nav/Navbar";
 import PrivateRoute from "./components/PrivateRoute";
 
 export default class App extends Component{
@@ -38,3 +37,4 @@ export default class App extends Component{
     )
   }
 }
+

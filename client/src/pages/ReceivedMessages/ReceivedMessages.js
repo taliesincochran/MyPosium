@@ -44,6 +44,12 @@ export default class ReceivedMessages extends Component {
                 <span>Received Messages</span>
               </TabLink>
             </Tab>
+            <Tab>
+              <Link to="/dashboard">
+                <Icon isSize='small'><span className='fas fa-align-justify' aria-hidden='true' /></Icon>
+                <span>Dashboard</span>
+              </Link>
+            </Tab>
           </TabList>
         </Tabs>
         <Columns>
