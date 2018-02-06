@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Field, Label, Control, Input, Button, Container } from 'bloomer';
-import { Link, Redirect } from "react-router-dom";
+import { Redirect } from "react-router-dom";
 import axios from 'axios';
 import {authObj} from '../../authenticate'
 import NavbarHeader from '../../components/Nav/Navbar';
