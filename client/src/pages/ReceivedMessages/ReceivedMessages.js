@@ -45,7 +45,7 @@ export default class ReceivedMessages extends Component {
               </TabLink>
             </Tab>
             <Tab>
-              <Link to="/dashboard">
+               <Link to={{pathname: "/dashboard", state: this.state.user}}>
                 <Icon isSize='small'><span className='fas fa-align-justify' aria-hidden='true' /></Icon>
                 <span>Dashboard</span>
               </Link>

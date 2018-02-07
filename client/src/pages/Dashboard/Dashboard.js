@@ -21,9 +21,6 @@ class Dashboard extends Component {
       user: this.props.location.state,
       burgerActive: false,
     }
-    this.burgerOnClick = this.burgerOnClick.bind(this);
-    this.handleLogout = this.handleLogout.bind(this);
-    this.checkMessages = this.checkMessages(this);
   }
   componentWillMount =() => {
     axios.get("/api/events/").then(events => {
@@ -44,9 +41,6 @@ class Dashboard extends Component {
         }
       })
       .catch(err => console.log(err));
-  }
-  checkMessages = () => {
-    this.setState({checkMessages: true});
   }
   getCreatedEvents = () => {
     var newArray = [];
@@ -75,9 +69,6 @@ class Dashboard extends Component {
     })
     this.setState({eventsMatchIntrests: newArray})   
   }
-  createEvent = () => {
-    this.setState({createEvent: true});
-  }
   burgerOnClick = () =>{
     this.setState({burgerActive:!this.state.burgerActive})
   }
@@ -87,6 +78,7 @@ class Dashboard extends Component {
     var checkMessages= this.checkMessages;
     var createEvent = this.createEvent;
     var handleLogout = this.handleLogout;
+    console.log(this.checkMessages)
     return(
       <Container>
         <Navbar 
@@ -101,15 +93,30 @@ class Dashboard extends Component {
           navbarEnd={[
             {
               text:"Check Messages",
-              onClick:{checkMessages},
+              onClick:() => {
+                this.setState({checkMessages: true});
+              },
             },
             {
               text:'Create Event',
-              onClick:{createEvent}
+              onClick:() => {
+                this.setState({createEvent: true});
+              }
             },
             {
               text:"Logout",
-              onClick:{handleLogout},
+              onClick:() => {
+                console.log("api/users/logout called")
+                axios
+                  .get('api/users/logout')
+                  .then(response => {
+                    authObj.logout();
+                    if (response.status === 200){
+                      this.setState({logout:true});
+                    }
+                  })
+                  .catch(err => console.log(err));
+              },
               buttonClass: "isDanger"            
             }
           ]}

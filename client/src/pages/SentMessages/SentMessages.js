@@ -44,7 +44,7 @@ export default class SentMessages extends Component {
               </Link>
             </Tab>
             <Tab>
-              <Link to="/dashboard">
+              <Link to={{pathname: "/dashboard", state: this.state.user}}>
                 <Icon isSize='small'><span className='fas fa-align-justify' aria-hidden='true' /></Icon>
                 <span>Dashboard</span>
               </Link>
