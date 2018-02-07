@@ -25,7 +25,7 @@ class Dashboard extends Component {
     this.handleLogout = this.handleLogout.bind(this);
     this.checkMessages = this.checkMessages(this);
   }
-  componentDidMount =() => {
+  componentWillMount =() => {
     axios.get("/api/events/").then(events => {
       this.setState({events: events})
       this.getCreatedEvents();
@@ -82,7 +82,8 @@ class Dashboard extends Component {
     this.setState({burgerActive:!this.state.burgerActive})
   }
   render() {
-    console.log(this.props);
+    console.log('render props', this.props);
+    console.log('render state',this.state);
     var checkMessages= this.checkMessages;
     var createEvent = this.createEvent;
     var handleLogout = this.handleLogout;
