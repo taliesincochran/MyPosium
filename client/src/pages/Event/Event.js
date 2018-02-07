@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import { Progress, Container, Field, Image, Label, Control, Input, Button, Content} from 'bloomer';
+import { Progress, Image, Label, Control, Button, Content} from 'bloomer';
 import { Link } from "react-router-dom";
-import axios from 'axios';
+// import axios from 'axios';
 import API from "../../utils/API";
 
 
@@ -34,9 +34,9 @@ export default class Event extends Component {
 	        <Label>Date of Event:</Label>
 	        <p>{this.state.date} at {this.state.time}</p>
 	        <p>{this.state.description}</p>
-	        <Image isSize="640x480" src={this.state.imgURL} alt="Event Image"/>
+	        <Image isSize="240x320" src={this.state.imgURL} alt="Event Image"/>
 	        <p>Maximum attendees: {this.state.maxAttending}</p>
-	        <Progress isColor='primary' isSize='small' value={this.state.attending} max={this.state.maxAttending}/>	
+	        <Progress isColor='primary' isSize='small' value={this.state.attending} max={this.state.maxAttending}/>
 	        <Control>
 	        	<Button isColor='primary'>Join!</Button>
 	        </Control>

@@ -1,79 +1,85 @@
+import {Component} from "react";
 import axios from "axios";
+// import {authObj} from "../authenticate";
 
-export default {
+export default class API extends Component{
 
   //ALL THE GODDAMN GETS
   //Message Get
-
-  getMessage: function(id){
+  getMessage = id=> {
     return axios.get("/api/message/" + id);
-  },
+  }
 
   //Event Gets
 
   // Gets specific event
-  getEvent: function(id) {
+  getEvent=  id=> {
     return axios.get("/api/event/"+ id);
-  },
+  }
   // Gets events based on category
-  getEventsCategory: function(category) {
+  getEventsCategory=  category=> {
     return axios.get("/api/event/" + category);
-  },
+  }
 
  // Gets events based on category
-  getFeatured: function(){
+  getFeatured=  ()=>{
     return axios.get("/api/event/");
-  },
+  }
 
 //User Gets--These may all be redundant!
-  getUser: function(id){
+  getUser=  id=>{
     return axios.get("/api/user/checkAuth");
-  },
+  }
 
   //Logout--May be redundant
-  getUserLogout: function(id){
+  getUserLogout= id=>{
     return axios.get("/api/user/logout/"+ id);
-  },
+  }
 
   //All the goddamn posts!
   //Message Post
-  postMessage: function(){
+  postMessage=  ()=>{
     return axios.post("/api/message/");
-  },
+  }
 
   //Event posts
-  postEvent: function(){
-    return axios.post("/api/event");
-  },
-  postEventUpdate: function(id){
+  postEvent= event =>{
+    axios
+      .post("/api/event/", event)
+      .then(result =>{
+        })
+      .catch(err=> console.log(err));
+  }
+
+  postEventUpdate=  id=>{
     return axios.post("/api/event/" + id);
-  },
+  }
 
   //User Posts
   //Initial post of the user
-  postUser: function(){
+  postUser=  ()=>{
     return axios.post("/api/user/");
-  },
+  }
   //updating user attributes
-  postUserUpdate: function(id){
+  postUserUpdate=  id=>{
     return axios.post("/api/user/"+id);
-  },
+  }
 
   //Lonely update
-  updateUser: function(id){
+  updateUser=  id=>{
     return axios.post("/api/user/" + id);
-  },
+  }
 
   //ALL THE DELETES
-  deleteMessage: function(id){
+  deleteMessage=  id=>{
     return axios.delete("/api/message/delete/" + id);
-  },
+  }
 
-  deleteEvent: function(id){
+  deleteEvent=  id=>{
     return axios.delete("/api/event/" + id);
-  },
+  }
 
-  deleteUser: function(id){
+  deleteUser=  id=>{
     return axios.delete("/api/user/" + id);
   }
 
