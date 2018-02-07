@@ -64,12 +64,14 @@ export default class Login extends Component {
           isActive={this.state.isActive}
           onClick={this.onClickNav}
           hasTextColor={'black'}
+          hasEndButton={true}
           navbarEnd={
             [
               {
                 href:"/",
                 text:"Home",
-                textStyle: {textDecoration: 'underline', color: '#4C4CFF'}
+                textStyle: {textDecoration: 'underline', color: '#4C4CFF'},
+                buttonHelper: 'isPrimary'
               },
               {
                 href:"/signup",

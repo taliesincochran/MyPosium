@@ -5,25 +5,29 @@ import axios from 'axios';
 import {authObj} from '../../authenticate';
 import EventCard from '../../components/Card/Card';
 import Media from '../../components/Media/Media';
+import Navbar from '../../components/Nav/Navbar'
 class Dashboard extends Component {
-  state = {
-    logout: false,
-    checkMessages: false,
-    createEvent: false,
-    dashboard: false,
-    userCreated: [],
-    userAttending: [],
-    events:[],
-    user: this.props.location.state.user
+    constructor(props) {
+    super(props);
+    this.state = {
+      logout: false,
+      checkMessages: false,
+      createEvent: false,
+      dashboard: false,
+      events:[],
+      userCreated: [],
+      userAttending: [],
+      eventsMatchInterests:[],
+      user: this.props.location.state,
+      burgerActive: false,
+    }
   }
-  componentDidMount =() => {
+  componentWillMount =() => {
     axios.get("/api/events/").then(events => {
-      var eventArray = events;
-      var event;
-      this.setState({userEvents: eventArray})
-      this.getEvents(events, event, (this.props.location.state.user._id === this.event.organizer), this.state.userCreated);
-      this.getEvents(events, event, (this.event.attending.includes(this.props.location.state.user._id)), this.state.userAttending);
-      this.getEvents(events, event, (this.state.location.state.user.intrests.includes(event.category) && !this.state.attending.includes(event) && !this.state.organized.includes(event)), events);
+      this.setState({events: events})
+      this.getCreatedEvents();
+      this.getAttendingEvents();
+      this.getIntrestEvents();
     }) 
   }
   handleLogout = () => {
@@ -38,29 +42,86 @@ class Dashboard extends Component {
       })
       .catch(err => console.log(err));
   }
-  checkMessages = () => {
-    this.setState({checkMessages: true});
-  }
-  getEvents = (array, condition, stateParameter) => {
+  getCreatedEvents = () => {
     var newArray = [];
-    array.map(event => {
-      if(condition) {
+    this.state.events.map(event => {
+      if(this.event.attending.includes(this.state.user._id)) {
         newArray.push(event)
       }
     })
-    this.setState({stateParameter: newArray})    
+    this.setState({userCreated: newArray})    
   }
-  createEvent = () => {
-    this.setState({createEvent: true});
+  getAttendingEvents = () => {
+    var newArray = [];
+    this.state.events.map(event => {
+      if(this.state.user._id === this.event.organizer) {
+        newArray.push(event)
+      }
+    })
+    this.setState({userAttending: newArray})   
+  }
+  getInterestEvents = () => {
+    var newArray = [];
+    this.state.events.map(event => {
+      if(this.state.user.intrests.includes(event.category) && !this.state.attending.includes(event) && !this.state.organized.includes(event)) {
+        newArray.push(event)
+      }
+    })
+    this.setState({eventsMatchIntrests: newArray})   
+  }
+  burgerOnClick = () =>{
+    this.setState({burgerActive:!this.state.burgerActive})
   }
   render() {
-    console.log(this.props);
+    console.log('render props', this.props);
+    console.log('render state',this.state);
+    var checkMessages= this.checkMessages;
+    var createEvent = this.createEvent;
+    var handleLogout = this.handleLogout;
+    console.log(this.checkMessages)
     return(
       <Container>
-        <h1>Dashboard</h1>
-        <Button onClick={this.handleLogout}>Logout</Button>
-        <Button onClick={this.checkMessages}>Check Messages</Button>
-        <Button onClick={this.createEvent}>Create Event</Button>
+        <Navbar 
+          hasBrand={true}
+          brandText={"MyPosium Dashboard"}
+          onClick={this.burgerOnClick}
+          isActive={this.burgerActive}
+          burgerActive={this.burgerActive}
+          hasEnd={true}
+          hasEndButtons={true}
+          navbarStyle={{boxShadow: '2px 2px 5px', position:"fixed", top:"0", left:"0", zIndex: '998', width: '100%'}}
+          navbarEnd={[
+            {
+              text:"Check Messages",
+              onClick:() => {
+                this.setState({checkMessages: true});
+              },
+            },
+            {
+              text:'Create Event',
+              onClick:() => {
+                this.setState({createEvent: true});
+              }
+            },
+            {
+              text:"Logout",
+              onClick:() => {
+                console.log("api/users/logout called")
+                axios
+                  .get('api/users/logout')
+                  .then(response => {
+                    authObj.logout();
+                    if (response.status === 200){
+                      this.setState({logout:true});
+                    }
+                  })
+                  .catch(err => console.log(err));
+              },
+              buttonClass: "isDanger"            
+            }
+          ]}
+        />
+        <div style={{height: '100px'}}/>
         <Columns>
           <Column isWidth="1/4">
             <Box>
@@ -89,7 +150,7 @@ class Dashboard extends Component {
           <Column>
             <Box>
               <h2>Events you may be interested in.</h2>
-              {this.state.events.map(event=>{
+              {this.state.eventsMatchInterests.map(event=>{
               return(
                   <EventCard 
                     title={event.title} 
