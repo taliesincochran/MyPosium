@@ -1,7 +1,8 @@
 const router = require("express").Router();
-const passport = require('passport')
+const passport = require('passport');
+const UC = require('../../controllers/userController');
 
-// Matches with "/api/user"
+// Matches with "/api/users"
 //=============================================================================
 // AUTHENTICATION ROUTES =======================================================
 // =============================================================================
@@ -20,6 +21,7 @@ const passport = require('passport')
   // process the logout request
   router.get('/logout', function(req, res) {
     req.logout();
+    console.log("User routes are working");
     req.session.destroy(function (err) {
       if (!err) {
         res.clearCookie('connect.sid', {path: '/'}).sendStatus(200);
@@ -39,7 +41,8 @@ const passport = require('passport')
 
   router.post('/updateprofile', function(req, res) {
     console.log(req.body);
-    res.json({});
+    UC.updateUser(req.body);
+    res.status(200).end();
   });
 
 module.exports = router;

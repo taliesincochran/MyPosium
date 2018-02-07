@@ -21,7 +21,10 @@ class Profile extends Component {
   }
 
   handleInterestClick = (e) => {
-    e.preventDefault();
+    // let name = e.target.name;
+    // if (e.target.isColor === 'success') {
+    //   console.log(obj);
+    // }
   }
 
   handleInput = (e) => {
@@ -40,7 +43,7 @@ class Profile extends Component {
       username: this.props.location.state.username
     }
     axios.post("/api/users/updateprofile", data)
-      .then(result => console.log(result));
+      .catch(err => console.error(err));
   }
 
   render() {
@@ -74,40 +77,40 @@ class Profile extends Component {
               <h1 className="text-center">Interests</h1>
               <Columns hasTextAlign='centered'>
                 <Column>
-                  <Button isColor='success' onClick={this.handleInterestClick} isOutlined>Crafts</Button>
-                  <Button isColor='success' onClick={this.handleInterestClick} isOutlined>Animals</Button>
-                  <Button isColor='success' onClick={this.handleInterestClick} isOutlined>Music</Button>
-                  <Button isColor='success' onClick={this.handleInterestClick} isOutlined>Books</Button>
-                  <Button isColor='success' onClick={this.handleInterestClick} isOutlined>History</Button>
-                  <Button isColor='success' onClick={this.handleInterestClick} isOutlined>Visual Arts</Button>
-                  <Button isColor='success' onClick={this.handleInterestClick} isOutlined>Finance</Button>
+                  <Button name="Crafts" onClick={this.handleInterestClick}>Crafts</Button>
+                  <Button name="Animals" onClick={this.handleInterestClick}>Animals</Button>
+                  <Button name="Music" onClick={this.handleInterestClick}>Music</Button>
+                  <Button name="Books" onClick={this.handleInterestClick}>Books</Button>
+                  <Button name="History" onClick={this.handleInterestClick}>History</Button>
+                  <Button name="Visual Arts" onClick={this.handleInterestClick}>Visual Arts</Button>
+                  <Button name="Finance" onClick={this.handleInterestClick}>Finance</Button>
                 </Column>
                 <Column>
-                  <Button isColor='success' onClick={this.handleInterestClick} isOutlined>Religion</Button>
-                  <Button isColor='success' onClick={this.handleInterestClick} isOutlined>Automotive</Button>
-                  <Button isColor='success' onClick={this.handleInterestClick} isOutlined>Business</Button>
-                  <Button isColor='success' onClick={this.handleInterestClick} isOutlined>Fitness</Button>
-                  <Button isColor='success' onClick={this.handleInterestClick} isOutlined>Electronics</Button>
-                  <Button isColor='success' onClick={this.handleInterestClick} isOutlined>Home Improvement</Button>
-                  <Button isColor='success' onClick={this.handleInterestClick} isOutlined>Science</Button>
+                  <Button name="Religion" onClick={this.handleInterestClick}>Religion</Button>
+                  <Button name="Automotive" onClick={this.handleInterestClick}>Automotive</Button>
+                  <Button name="Business" onClick={this.handleInterestClick}>Business</Button>
+                  <Button name="Fitness" onClick={this.handleInterestClick}>Fitness</Button>
+                  <Button name="Electronics" onClick={this.handleInterestClick}>Electronics</Button>
+                  <Button name="Home Improvement" onClick={this.handleInterestClick}>Home Improvement</Button>
+                  <Button name="Science" onClick={this.handleInterestClick}>Science</Button>
                 </Column>
                 <Column>
-                  <Button isColor='success' onClick={this.handleInterestClick} isOutlined>Politics</Button>
-                  <Button isColor='success' onClick={this.handleInterestClick} isOutlined>Philosophy</Button>
-                  <Button isColor='success' onClick={this.handleInterestClick} isOutlined>Games</Button>
-                  <Button isColor='success' onClick={this.handleInterestClick} isOutlined>Social</Button>
-                  <Button isColor='success' onClick={this.handleInterestClick} isOutlined>Sports</Button>
-                  <Button isColor='success' onClick={this.handleInterestClick} isOutlined>Photography</Button>
-                  <Button isColor='success' onClick={this.handleInterestClick} isOutlined>Real Estate</Button>
+                  <Button name="Politics" onClick={this.handleInterestClick}>Politics</Button>
+                  <Button name="Philosophy" onClick={this.handleInterestClick}>Philosophy</Button>
+                  <Button name="Games" onClick={this.handleInterestClick}>Games</Button>
+                  <Button name="Social" onClick={this.handleInterestClick}>Social</Button>
+                  <Button name="Sports" onClick={this.handleInterestClick}>Sports</Button>
+                  <Button name="Photography" onClick={this.handleInterestClick}>Photography</Button>
+                  <Button name="Real Estate" onClick={this.handleInterestClick}>Real Estate</Button>
                 </Column>
                 <Column>
-                  <Button isColor='success' onClick={this.handleInterestClick} isOutlined>Self Improvement</Button>
-                  <Button isColor='success' onClick={this.handleInterestClick} isOutlined>Computers</Button>
-                  <Button isColor='success' onClick={this.handleInterestClick} isOutlined>Recreation</Button>
-                  <Button isColor='success' onClick={this.handleInterestClick} isOutlined>Comics</Button>
-                  <Button isColor='success' onClick={this.handleInterestClick} isOutlined>Performing Arts</Button>
-                  <Button isColor='success' onClick={this.handleInterestClick} isOutlined>Miscellaneous</Button>
-                  <Button isColor='success' onClick={this.handleInterestClick} isOutlined>Health and Beauty</Button>
+                  <Button name="Self Improvement" onClick={this.handleInterestClick}>Self Improvement</Button>
+                  <Button name="Computers" onClick={this.handleInterestClick}>Computers</Button>
+                  <Button name="Recreation" onClick={this.handleInterestClick}>Recreation</Button>
+                  <Button name="Comics" onClick={this.handleInterestClick}>Comics</Button>
+                  <Button name="Performing Arts" onClick={this.handleInterestClick}>Performing Arts</Button>
+                  <Button name="Video Games" onClick={this.handleInterestClick}>Video Games</Button>
+                  <Button name="Health and Beauty" onClick={this.handleInterestClick}>Health and Beauty</Button>
                 </Column>
               </Columns>
             </Column>
