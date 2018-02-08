@@ -1,8 +1,7 @@
 import React from 'react';
 import {
 	Navbar,
-	NavbarMenu,
-	Box
+	NavbarMenu
 	} from 'bloomer';
 	// import NavbarItem from './navbarHelpers'
 	import NavDropdown from './NavDropdown';
@@ -15,14 +14,6 @@ const NavbarHeader = props => {
 	
 	return(
 		<div>
-			{props.hasBox? (
-				<Box 
-					isFullWidth={true} 
-					hasTextAlign={props.boxAlign || 'left'}
-					>
-					<h1>{props.boxText}</h1>
-				</Box>
-			):(null)}
 			<Navbar style={props.navbarStyle}>
 				<NavBrand 
 					hasBrand={props.hasBrand} 
