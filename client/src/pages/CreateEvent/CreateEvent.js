@@ -8,7 +8,7 @@ export default class CreateEvent extends Component {
   state = {
   	title:'',
   	zipcode: '',
-  	username: '',
+  	username: this.props.location.state.username,
   	date:'',
   	time:'',
   	isRemote: false,
@@ -18,9 +18,11 @@ export default class CreateEvent extends Component {
   	description:'',
   	minAttending:'',
   	maxAttending:'',
-    user: this.props.location.state,
     isSubmitted: false
   }
+
+
+
 
   handleChange = e => {
     let { name, value } = e.target;
@@ -30,13 +32,13 @@ export default class CreateEvent extends Component {
   handleSubmit = e=> {
   	e.preventDefault();
   	console.log("Submit button clicked");
-  	console.log(this.state.username);
-  	this.setState({username:this.state.user});
-  	let {title, zipcode, username, date, time, isRemote, cost, category, imgURL, description, minAttending, maxAttending} = this.state;
+	let {title, zipcode, username, date, time, isRemote, cost, category, imgURL, description, minAttending, maxAttending} = this.state;
   	let newEvent = {title, zipcode, username, date, time, isRemote, cost, category, imgURL, description, minAttending, maxAttending};
   	console.log(newEvent);
   	this.submitEvent(newEvent);
-  }
+  	}
+
+  
 
   submitEvent = event=>{
   	console.log("event being submitted:");
@@ -47,7 +49,7 @@ export default class CreateEvent extends Component {
       	   this.setState({isSubmitted: true});	
         })
       .catch(err=> console.log(err));  
-
+}
 
 
   render(){
