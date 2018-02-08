@@ -46,6 +46,7 @@ export const API = {
   //Event posts
 
   postEvent: event =>{
+    console.log("at the post event in API.js");
     axios
       .post("/api/event/", event)
       .then(result =>{

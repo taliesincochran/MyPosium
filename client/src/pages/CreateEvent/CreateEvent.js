@@ -18,7 +18,8 @@ export default class CreateEvent extends Component {
   	description:'',
   	minAttending:'',
   	maxAttending:'',
-    user: this.props.location.state
+    user: this.props.location.state,
+    isSubmitted: false
   }
 
   handleChange = e => {
@@ -43,7 +44,8 @@ export default class CreateEvent extends Component {
       .post("/api/event/create", event)
       .then(result =>{
         })
-      .catch(err=> console.log(err));  
+      .catch(err=> console.log(err));
+    this.setState({isSubmitted:true});  
   }
 
 
@@ -195,11 +197,12 @@ export default class CreateEvent extends Component {
       		</Control>
         </Field>
         <Control>
-        	<Button isColor='primary' onClick={this.getUsername}>Get the goddamn user!!</Button>
         	<Button isColor='primary' onClick={this.handleSubmit}>Create!</Button>
         </Control>
-
-
+        {this.state.isSubmitted? (<Redirect to = {{
+        	pathname:"/dashboard",
+        	state:this.state
+        }}/>): null}
       </Container>
     )
 	}
