@@ -12,12 +12,13 @@ import {
 
 const NavbarHeader = props => {
 	console.log("Navbar props", props)
+	
 	return(
 		<div>
 			{props.hasBox? (
 				<Box 
 					isFullWidth={true} 
-					hasTextAlign={props.boxAlign}
+					hasTextAlign={props.boxAlign || 'left'}
 					>
 					<h1>{props.boxText}</h1>
 				</Box>

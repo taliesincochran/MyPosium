@@ -17,7 +17,8 @@ export default class CreateEvent extends Component {
   	imgURL:'',
   	description:'',
   	minAttending:'',
-  	maxAttending:''
+  	maxAttending:'',
+    user: this.props.location.state
   }
 
   handleChange = e => {
@@ -51,7 +52,7 @@ export default class CreateEvent extends Component {
   render(){
     return (
       <Container>
-      	<Link to="/dashboard">Go Home</Link>
+      	<Link to={{pathname:"/dashboard",state:this.state.user}}>Go Home</Link>
       	<Field>
       		<Label>Event Title:</Label>
       		<Control>
