@@ -1,6 +1,6 @@
 import {Component} from "react";
 import axios from "axios";
-import {authObj} from "../authenticate";
+// import {authObj} from "../authenticate";
 
 export const API = {
 
@@ -47,6 +47,7 @@ export const API = {
     axios
       .post("/api/event/", event)
       .then(result =>{
+
         },)
       .catch(err=> console.log(err));  
   },

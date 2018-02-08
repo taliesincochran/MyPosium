@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Field, Label, Control, Input, Button, Container } from 'bloomer';
-import { Link, Redirect } from "react-router-dom";
+import { Redirect } from "react-router-dom";
 import axios from 'axios';
 import {authObj} from '../../authenticate'
 import NavbarHeader from '../../components/Nav/Navbar';
@@ -64,12 +64,14 @@ export default class Login extends Component {
           isActive={this.state.isActive}
           onClick={this.onClickNav}
           hasTextColor={'black'}
+          hasEndButton={true}
           navbarEnd={
             [
               {
                 href:"/",
                 text:"Home",
-                textStyle: {textDecoration: 'underline', color: '#4C4CFF'}
+                textStyle: {textDecoration: 'underline', color: '#4C4CFF'},
+                buttonHelper: 'isPrimary'
               },
               {
                 href:"/signup",
@@ -107,8 +109,9 @@ export default class Login extends Component {
         <Control>
             <Button isColor='primary' onClick={this.handleSubmit}>Submit</Button>
         </Control>
-        {this.state.isLoggedIn? (<Redirect to="/dashboard"/>): null}
+        {this.state.isLoggedIn? (<Redirect to={{pathname:"/dashboard", state:this.state}}/>): null}
       </Container>
-    )
+      )
+    
   }
 }

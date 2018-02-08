@@ -33,7 +33,7 @@ export default class ReceivedMessages extends Component {
         <Tabs isBoxed={true}>
           <TabList>
             <Tab>
-              <Link to="/messages/sent">
+              <Link to={{pathname:"/messages/sent", state: this.state.user}}>
                 <Icon isSize='small'><span className='far fa-sticky-note' aria-hidden='true' /></Icon>
                 <span>Sent Messages</span>
               </Link>
@@ -43,6 +43,12 @@ export default class ReceivedMessages extends Component {
                 <Icon isSize='small'><span className='far fa-envelope' aria-hidden='true' /></Icon>
                 <span>Received Messages</span>
               </TabLink>
+            </Tab>
+            <Tab>
+               <Link to={{pathname: "/dashboard", state: this.state.user}}>
+                <Icon isSize='small'><span className='fas fa-align-justify' aria-hidden='true' /></Icon>
+                <span>Dashboard</span>
+              </Link>
             </Tab>
           </TabList>
         </Tabs>

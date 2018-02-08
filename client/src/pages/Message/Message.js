@@ -14,27 +14,99 @@ class Message extends React.Component {
 	constructor(props) {
 		super(props)
 		this.state = {
-			recievedMessage: true,
-			newMessage: true,
-			recievedMessages: [],
-			sentMessages: [],
-			user: {}
+			user: this.props.location.state,
+      sentMessages: [],
+      recievedMessages: [],
+      makeNewMessage: false,
+      newMessage: {},
+			burgerActive:false,
+			displayNew: false,
+			displayRecieved: false,
+			displaySent: false,
+			displayCurrent: this.state.sentMessage.length > 0? this.state.sentMessage[this.state.sentMessage.length-1]
+
 		}
 		this.componentDidMount = this.componentDidMount.bind(this);
 		this.sendMessage = this.sendMessage.bind(this);
 		this.deleteMessage = this.deleteMessage.bind(this);
 	}
 	componentDidMount = () => {
-		var messages = [];
-		var sentMessages = [];
-		var recievedMessages = [];
 		axios.get(
 		//userget route
 		).then(user=> 
-			this.setState({user: user}))
+			this.setState({user: user})
+		)
 	}
-	newMessageDisplay = () => {
+  onClickBurger = () => {
+      this.setState((state) => ({ isActive: !state.burgerActive }));
+  }
+  getRecievedMessages=()=> {
+  }
+  getSentMessages=()=>{
 
+  }
+  <NavbarHeader 
+    hasStart={true}
+    hasStartButtons={true}
+    navbarStart={
+      [
+        {
+          href:"/messages/recieved", 
+            style:{border:'1px solid blue'}, 
+            textStyle:{color:"blue"},
+            helper:'isHoverable', 
+            text: "Recieved",
+            onClick: //function to get sent messages
+        }, {
+            href:"/messages/sent", 
+            style:{border:'1px solid blue'},
+            textStyle:{color:"blue"}, 
+            helper:'isHoverable', 
+            text: 'Sent'
+            onClick: //function to get recieved messages
+        },{
+            href:"/messages/new", 
+            style:{border:'1px solid blue'},
+            textStyle:{color:"blue"}, 
+            helper:'isHoverable', 
+            text: 'New',
+            onClick: //function to open modal for new messages
+        }
+      ]
+    }
+    hasEnd={true}
+    hasEndButtons={true}
+    navbarEnd={
+        [
+          {
+            href:"/logout", 
+            style:{border:'1px solid blue'}, 
+            textStyle:{color:"blue"},
+            helper:'isHoverable', 
+            text: "logout"
+          }, {
+            href:"/dashboard", 
+            style:{border:'1px solid blue'},
+            textStyle:{color:"blue"}, 
+            helper:'isHoverable', 
+            text: 'Home'
+          }
+        ]
+      }
+      hasBrand={true}
+      brandText='MyPosium: Messages'
+      burgerActive={this.state.burgerActive}
+      burgerOnClick={this.onClickBurger}
+      navbarStyle={{boxShadow: '2px 2px 5px', position:"fixed", top:"0", left:"0", zIndex: '998', width: '100%'}} 
+      isActive={this.navbarActive} 
+      onClick={this.onClickBurger}
+      hasTextColor={'black'}
+    />
+	newMessageDisplay = () => {
+		this.setState({displayNew: true, display})
+		this.state.displayNew = true;
+		this.state.displayRecieved = false;
+		this.state.dasplaySent = false;
 	}
 	recievedMessageDisplay = () => {
 

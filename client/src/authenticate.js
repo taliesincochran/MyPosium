@@ -1,5 +1,4 @@
 import axios from 'axios';
-
 export const authObj = {
   isAuthenticated: false,
   authenticate() {
@@ -15,3 +14,4 @@ export const authObj = {
       .catch(err => console.log(err))
   }
 }
+export default authObj;

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Section, Container, Field, Label, Control, Input, Button } from 'bloomer';
-import { Link, Redirect } from "react-router-dom";
+import { Redirect } from "react-router-dom";
 import axios from 'axios';
 import {authObj} from '../../authenticate'
 import NavbarHeader from '../../components/Nav/Navbar'
@@ -39,7 +39,6 @@ export default class Signup extends Component {
         authObj
           .authenticate()
           .then(response => {
-            console.log(response)
             authObj.isAuthenticated = response.data.isAuth;
             this.setState({isLoggedIn: true});
           })
