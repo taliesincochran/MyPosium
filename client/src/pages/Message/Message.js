@@ -14,8 +14,11 @@ class Message extends React.Component {
 	constructor(props) {
 		super(props)
 		this.state = {
-			user: {},
-			navActive:false,
+			user: this.props.location.state,
+      sentMessages: [],
+      recievedMessages: [],
+      makeNewMessage: false,
+      newMessage: {},
 			burgerActive:false,
 			displayNew: false,
 			displayRecieved: false,
@@ -34,42 +37,46 @@ class Message extends React.Component {
 			this.setState({user: user})
 		)
 	}
-	onClickNav = () => {
-        this.setState((state) => ({ isActive: !state.navActive }));
-    }
-    onClickDropdown = () => {
-        this.setState((state) => ({ isDropdownOpen: !state.isDropdownOpen }));
-    }
-    onClickBurger = () => {
-        this.setState((state) => ({ isActive: !state.burgerActive }));
-    }
-    <NavbarHeader 
-      hasStart={true}
-      navbarStart={
-        [
-          {
-            href:"/messages/recieved", 
+  onClickBurger = () => {
+      this.setState((state) => ({ isActive: !state.burgerActive }));
+  }
+  getRecievedMessages=()=> {
+  }
+  getSentMessages=()=>{
+
+  }
+  <NavbarHeader 
+    hasStart={true}
+    hasStartButtons={true}
+    navbarStart={
+      [
+        {
+          href:"/messages/recieved", 
             style:{border:'1px solid blue'}, 
             textStyle:{color:"blue"},
             helper:'isHoverable', 
-            text: "Recieved"
-          }, {
+            text: "Recieved",
+            onClick: //function to get sent messages
+        }, {
             href:"/messages/sent", 
             style:{border:'1px solid blue'},
             textStyle:{color:"blue"}, 
             helper:'isHoverable', 
             text: 'Sent'
-          },{
-          	href:"/messages/new", 
+            onClick: //function to get recieved messages
+        },{
+            href:"/messages/new", 
             style:{border:'1px solid blue'},
             textStyle:{color:"blue"}, 
             helper:'isHoverable', 
-            text: 'New'
-          }
-        ]
-      }
-      hasEnd={true}
-      navbarEnd={
+            text: 'New',
+            onClick: //function to open modal for new messages
+        }
+      ]
+    }
+    hasEnd={true}
+    hasEndButtons={true}
+    navbarEnd={
         [
           {
             href:"/logout", 
@@ -86,30 +93,13 @@ class Message extends React.Component {
           }
         ]
       }
-    //========================================================================================================
-    //================================Navbar Brand ===========================================================
-    //========================================================================================================
-      hasBrand={this.state.burgerActive}
-      brandText='MyPosium'
-      burgerActive={true}
+      hasBrand={true}
+      brandText='MyPosium: Messages'
+      burgerActive={this.state.burgerActive}
       burgerOnClick={this.onClickBurger}
-      burgerActive={true} 
-    //========================================================================================================
-    //================================Box Above Navbar========================================================
-    //========================================================================================================
-      hasBox={!this.state.burgerActive} 
-      boxText='MyPosium'
-      boxAlign='left'
-    //========================================================================================================
-    //================================General Navbar==========================================================
-    //========================================================================================================
-      navbarStyle={{color: black}} 
+      navbarStyle={{boxShadow: '2px 2px 5px', position:"fixed", top:"0", left:"0", zIndex: '998', width: '100%'}} 
       isActive={this.navbarActive} 
-      onClick={this.onClickNav}
-    //========================================================================================================
-    //================================Bloomer Helpers (applied to NavbarItem)=================================
-    //==========================https://bloomer.js.org/#/documentation/overview/helpers=======================
-    //========================================================================================================
+      onClick={this.onClickBurger}
       hasTextColor={'black'}
     />
 	newMessageDisplay = () => {
