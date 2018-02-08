@@ -2,11 +2,8 @@ import {Component} from "react";
 import axios from "axios";
 // import {authObj} from "../authenticate";
 
-<<<<<<< HEAD
-export default class API extends Component{
-=======
 export const API = {
->>>>>>> c20a70a1666cd3d6948285b446a67af11c050f25
+
 
   //ALL THE GODDAMN GETS
   //Message Get

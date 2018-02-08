@@ -73,20 +73,6 @@ class Dashboard extends Component {
     this.setState({burgerActive:!this.state.burgerActive})
   }
   render() {
-<<<<<<< HEAD
-    console.log(this.props);
-    return(
-      <Container>
-        <h1>Dashboard</h1>
-        <Button onClick={this.handleLogout}>Logout</Button>
-        <Button onClick={this.checkMessages}>Check Messages</Button>
-        <Button onClick={this.createEvent}>Create Event</Button>
-        {this.state.createEvent? (<Redirect to={{
-            pathname: "/event/create",
-            state: this.state
-            }} />) : null}
-        {this.state.checkMessages? (<Redirect to="/messages/sent" />) : null}
-=======
     console.log('render props', this.props);
     console.log('render state',this.state);
     var checkMessages= this.checkMessages;
