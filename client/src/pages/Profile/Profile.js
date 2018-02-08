@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import { Container, Columns, Column, Field, Label, Input, Control, TextArea, Button } from 'bloomer';
-import { Redirect } from 'react-router-dom';
-// import API from '../../utils/API';
-import axios from 'axios';
+import {API} from '../../utils/API';
 
 class Profile extends Component {
   constructor(props) {
