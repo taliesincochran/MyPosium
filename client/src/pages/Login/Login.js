@@ -112,7 +112,7 @@ export default class Login extends Component {
         </Control>
         {this.state.isLoggedIn? (<Redirect to={{
           pathname: "/dashboard",
-          state: this.state}}/>): null}
+          state: this.state.user}}/>): null}
       </Container>
       )
     
