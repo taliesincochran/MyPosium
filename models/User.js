@@ -32,6 +32,10 @@ const userSchema = new Schema({
 			type: Schema.Types.ObjectId,
 			ref: "Message"
 	}],
+	"attending": [{
+		type: Schema.Types.ObjectId,
+		ref: "Event"
+	}],
 	"receivedMessages": [{
 		type: Schema.Types.ObjectId,
 		ref: "message"
