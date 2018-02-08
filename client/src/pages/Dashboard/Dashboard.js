@@ -31,7 +31,7 @@ class Dashboard extends Component {
       this.setState({events: events.data}, ()=> {
         this.getCreatedEvents();
         this.getInterestEvents();
-        console.log(this.state);
+        console.log("get events", this.state);
       })
     })
   }
@@ -71,13 +71,14 @@ class Dashboard extends Component {
     this.setState({eventsMatchInterests: newArray})   
   }
   attend = (e) => {
-    console.log(e.target.value);
+    console.log("attend called", e.target.value);
     var id = e.target.value
     axios.post("/api/event/" + e.target.value, this.state.user._id).then(result=>{
       console.log("attending update result: ", result)
       this.getEvents();
       var attending = this.state.userAttending;
       attending.push(id)
+      console.log(attending);
       this.setState({userAttending: attending})
     })
   }
