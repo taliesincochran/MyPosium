@@ -14,6 +14,7 @@ const UC = require('../../controllers/userController');
 
   // process the signup form
   router.post('/signup', passport.authenticate('local-signup'), function (req,res) {
+    console.log('(((((((((((((((((((((((((((((((((((((')
     let authObj = {user: req.user, isAuth: req.isAuthenticated()};
     return res.json(authObj);
   });

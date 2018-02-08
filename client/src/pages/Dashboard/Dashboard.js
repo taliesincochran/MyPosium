@@ -19,8 +19,9 @@ class Dashboard extends Component {
       userAttending: [],
       eventsMatchInterests:[],
       user: this.props.location.state,
-      burgerActive: false,
+      isActive: false
     }
+    this.burgerOnClick = this.burgerOnClick.bind(this)
   }
   componentDidMount =() => {
     axios.get("/api/event/").then(events => {
@@ -74,9 +75,7 @@ class Dashboard extends Component {
     })
     this.setState({eventsMatchIntrests: newArray})   
   }
-  burgerOnClick = () =>{
-    this.setState({burgerActive:!this.state.burgerActive})
-  }
+  burgerOnClick = () =>this.setState((state) => ({isActive:!this.state.isActive}))
   render() {
     //console.log('render props', this.props);
     //console.log('render state',this.state);
@@ -88,10 +87,10 @@ class Dashboard extends Component {
       <Container>
         <Navbar 
           hasBrand={true}
-          brandText={"MyPosium Dashboard"}
+          brandText="MyPosium Dashboard"
           onClick={this.burgerOnClick}
-          isActive={this.burgerActive}
-          burgerActive={this.burgerActive}
+          isActive={this.state.isActive}
+          burgerActive={this.state.isActive}
           hasEnd={true}
           hasEndButtons={true}
           navbarStyle={{boxShadow: '2px 2px 5px', position:"fixed", top:"0", left:"0", zIndex: '998', width: '100%'}}

@@ -17,7 +17,7 @@ const NavbarHeader = props => {
 			<Navbar style={props.navbarStyle}>
 				<NavBrand 
 					hasBrand={props.hasBrand} 
-					brandStyle={props.brandStyle} 
+					brandStyle={props.brandStyle}  
 					brandHref={props.brandHref} 
 					brandImage={props.brandImage} 
 					brandText={props.brandText} 

@@ -27,15 +27,17 @@ export default class Signup extends Component {
 
   handleSubmit = e => {
     e.preventDefault();
-    let { username, email, password, password2, zipcode } = this.state;
-    let newUser = { username, email, password, password2, zipcode };
+    let { username, password, password2, zipcode } = this.state;
+    let newUser = { username, password, password2, zipcode };
     this.submitUser(newUser);
   }
 
   submitUser = user => {
+    console.log('+++++++++++++++++++++++++++++++++++++++++', user)
     axios
       .post('api/users/signup', user)
       .then(result => {
+        console.log('---------------------------------------', result)
         authObj
           .authenticate()
           .then(response => {
