@@ -3,6 +3,7 @@ import { Container, Columns, Column, Field, Label, Input, Control, TextArea, But
 import {API} from '../../utils/API';
 import axios from 'axios';
 import {Redirect} from 'react-router-dom';
+import categories from '../../categories';
 
 
 class Profile extends Component {
@@ -22,10 +23,24 @@ class Profile extends Component {
   }
 
   handleInterestClick = (e) => {
-    // let name = e.target.name;
-    // if (e.target.isColor === 'success') {
-    //   console.log(obj);
-    // }
+    let name = e.target.name;
+    console.log (name);
+    let index = this.state.interests.indexOf(name);
+    if(index>-1){
+      let arr =[...this.state.interests];
+      arr.splice(index, 1)
+      this.setState({interests: arr},()=>{
+      console.log(this.state.interests);
+    });
+    }
+    else{
+      let arr =[...this.state.interests, name];
+      this.setState({interests: arr},()=>{
+    });      
+    }
+    if (e.target.isColor === 'success') {
+
+    }
   }
 
   handleInput = (e) => {
@@ -78,40 +93,12 @@ class Profile extends Component {
               <h1 className="text-center">Interests</h1>
               <Columns hasTextAlign='centered'>
                 <Column>
-                  <Button name="Crafts" onClick={this.handleInterestClick}>Crafts</Button>
-                  <Button name="Animals" onClick={this.handleInterestClick}>Animals</Button>
-                  <Button name="Music" onClick={this.handleInterestClick}>Music</Button>
-                  <Button name="Books" onClick={this.handleInterestClick}>Books</Button>
-                  <Button name="History" onClick={this.handleInterestClick}>History</Button>
-                  <Button name="Visual Arts" onClick={this.handleInterestClick}>Visual Arts</Button>
-                  <Button name="Finance" onClick={this.handleInterestClick}>Finance</Button>
-                </Column>
-                <Column>
-                  <Button name="Religion" onClick={this.handleInterestClick}>Religion</Button>
-                  <Button name="Automotive" onClick={this.handleInterestClick}>Automotive</Button>
-                  <Button name="Business" onClick={this.handleInterestClick}>Business</Button>
-                  <Button name="Fitness" onClick={this.handleInterestClick}>Fitness</Button>
-                  <Button name="Electronics" onClick={this.handleInterestClick}>Electronics</Button>
-                  <Button name="Home Improvement" onClick={this.handleInterestClick}>Home Improvement</Button>
-                  <Button name="Science" onClick={this.handleInterestClick}>Science</Button>
-                </Column>
-                <Column>
-                  <Button name="Politics" onClick={this.handleInterestClick}>Politics</Button>
-                  <Button name="Philosophy" onClick={this.handleInterestClick}>Philosophy</Button>
-                  <Button name="Games" onClick={this.handleInterestClick}>Games</Button>
-                  <Button name="Social" onClick={this.handleInterestClick}>Social</Button>
-                  <Button name="Sports" onClick={this.handleInterestClick}>Sports</Button>
-                  <Button name="Photography" onClick={this.handleInterestClick}>Photography</Button>
-                  <Button name="Real Estate" onClick={this.handleInterestClick}>Real Estate</Button>
-                </Column>
-                <Column>
-                  <Button name="Self Improvement" onClick={this.handleInterestClick}>Self Improvement</Button>
-                  <Button name="Computers" onClick={this.handleInterestClick}>Computers</Button>
-                  <Button name="Recreation" onClick={this.handleInterestClick}>Recreation</Button>
-                  <Button name="Comics" onClick={this.handleInterestClick}>Comics</Button>
-                  <Button name="Performing Arts" onClick={this.handleInterestClick}>Performing Arts</Button>
-                  <Button name="Video Games" onClick={this.handleInterestClick}>Video Games</Button>
-                  <Button name="Health and Beauty" onClick={this.handleInterestClick}>Health and Beauty</Button>
+                  {categories.map((category, i) =>{
+                    return(this.state.interests.includes(category)? (
+                      <Button key={i} isColor="success" name={category} onClick={this.handleInterestClick}>{category}</Button>): 
+                    (<Button key={i} isColor="" name={category} onClick={this.handleInterestClick}>{category}</Button>))  
+                    
+                  })}
                 </Column>
               </Columns>
             </Column>

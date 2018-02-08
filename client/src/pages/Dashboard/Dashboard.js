@@ -28,7 +28,7 @@ class Dashboard extends Component {
     }).then(events=> {
       this.getCreatedEvents();
       this.getAttendingEvents();
-      // this.getInterestEvents();
+       this.getInterestEvents();
     }) 
   }
   handleLogout = () => {
@@ -66,12 +66,12 @@ class Dashboard extends Component {
   getInterestEvents = () => {
     var newArray = [];
     this.state.events.map(event => {
-      event.category.map(category=> {
-        if(this.state.user.interests.includes(category) && !this.state.attending.includes(event) && !this.state.organized.includes(event)) {
-          newArray.push(event)
-        }
+      if (this.state.user.interests.indexOf(event.category) > -1){
+        this.state.user.attending.map(events=>{
+          console.log(events);
+        })
+      }  
       })
-    })
     this.setState({eventsMatchIntrests: newArray})   
   }
   burgerOnClick = () =>{
