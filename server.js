@@ -58,6 +58,7 @@ app.use(flash());
 require('./config/passport')(passport);
 
 //bring in routes
+
 app.use('/', routes);
 
 // Start the API server

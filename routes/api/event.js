@@ -1,4 +1,5 @@
 const router = require("express").Router();
+
 const eventController = require("../../controllers/");
 
 // Matches with "/api/event"

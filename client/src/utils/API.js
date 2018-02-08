@@ -4,6 +4,7 @@ import axios from "axios";
 
 export const API = {
 
+
   //ALL THE GODDAMN GETS
   //Message Get
   getMessage : id=> {
@@ -43,6 +44,7 @@ export const API = {
   },
 
   //Event posts
+
   postEvent: event =>{
     axios
       .post("/api/event/", event)
