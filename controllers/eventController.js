@@ -2,29 +2,17 @@ const db = require("../models");
 
 // Defining methods for the booksController
 module.exports = {
-    findAllEvents: (req,res) => {
-      const userLocation = req.user.zipcode;
-      const metersPerMile = 1609.344;
-      const travelMiles = req.user.maxDistance;
-      const travelMeters = travelDistance * metersPerMile;
-      var destinations = '&destinations=';
-      const queryURL = `https://maps.googleapis.com/maps/api/distancematrix/json?origins=${userLocation}&destinations=${destinations}&key=AIzaSyDpwnTjzyOwCRmPRQhpu0eREKplFV0TCDI`
-      const myEvents =[];
-      db.Events.find({})
-        .then(events => {
-          events.map(location => {
-            destinations += location.zipcode + "|";
-          })
-          axios.get(queryURL).then(distances => {
-            distances.rows.elements.forEach((differance, i) => {              
-              if(differance.value <= travelMeters) {
-                myEvents.push(events[i])
-              }
-            })
-            res.json(myEvents);
-          })
-        })
-        .catch(err=> res.status(422).json(err));
+    findAllEvents: () => {
+      console.log(findAllEvents)
+        // const userLocation = req.user.zipcode;
+        // const metersPerMile = 1609.344;
+        // const travelMiles = req.user.maxDistance;
+        // const travelMeters = travelDistance * metersPerMile;
+        // var destinations = '&destinations=';
+        // const queryURL = `https://maps.googleapis.com/maps/api/distancematrix/json?origins=${userLocation}&destinations=${destinations}&key=AIzaSyDpwnTjzyOwCRmPRQhpu0eREKplFV0TCDI`
+        // const myEvents =[];
+      return db.Event.find({})
+      
     },
     findOneEvent: (req,res) => {
       const eventID = req.body._id;
@@ -32,10 +20,8 @@ module.exports = {
           res.json(event)
         )
     },
-    createEvent: (req,res) => {
-      db.Event.create(req.body)
-      .then(dbModel => res.json(dbModel))
-      .catch(err => res.status(422).json(err));
+    createEvent: (event) => {
+      db.Event.create(event)
     },
     cancelEvent: (req,res) => {
       db.Event.findById({_id: req.params.id})

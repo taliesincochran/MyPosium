@@ -47,8 +47,6 @@ export default class CreateEvent extends Component {
       	   this.setState({isSubmitted: true});	
         })
       .catch(err=> console.log(err));  
- 
-  }
 
 
 
@@ -205,7 +203,6 @@ export default class CreateEvent extends Component {
         	pathname: "/dashboard",
         	state:this.state
         }}/>) : null}
-
 
       </Container>
     )
