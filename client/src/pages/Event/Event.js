@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Progress, Container, Field, Image, Label, Control, Input, Button, Content} from 'bloomer';
 import { Link } from "react-router-dom";
 import axios from 'axios';
-import API from "../../utils/API";
+import {API} from "../../utils/API";
 
 
 export default class Event extends Component {

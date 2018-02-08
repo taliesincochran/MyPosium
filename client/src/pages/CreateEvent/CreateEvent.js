@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Checkbox, Container, Button, Select, Input, option, Label, Control, Field, TextArea} from 'bloomer';
 import { Link, Redirect } from "react-router-dom";
 import axios from 'axios';
-import API from "../../utils/API";
+import {API} from "../../utils/API";
 
 export default class CreateEvent extends Component {
   state = {
