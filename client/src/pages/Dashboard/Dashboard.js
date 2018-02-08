@@ -33,7 +33,6 @@ class Dashboard extends Component {
     }) 
   }
   handleLogout = () => {
-    console.log("api/users/logout called")
     axios
       .get('api/users/logout')
       .then(response => {
@@ -57,7 +56,6 @@ class Dashboard extends Component {
   getAttendingEvents = () => {
     var newArray = [];
     this.state.events.map(event => {
-      console.log("events", event)
       if(this.state.user.username === event.username) {
         newArray.push(event)
       }
@@ -77,12 +75,9 @@ class Dashboard extends Component {
   }
   burgerOnClick = () =>this.setState((state) => ({isActive:!this.state.isActive}))
   render() {
-    console.log('render props', this.props);
-    console.log('render state',this.state);
     var checkMessages= this.checkMessages;
     var createEvent = this.createEvent;
     var handleLogout = this.handleLogout;
-    console.log(this.checkMessages)
     return(
       <Container>
         <Navbar 
@@ -110,7 +105,6 @@ class Dashboard extends Component {
             {
               text:"Logout",
               onClick:() => {
-                console.log("api/users/logout called")
                 axios
                   .get('api/users/logout')
                   .then(response => {

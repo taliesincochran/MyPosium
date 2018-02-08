@@ -9,9 +9,7 @@ import {
 	import NavStart from './NavStart';
 	import NavEnd from './NavEnd';
 
-const NavbarHeader = props => {
-	console.log("Navbar props", props)
-	
+const NavbarHeader = props => {	
 	return(
 		<div>
 			<Navbar style={props.navbarStyle}>
