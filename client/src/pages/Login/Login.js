@@ -12,7 +12,8 @@ export default class Login extends Component {
       username: '',
       password: '',
       isLoggedIn: false,
-      isActive: false
+      isActive: false,
+      user: {}
     }
     this.onClickNav = this.onClickNav.bind(this);
   }
@@ -40,7 +41,7 @@ export default class Login extends Component {
           .then(response => {
             console.log(response)
             authObj.isAuthenticated = response.data.isAuth;
-            this.setState({isLoggedIn: true});
+            this.setState({user: response.data.user, isLoggedIn: true});
           })
           .catch(err => console.log(err));
         // setTimeout( () => {

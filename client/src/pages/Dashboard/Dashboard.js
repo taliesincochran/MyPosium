@@ -22,12 +22,13 @@ class Dashboard extends Component {
       burgerActive: false,
     }
   }
-  componentWillMount =() => {
+  componentDidMount =() => {
     axios.get("/api/event/").then(events => {
-      this.setState({events: events})
+      this.setState({events: events.data})
+    }).then(events=> {
       this.getCreatedEvents();
       this.getAttendingEvents();
-      this.getIntrestEvents();
+      // this.getInterestEvents();
     }) 
   }
   handleLogout = () => {
@@ -44,8 +45,9 @@ class Dashboard extends Component {
   }
   getCreatedEvents = () => {
     var newArray = [];
-    this.state.events.map(event => {
-      if(this.event.attending.includes(this.state.user._id)) {
+    var events = this.state.events;
+    events.map(event => {
+      if(event.attendees.includes(this.state.user._id)) {
         newArray.push(event)
       }
     })
@@ -54,7 +56,8 @@ class Dashboard extends Component {
   getAttendingEvents = () => {
     var newArray = [];
     this.state.events.map(event => {
-      if(this.state.user._id === this.event.organizer) {
+      console.log("events", event)
+      if(this.state.user.username === event.username) {
         newArray.push(event)
       }
     })
@@ -63,9 +66,11 @@ class Dashboard extends Component {
   getInterestEvents = () => {
     var newArray = [];
     this.state.events.map(event => {
-      if(this.state.user.intrests.includes(event.category) && !this.state.attending.includes(event) && !this.state.organized.includes(event)) {
-        newArray.push(event)
-      }
+      event.category.map(category=> {
+        if(this.state.user.interests.includes(category) && !this.state.attending.includes(event) && !this.state.organized.includes(event)) {
+          newArray.push(event)
+        }
+      })
     })
     this.setState({eventsMatchIntrests: newArray})   
   }
@@ -165,8 +170,8 @@ class Dashboard extends Component {
             </Box>
           </Column>
         </Columns>
-        {this.state.createEvent? (<Redirect to= {{pathname:"/event/create", state:this.state}} />) : null}
-        {this.state.checkMessages? (<Redirect to={{pathname:"/messages/sent", state:this.state}}/>) : null}
+        {this.state.createEvent? (<Redirect to= {{pathname:"/event/create", state:this.state.user}} />) : null}
+        {this.state.checkMessages? (<Redirect to={{pathname:"/messages/sent", state:this.state.user}}/>) : null}
         {this.state.logout? (<Redirect to="/" />) : null}
       </Container>
     )
