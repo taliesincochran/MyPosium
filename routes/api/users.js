@@ -1,7 +1,8 @@
 const router = require("express").Router();
-const passport = require('passport')
+const passport = require('passport');
+const UC = require('../../controllers/userController');
 
-// Matches with "/api/user"
+// Matches with "/api/users"
 //=============================================================================
 // AUTHENTICATION ROUTES =======================================================
 // =============================================================================
@@ -20,9 +21,10 @@ const passport = require('passport')
   // process the logout request
   router.get('/logout', function(req, res) {
     req.logout();
+    console.log("User routes are working");
     req.session.destroy(function (err) {
       if (!err) {
-        res.clearCookie('connect.sid', {path: '/'}).send(200);
+        res.clearCookie('connect.sid', {path: '/'}).sendStatus(200);
         console.log('no error')
       } else {
         console.log('Error from session destroy:', err)
@@ -36,5 +38,11 @@ const passport = require('passport')
     authObj.isAuth = req.isAuthenticated();
     res.json(authObj);
   })
+
+  router.post('/updateprofile', function(req, res) {
+    console.log(req.body);
+    UC.updateUser(req.body);
+    res.status(200).end();
+  });
 
 module.exports = router;

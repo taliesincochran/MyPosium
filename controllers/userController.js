@@ -12,12 +12,17 @@ module.exports = {
       .then(user => res.json(user))
       .catch(err => res.json(err));
   },
-  updateUser: (req,res) => {
+  updateUser: (data) => {
+    let query = { username: data.username };
     db.User
-      .findOneAndUpdate({_id: req.params.id}, req.body)
-        .then(user=> res.json(user))
-        .catch(err=> res.send(422).res.json(err))
-      }
+      .findOneAndUpdate(query, { $set: {
+        interests: data.interests,
+        age: data.age,
+        img: data.img,
+        aboutMe: data.aboutMe
+      }})
+      .then(user => res.json(user))
+      .catch(err => res.send(422).res.json(err))
   },
   deleteUser: (req,res) => {
     db.User

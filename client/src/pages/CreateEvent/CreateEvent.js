@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Checkbox, Container, Button, Select, Input, option, Label, Control, Field, TextArea} from 'bloomer';
-import { Link, Redirect } from "react-router-dom";
+import { Link } from "react-router-dom";
 import axios from 'axios';
 import {API} from "../../utils/API";
 
@@ -17,7 +17,8 @@ export default class CreateEvent extends Component {
   	imgURL:'',
   	description:'',
   	minAttending:'',
-  	maxAttending:''
+  	maxAttending:'',
+    user: this.props.location.state
   }
 
   handleChange = e => {
@@ -38,11 +39,23 @@ export default class CreateEvent extends Component {
   submitEvent = event=>{
   	console.log("event being submitted:");
   	console.log(event);
+<<<<<<< HEAD
       axios
       .post("/api/event/create", event)
       .then(result =>{
         })
       .catch(err=> console.log(err));  
+=======
+  	// API.postEvent(event);
+    axios
+      .post('/api/event', event)
+      .then(response => {
+        console.log('++++++++++++++++++++++++++++++++++++++++',response)
+      })
+      .catch(err => {
+        console.log(err);
+      })
+>>>>>>> c20a70a1666cd3d6948285b446a67af11c050f25
   }
 
 
@@ -50,8 +63,12 @@ export default class CreateEvent extends Component {
   render(){
     return (
       <Container>
+<<<<<<< HEAD
       	
       	<Link to="/dashboard">Go Home</Link>
+=======
+      	<Link to={{pathname:"/dashboard",state:this.state.user}}>Go Home</Link>
+>>>>>>> c20a70a1666cd3d6948285b446a67af11c050f25
       	<Field>
       		<Label>Event Title:</Label>
       		<Control>

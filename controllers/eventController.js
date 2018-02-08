@@ -29,7 +29,7 @@ module.exports = {
     findOneEvent: (req,res) => {
       const eventID = req.body._id;
       db.Event.findById(eventID).then(event => 
-          res.json(event);
+          res.json(event)
         )
     },
     createEvent: (req,res) => {
@@ -50,4 +50,4 @@ module.exports = {
         .catch(err => res.status(422).json(err));
     }
 };
-export default eventController;
+
