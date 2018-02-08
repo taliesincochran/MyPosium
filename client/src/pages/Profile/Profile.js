@@ -14,7 +14,8 @@ class Profile extends Component {
       age: "",
       img: "",
       aboutMe: "",
-      finishedProfile: false
+      finishedProfile: false,
+      user: {}
     }
   }
 
@@ -50,7 +51,6 @@ class Profile extends Component {
 
   handleSubmit = () => {
     let { interests, age, img, aboutMe } = this.state;
-    this.setState({finishedProfile: true});
     let data = {
       interests,
       age,
@@ -58,8 +58,12 @@ class Profile extends Component {
       aboutMe,
       username: this.props.location.state.username
     }
-    axios.post("/api/users/updateprofile", data)
+
+    axios.post("/api/users/updateprofile", data).then(result =>{
+      this.setState({user: result.data, finishedProfile: true})
+    })
       .catch(err => console.error(err));
+
   }
 
   render() {
@@ -112,7 +116,7 @@ class Profile extends Component {
         {
           this.state.finishedProfile ? (<Redirect to={{
             pathname: "/dashboard",
-            state: this.state
+            state: this.state.user
           }} />) : null
         }
       </Container>

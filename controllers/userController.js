@@ -14,15 +14,13 @@ module.exports = {
   },
   updateUser: (data) => {
     let query = { username: data.username };
-    db.User
+    return db.User
       .findOneAndUpdate(query, { $set: {
         interests: data.interests,
         age: data.age,
         img: data.img,
         aboutMe: data.aboutMe
       }})
-      .then(user => res.json(user))
-      .catch(err => res.send(422).res.json(err))
   },
   deleteUser: (req,res) => {
     db.User

@@ -42,8 +42,7 @@ const UC = require('../../controllers/userController');
 
   router.post('/updateprofile', function(req, res) {
     console.log(req.body);
-    UC.updateUser(req.body);
-    res.status(200).end();
+    UC.updateUser(req.body).then(result=> res.json(result));
   });
 
 module.exports = router;
