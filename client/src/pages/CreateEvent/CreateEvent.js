@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Checkbox, Container, Button, Select, Input, option, Label, Control, Field, TextArea} from 'bloomer';
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import axios from 'axios';
 import {API} from "../../utils/API";
 
@@ -31,6 +31,7 @@ export default class CreateEvent extends Component {
   	e.preventDefault();
   	console.log("Submit button clicked");
   	console.log(this.state.username);
+  	this.setState({username:this.state.user});
   	let {title, zipcode, username, date, time, isRemote, cost, category, imgURL, description, minAttending, maxAttending} = this.state;
   	let newEvent = {title, zipcode, username, date, time, isRemote, cost, category, imgURL, description, minAttending, maxAttending};
   	console.log(newEvent);
@@ -43,10 +44,9 @@ export default class CreateEvent extends Component {
       axios
       .post("/api/event/create", event)
       .then(result =>{
+      	   this.setState({isSubmitted: true});	
         })
-      .catch(err=> console.log(err));
-    this.setState({isSubmitted:true});  
-  }
+      .catch(err=> console.log(err));  
 
 
 
@@ -197,12 +197,13 @@ export default class CreateEvent extends Component {
       		</Control>
         </Field>
         <Control>
-        	<Button isColor='primary' onClick={this.handleSubmit}>Create!</Button>
+        	<Button isColor='primary' onClick={this.handleSubmit}>Create</Button>        	
         </Control>
-        {this.state.isSubmitted? (<Redirect to = {{
-        	pathname:"/dashboard",
+        {this.state.isSubmitted ? (<Redirect to = {{
+        	pathname: "/dashboard",
         	state:this.state
-        }}/>): null}
+        }}/>) : null}
+
       </Container>
     )
 	}
