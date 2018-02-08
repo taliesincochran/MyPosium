@@ -10,7 +10,7 @@ import {
 	import NavEnd from './NavEnd';
 
 const NavbarHeader = props => {
-	console.log("Navbar props", props)
+	//console.log("Navbar props", props)
 	
 	return(
 		<div>
