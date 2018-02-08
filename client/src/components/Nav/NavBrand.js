@@ -10,11 +10,11 @@ const NavBrand = props => {
 	if(hasBrand) {
 		return(
 				<NavbarBrand style={props.brandStyle}>
-					<NavbarItem isHidden='tablet' href={props.brandHref}>
+					<NavbarItem href={props.brandHref}>
 						<img src={props.brandImage} alt=""/>
 						{props.brandText}
 					</NavbarItem>
-					<NavbarBurger isHidden='desktop' isActive={props.burgerActive} style={{position: 'absolute', right: '0px', top: '0px', zIndex:'999'}} onClick={props.onClick}>
+					<NavbarBurger isHidden='desktop' burgerActive={props.burgerActive} style={{position: 'absolute', right: '0px', top: '0px', zIndex:'999'}} onClick={props.onClick}>
 						<div height="40px" />
 					</NavbarBurger>
 				</NavbarBrand>
