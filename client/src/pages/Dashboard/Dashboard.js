@@ -1,11 +1,30 @@
 import React, { Component } from 'react';
-import { Container, Button, Columns, Column, Box, Image, Modal, ModalBackground, ModalClose, ModalContent, Field, Label, Control, Input, TextArea } from 'bloomer';
 import { Redirect } from 'react-router-dom';
+import Navbar from '../../components/Nav/Navbar'
 import axios from 'axios';
-import {authObj} from '../../authenticate';
+import { authObj } from '../../authenticate';
 // import EventCard from '../../components/EventCard/EventCard';
 // import Media from '../../components/Media/Media';
-import Navbar from '../../components/Nav/Navbar'
+import { Container,
+        Button,
+        Columns,
+        Column,
+        Box,
+        Image,
+        Modal,
+        ModalCard,
+        ModalCardFooter,
+        ModalCardBody,
+        Delete,
+        ModalBackground,
+        ModalCardTitle,
+        ModalCardHeader,
+        Field,
+        Label,
+        Control,
+        Input,
+        TextArea } from 'bloomer';
+
 class Dashboard extends Component {
     constructor(props) {
     super(props);
@@ -60,6 +79,10 @@ class Dashboard extends Component {
 
   openMessageModal = (organizer) => {
     this.setState({activeMessageModal: true, messageRecipient: organizer});
+  }
+
+  closeModal = () => {
+    this.setState({activeMessageModal: false})
   }
 
   handleInput = e => {
@@ -238,9 +261,15 @@ class Dashboard extends Component {
             </Box>
           </Column>
         </Columns>
-        <Modal isActive={this.state.activeMessageModal? true: false}>
-            <ModalBackground />
-            <ModalContent>
+
+        <Modal isSize='small' isActive={this.state.activeMessageModal? true: false} >
+          <ModalBackground />
+          <ModalCard>
+            <ModalCardHeader>
+              <ModalCardTitle>Send a Message!</ModalCardTitle>
+              <Delete onClick={this.closeModal}/>
+            </ModalCardHeader>
+            <ModalCardBody>
               <Field>
                 <Label>Subject:</Label>
                 <Control>
@@ -253,11 +282,14 @@ class Dashboard extends Component {
                   <TextArea name="message" placeholder={'Enter Message'} onChange={this.handleInput} value={this.state.message}/>
                 </Control>
               </Field>
+
+            </ModalCardBody>
+            <ModalCardFooter>
               <Control>
                   <Button onClick={this.submitMessage}>Send Message</Button>
               </Control>
-            </ModalContent>
-            <ModalClose />
+            </ModalCardFooter>
+          </ModalCard>
         </Modal>
         {this.state.createEvent? (<Redirect to= {{pathname:"/event/create", state:this.state.user}} />) : null}
         {this.state.checkMessages? (<Redirect to={{pathname:"/messages/sent", state:this.state.user}}/>) : null}
