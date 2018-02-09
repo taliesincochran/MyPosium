@@ -12,14 +12,12 @@ $(document).ready(function () {
     }
   });
   if (window.location.pathname==='/dasbboard'){
-    console.log('+++++++++++++++++++++++++++++=')
     $('html, body').css({
-      'background-image': 'none',
+      'background-image': 'url("")',
       'background-attachment': 'fixed'
     })
   }
   if (window.location.pathname==='/signup' || window.location.pathname==='/login'){
-    console.log('asdfasd')
     $('html, body').css({
       'background-image': 'url("../img/coloredLines.jpg")',
       'background-attachment': 'fixed'
@@ -32,5 +30,4 @@ $(document).ready(function () {
       'background-size': 'cover'
     })
   }
-
 });

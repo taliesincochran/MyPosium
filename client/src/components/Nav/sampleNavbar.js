@@ -79,9 +79,9 @@
       brandHidden='mobile'
       brandText='Navbar'
       brandImage='http://p1cdn4static.sharpschool.com/UserFiles/Servers/Server_1005942/Image/News/calendar.png'
-      burgerActive={true}
+      burgeractive={true}
       burgerOnClick={this.onClickNav}
-      burgerActive={true} 
+      burgeractive={true} 
     //========================================================================================================
     //================================Box Above Navbar========================================================
     //========================================================================================================

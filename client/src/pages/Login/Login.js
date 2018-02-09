@@ -39,16 +39,10 @@ export default class Login extends Component {
         authObj
           .authenticate()
           .then(response => {
-            console.log(response)
             authObj.isAuthenticated = response.data.isAuth;
             this.setState({user: response.data.user, isLoggedIn: true});
           })
           .catch(err => console.log(err));
-        // setTimeout( () => {
-        //   if (result.data.isAuth){
-        //     this.setState({isLoggedIn: true});
-        //   }
-        // }, 100)
       })
       .catch(err => console.log(err));
   }
@@ -61,7 +55,7 @@ export default class Login extends Component {
           hasBrand={true}
           navbarStyle={{boxShadow: '2px 2px 5px', position:"fixed", top:"0", left:"0", zIndex: '998', width: '100%'}}
           brandText='Myposium'
-          burgerActive={this.state.isActive}
+          burgeractive={this.state.isActive}
           isActive={this.state.isActive}
           onClick={this.onClickNav}
           hasTextColor={'black'}

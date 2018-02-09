@@ -15,6 +15,9 @@ const messageSchema = new Schema({
 	"message": {
 		type: String,
 	},
+	read: {
+		type: Boolean
+	},
 	"createdAt": {
 		type: Date,
 		default: Date.now()

@@ -8,7 +8,6 @@ import { Image,
 	Section,
 	Title,
 	Tile,
-	SubTitle,
 	Columns
 	} from 'bloomer';
 export default class Landing extends Component {
@@ -32,8 +31,9 @@ export default class Landing extends Component {
         	hasEnd={true}
 		      hasBrand={true}
 		      navbarStyle={{boxShadow: '2px 2px 5px', position:"fixed", top:"0", left:"0", zIndex: '998', width: '100%'}}
-		      brandText={window.location.pathname==='/'? (<a href="#myposium">Myposium</a>): "MyPosium"}
-		      burgerActive={this.state.isActive}
+          hasEndButtons={true}
+		      brandText={window.location.pathname==='/'? (<a href="#myposium" style={{fontSize: '1.6em', textDecoration: 'none'}}>MyPosium</a>): "MyPosium"}
+		      burgeractive={this.state.isActive}
 		      isActive={this.state.isActive}
 		      onClick={this.onClickNav}
 		      hasTextColor={'black'}
@@ -42,31 +42,29 @@ export default class Landing extends Component {
 		          {
 		            text: "Create",
 		            href: "#create",
-		            style: {marginLeft: '0px'}
+		            style: {marginLeft: '0px', fontSize: '1.5em'}
 		          }, {
 		            text: 'Discover',
 		            href: "#discover",
-		            style: {marginLeft: '150px'}
+		            style: {marginLeft: '150px', fontSize: '1.5em'}
 		          }, {
 		          	text: 'Connect',
 		          	href: "#connect",
-		            style: {marginLeft: '150px'}
+		            style: {marginLeft: '150px', fontSize: '1.5em'}
 		          }
 		        ]
 		      }
 		      navbarEnd={[
 		      	{
-								hasEndButtons: true,
-								hasEnd: true,
 		            href:"/login",
 		            text: "Login",
-		            textStyle: {textDecoration: 'none', color: '#4C4CFF'}
+								buttonClass: 'is-primary',
+		            textStyle: {textDecoration: 'none'}
 		          }, {
-								hasEndButtons: true,
-								hasEnd: true,
 		            href:"/signup",
-		            text: 'SignUp',
-		            textStyle: {textDecoration: 'none', color: '#4C4CFF'}
+		            text: 'Sign Up',
+								buttonClass: 'is-primary',
+		            textStyle: {textDecoration: 'none'}
 		          }]}
 		    />
 

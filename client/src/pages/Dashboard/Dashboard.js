@@ -3,6 +3,7 @@ import { Redirect } from 'react-router-dom';
 import Navbar from '../../components/Nav/Navbar'
 import axios from 'axios';
 import { authObj } from '../../authenticate';
+import $ from 'jquery'
 // import EventCard from '../../components/EventCard/EventCard';
 // import Media from '../../components/Media/Media';
 import { Container,
@@ -14,13 +15,9 @@ import { Container,
         Modal,
         ModalContent,
         ModalClose,
-        // ModalCard,
-        // ModalCardFooter,
-        // ModalCardBody,
         Delete,
         ModalBackground,
         ModalCardTitle,
-        // ModalCardHeader,
         Field,
         Label,
         Control,
@@ -58,20 +55,25 @@ class Dashboard extends Component {
       }).then(res=>this.getEvents())
       console.log("user", this.props.location.state)
       console.log("state, user", this.state.user)
+      this.getEvents();
+      $('html, body').css({
+        'background-image': 'none',
+      })
   }
   getEvents =() => {
     axios.get("/api/event/").then(events => {
-      console.log(events.data)
+      // console.log(events.data)
       var userCreatedArray = [];
       var eventsMatchArray = [];
       var user = this.state.user;
       var interests = this.state.user.interests;
       var eventsArray = events.data
-      console.log(eventsArray);
+      // console.log(eventsArray);
       eventsArray.map(event => {
         var category = event.category
         if(this.state.user.username == event.username) {
           console.log('created...', event)
+
           userCreatedArray.push(event)
         }
         if (
@@ -83,6 +85,7 @@ class Dashboard extends Component {
           console.log("interesting...", event)
           eventsMatchArray.push(event)
         }
+        return event;
       })
       return({eventsMatch: eventsMatchArray, userCreated: userCreatedArray, events: eventsArray})
     }).then(results =>{
@@ -111,17 +114,16 @@ class Dashboard extends Component {
       subject: this.state.subject,
       message: this.state.message
     }
-    console.log('(((((((((((((((((((())))))))))))))))))))'  ,newMessage)
     axios
       .post('api/message/create', newMessage)
       .then(response => {
-        console.log('response from creating new message',response)
+        // console.log('response from creating new message',response)
       })
       .catch(err => console.log(err));
   }
 
   handleLogout = () => {
-    console.log("api/users/logout called")
+    // console.log("api/users/logout called")
     axios
       .get('api/users/logout')
       .then(response => {
@@ -133,14 +135,14 @@ class Dashboard extends Component {
       .catch(err => console.log(err));
   }
   attend = (e) => {
-    console.log("attend called", e.target.value);
+    // console.log("attend called", e.target.value);
     var id = e.target.value
     axios.post("/api/event/" + e.target.value, this.state.user._id).then(result=>{
-      console.log("attending update result: ", result)
+      // console.log("attending update result: ", result)
       this.getEvents();
       var attending = this.state.userAttending;
       attending.push(id)
-      console.log(attending);
+      // console.log(attending);
       this.setState({userAttending: attending})
     })
   }
@@ -201,10 +203,10 @@ class Dashboard extends Component {
           ]}
         />
         <div style={{height: '100px'}}/>
-        <Columns>
-          <Column isSize="1/4">
+        <Columns isCentered>
+          <Column isSize="1/3">
             <Box>
-              <Image isSize="64x64" src="http://wrs8a3ki8zth7aut28u4yi107g.wpengine.netdna-cdn.com/wikiblog/wp-content/uploads/sites/2/2013/10/events-heavenly-header-e1383170712910.jpg" />
+              <Image isSize="128x128" src={this.props.location.state.img} />
               <p>Hi, {this.props.location.state.username}</p>
             </Box>
             <Box>
@@ -243,7 +245,7 @@ class Dashboard extends Component {
                             <h2>{event.title}</h2>
                             <p>time: {event.time}</p>
                             <p>date: {event.date}</p>
-                            <button  isColor="primary" onClick={() => this.openMessageModal(event.username)}>Send Message</button>
+                            <Button  isColor="secondary" onClick={() => this.openMessageModal(event.username)}>Send Message</Button>
                           </Column>
                         </Columns>
                       </Box>
@@ -251,7 +253,7 @@ class Dashboard extends Component {
                 )}
             </Box>
           </Column>
-          <Column isSize='3/4'>
+          <Column isSize='2/3'>
             <Box>
               <h2>Events you may be interested in.</h2>
               <div style={{height: '50px'}} />
@@ -303,7 +305,7 @@ class Dashboard extends Component {
         </Modal>
 
         {this.state.createEvent? (<Redirect to= {{pathname:"/event/create", state:this.state.user}} />) : null}
-        {this.state.checkMessages? (<Redirect to={{pathname:"/messages/sent", state:this.state.user}}/>) : null}
+        {this.state.checkMessages? (<Redirect to={{pathname:"/messages", state:this.state.user}}/>) : null}
         {this.state.updateProfile? (<Redirect to={{pathname:"/profile", state:this.state.user}}/>) : null}
         {this.state.logout? (<Redirect to="/" />) : null}
       </Container>
