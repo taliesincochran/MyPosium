@@ -1,11 +1,30 @@
 import React, { Component } from 'react';
-import { Container, Button, Columns, Column, Box, Image } from 'bloomer';
 import { Redirect } from 'react-router-dom';
+import Navbar from '../../components/Nav/Navbar'
 import axios from 'axios';
-import {authObj} from '../../authenticate';
+import { authObj } from '../../authenticate';
 // import EventCard from '../../components/EventCard/EventCard';
 // import Media from '../../components/Media/Media';
-import Navbar from '../../components/Nav/Navbar'
+import { Container,
+        Button,
+        Columns,
+        Column,
+        Box,
+        Image,
+        Modal,
+        ModalCard,
+        ModalCardFooter,
+        ModalCardBody,
+        Delete,
+        ModalBackground,
+        ModalCardTitle,
+        ModalCardHeader,
+        Field,
+        Label,
+        Control,
+        Input,
+        TextArea } from 'bloomer';
+
 class Dashboard extends Component {
     constructor(props) {
     super(props);
@@ -19,7 +38,11 @@ class Dashboard extends Component {
       userAttending: this.props.location.state.attending,
       eventsMatchInterests:[],
       user: this.props.location.state,
-      isActive: false
+      isActive: false,
+      activeMessageModal: false,
+      messageRecipient: '',
+      subject: '',
+      message: '',
     }
     this.burgerOnClick = this.burgerOnClick.bind(this)
     this.setState = this.setState.bind(this)
@@ -44,7 +67,7 @@ class Dashboard extends Component {
           userCreatedArray.push(event)
         }
         if (this.props.location.state.interests.indexOf(category) > -1 && event.attendees.indexOf(user._id) === -1 && this.props.location.state.attending.indexOf(user._id) === -1){
-          console.log("interesting...", event)
+          // console.log("interesting...", event)
           eventsMatchArray.push(event)
         }
       })
@@ -52,6 +75,36 @@ class Dashboard extends Component {
     }).then(results =>{
       console.log(results)
       this.setState({events: results.events, eventsMatchInterests: results.eventsMatch, userCreated: results.userCreated}, ()=> console.log('state set', this.state))})
+  }
+
+  openMessageModal = (organizer) => {
+    this.setState({activeMessageModal: true, messageRecipient: organizer});
+  }
+
+  closeModal = () => {
+    this.setState({activeMessageModal: false})
+  }
+
+  handleInput = e => {
+    let { name, value } = e.target;
+    this.setState({ [name]: value });
+  }
+
+  submitMessage = e => {
+    this.setState({activeMessageModal: false})
+    let newMessage = {
+      sender: this.state.user,
+      recipient: this.state.messageRecipient,
+      subject: this.state.subject,
+      message: this.state.message
+    }
+    console.log('(((((((((((((((((((())))))))))))))))))))'  ,newMessage)
+    axios
+      .post('api/message/create', newMessage)
+      .then(response => {
+        console.log('response from creating new message',response)
+      })
+      .catch(err => console.log(err));
   }
 
   handleLogout = () => {
@@ -162,7 +215,7 @@ class Dashboard extends Component {
               <h3>Events you are attending</h3>
               {this.state.userAttending.length<0?(<p>You are attending no events</p>):(
                 events.map(event=>{
-                    console.log(this.state.userAttending.indexOf(event.id))
+                    // console.log(this.state.userAttending.indexOf(event.id))
                     return (
                       this.state.userAttending.includes(event._id)?(
                       <Box style={{height: '150px', overflow: 'scroll'}}>
@@ -174,6 +227,7 @@ class Dashboard extends Component {
                             <h2>{event.title}</h2>
                             <p>time: {event.time}</p>
                             <p>date: {event.date}</p>
+                            <button  isColor="primary" onClick={() => this.openMessageModal(event.username)}>Send Message</button>
                           </Column>
                         </Columns>
                       </Box>
@@ -207,6 +261,36 @@ class Dashboard extends Component {
             </Box>
           </Column>
         </Columns>
+
+        <Modal isSize='small' isActive={this.state.activeMessageModal? true: false} >
+          <ModalBackground />
+          <ModalCard>
+            <ModalCardHeader>
+              <ModalCardTitle>Send a Message!</ModalCardTitle>
+              <Delete onClick={this.closeModal}/>
+            </ModalCardHeader>
+            <ModalCardBody>
+              <Field>
+                <Label>Subject:</Label>
+                <Control>
+                  <Input name="subject" type="text" placeholder='Enter Subject' onChange={this.handleInput} value={this.state.subject}/>
+                </Control>
+              </Field>
+              <Field>
+                <Label>Message</Label>
+                <Control>
+                  <TextArea name="message" placeholder={'Enter Message'} onChange={this.handleInput} value={this.state.message}/>
+                </Control>
+              </Field>
+
+            </ModalCardBody>
+            <ModalCardFooter>
+              <Control>
+                  <Button onClick={this.submitMessage}>Send Message</Button>
+              </Control>
+            </ModalCardFooter>
+          </ModalCard>
+        </Modal>
         {this.state.createEvent? (<Redirect to= {{pathname:"/event/create", state:this.state.user}} />) : null}
         {this.state.checkMessages? (<Redirect to={{pathname:"/messages/sent", state:this.state.user}}/>) : null}
         {this.state.logout? (<Redirect to="/" />) : null}
