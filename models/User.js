@@ -38,7 +38,7 @@ const userSchema = new Schema({
 	}],
 	"receivedMessages": [{
 		type: Schema.Types.ObjectId,
-		ref: "message"
+		ref: "Message"
 	}]
 });
 

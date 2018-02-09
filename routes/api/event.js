@@ -19,7 +19,7 @@ const eventController = require("../../controllers/");
   	  	db.User.findOneAndUpdate({_id: req.user._id}, {$push: { attending: req.params.id}})
   	  		.then(data=> {
   	  			res.send({"result": result, "data": data})
-  	  		
+
   	  		})
   	  })
   })

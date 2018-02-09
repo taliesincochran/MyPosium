@@ -3,6 +3,7 @@ import { Redirect } from 'react-router-dom';
 import Navbar from '../../components/Nav/Navbar'
 import axios from 'axios';
 import { authObj } from '../../authenticate';
+import $ from 'jquery'
 // import EventCard from '../../components/EventCard/EventCard';
 // import Media from '../../components/Media/Media';
 import { Container,
@@ -47,21 +48,24 @@ class Dashboard extends Component {
   }
   componentDidMount =() => {
       this.getEvents();
+      $('html, body').css({
+        'background-image': 'none',
+      })
   }
   getEvents =() => {
     axios.get("/api/event/").then(events => {
-      console.log(events.data)
+      // console.log(events.data)
       var userCreatedArray = [];
       var eventsMatchArray = [];
       var user = this.state.user;
       // var attending = this.state.user.attending;
       // var interests = this.state.user.interests;
       var eventsArray = events.data
-      console.log(eventsArray);
+      // console.log(eventsArray);
       eventsArray.map(event => {
         var category = event.category
         if(this.props.location.state.username === event.username) {
-          console.log('created...', event)
+          // console.log('created...', event)
           userCreatedArray.push(event)
         }
         if (this.props.location.state.interests.indexOf(category) > -1 && event.attendees.indexOf(user._id) === -1 && this.props.location.state.attending.indexOf(user._id) === -1){
@@ -72,7 +76,7 @@ class Dashboard extends Component {
       })
       return({eventsMatch: eventsMatchArray, userCreated: userCreatedArray, events: eventsArray})
     }).then(results =>{
-      console.log(results)
+      // console.log(results)
       this.setState({events: results.events, eventsMatchInterests: results.eventsMatch, userCreated: results.userCreated}, ()=> console.log('state set', this.state))})
   }
 
@@ -97,17 +101,16 @@ class Dashboard extends Component {
       subject: this.state.subject,
       message: this.state.message
     }
-    console.log('(((((((((((((((((((())))))))))))))))))))'  ,newMessage)
     axios
       .post('api/message/create', newMessage)
       .then(response => {
-        console.log('response from creating new message',response)
+        // console.log('response from creating new message',response)
       })
       .catch(err => console.log(err));
   }
 
   handleLogout = () => {
-    console.log("api/users/logout called")
+    // console.log("api/users/logout called")
     axios
       .get('api/users/logout')
       .then(response => {
@@ -124,14 +127,14 @@ class Dashboard extends Component {
   // getInterestEvents = () => {
   // }
   attend = (e) => {
-    console.log("attend called", e.target.value);
+    // console.log("attend called", e.target.value);
     var id = e.target.value
     axios.post("/api/event/" + e.target.value, this.state.user._id).then(result=>{
-      console.log("attending update result: ", result)
+      // console.log("attending update result: ", result)
       this.getEvents();
       var attending = this.state.userAttending;
       attending.push(id)
-      console.log(attending);
+      // console.log(attending);
       this.setState({userAttending: attending})
     })
   }
@@ -184,11 +187,15 @@ class Dashboard extends Component {
           ]}
         />
         <div style={{height: '100px'}}/>
-        <Columns>
-          <Column isSize="1/4">
+        <Columns isCentered>
+          <Column isSize="1/3">
             <Box>
-              <Image isSize="64x64" src={this.props.location.state.img} />
-              <p>Hi, {this.props.location.state.username}</p>
+              <Column isSize='1/2'>
+                <Image isSize="128x128" src={this.props.location.state.img} />
+              </Column>
+              <Column isSize='1/2'>
+                <p>Hi, {this.props.location.state.username}</p>
+              </Column>
             </Box>
             <Box>
               <h3>Events you've organized</h3>
@@ -234,7 +241,7 @@ class Dashboard extends Component {
                 )}
             </Box>
           </Column>
-          <Column isSize='3/4'>
+          <Column isSize='2/3'>
             <Box>
               <h2>Events you may be interested in.</h2>
               <div style={{height: '50px'}} />
@@ -286,7 +293,7 @@ class Dashboard extends Component {
         </Modal>
 
         {this.state.createEvent? (<Redirect to= {{pathname:"/event/create", state:this.state.user}} />) : null}
-        {this.state.checkMessages? (<Redirect to={{pathname:"/messages/sent", state:this.state.user}}/>) : null}
+        {this.state.checkMessages? (<Redirect to={{pathname:"/messages", state:this.state.user}}/>) : null}
         {this.state.logout? (<Redirect to="/" />) : null}
       </Container>
     )
