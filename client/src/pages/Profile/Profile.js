@@ -20,7 +20,7 @@ class Profile extends Component {
   }
 
   componentWillMount() {
-
+    categories.sort()
   }
 
   handleInterestClick = (e) => {
@@ -100,6 +100,7 @@ class Profile extends Component {
               <Columns hasTextAlign='centered'>
                 <Column>
                   {categories.map((category, i) =>{
+
                     return(this.state.interests.includes(category)? (
                       <Button key={i} isColor="success" name={category} onClick={this.handleInterestClick}>{category}</Button>):
                     (<Button key={i} isColor="" name={category} onClick={this.handleInterestClick}>{category}</Button>))

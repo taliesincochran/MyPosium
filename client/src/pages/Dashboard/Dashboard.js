@@ -66,7 +66,7 @@ class Dashboard extends Component {
       var userCreatedArray = [];
       var eventsMatchArray = [];
       var user = this.state.user;
-      var interests = this.state.user.interests;
+      // var interests = this.state.user.interests;
       var eventsArray = events.data
       // console.log(eventsArray);
       eventsArray.map(event => {
@@ -78,9 +78,9 @@ class Dashboard extends Component {
         }
         if (
           this.state.user.interests.indexOf(category) > -1
-          && event.attendees.indexOf(user._id) == -1
+          && event.attendees.indexOf(user._id) === -1
           &&
-          this.state.user.attending.indexOf(user._id) == -1
+          this.state.user.attending.indexOf(user._id) === -1
           ){
           // console.log("interesting...", event)
           eventsMatchArray.push(event)
@@ -148,12 +148,12 @@ class Dashboard extends Component {
   }
   burgerOnClick = () =>this.setState((state) => ({isActive:!this.state.isActive}))
   render() {
-    var checkMessages= this.checkMessages;
-    var createEvent = this.createEvent;
-    var handleLogout = this.handleLogout;
+    // var checkMessages= this.checkMessages;
+    // var createEvent = this.createEvent;
+    // var handleLogout = this.handleLogout;
     var events = this.state.events;
     var hasGotEvents = this.state.hasGotEvents;
-    var setState = this.state.setState;
+    // var setState = this.state.setState;
     //console.log(this.checkMessages)
     return(
       hasGotEvents?(

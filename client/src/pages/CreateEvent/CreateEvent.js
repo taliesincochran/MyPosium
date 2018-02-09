@@ -24,7 +24,9 @@ export default class CreateEvent extends Component {
   }
 
 
-
+  componentDidMount(){
+    categories.sort();
+  }
 
   handleChange = e => {
     let { name, value } = e.target;
