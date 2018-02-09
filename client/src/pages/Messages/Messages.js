@@ -10,7 +10,6 @@ import Navbar from '../../components/Nav/Navbar';
 export default class SentMessages extends Component {
 
   state = {
-    user: '',
     sentMessages: this.props.location.state.sentMessages,
     receivedMessages: this.props.location.state.receivedMessages,
     logout: false,
@@ -25,33 +24,29 @@ export default class SentMessages extends Component {
   }
   componentDidMount() {
     this.getMessages();
-    console.log(this.state.user)
   }
 
   getMessages = () => {
     axios
       .get('/api/message/populate')
       .then(response => {
-        console.log('---------------------------------',response)
-        // let {sentMessages } = response.data;
         this.setState({ sentMessages: response.data.sentMessages, receivedMessages: response.data.receivedMessages });
       })
       .catch(err  => console.log(err));
   }
 
   activateSent = () => {
-    this.setState({toggle: true, sentActive: true, receivedActive: false});
+    this.setState({toggle: true, sentActive: true, receivedActive: false, currentMessage: ''});
   }
 
   activateReceived = () => {
-    this.setState({toggle: false, sentActive: false, receivedActive: true});
+    this.setState({toggle: false, sentActive: false, receivedActive: true, currentMessage: ''});
   }
 
   getOneMessage = id => {
     axios
       .get('/api/message/getOne/' + id)
       .then(result => {
-        console.log('(((((((((((((())))))))))))))',result)
         this.setState({currentMessage: result.data});
       })
   }
@@ -87,7 +82,6 @@ export default class SentMessages extends Component {
             {
               text:"Logout",
               onClick:() => {
-                //console.log("api/users/logout called")
                 axios
                   .get('api/users/logout')
                   .then(response => {
@@ -130,9 +124,8 @@ export default class SentMessages extends Component {
                 <MenuList>
                   {
                     this.state.sentMessages.length >0?
-                    (this.state.sentMessages.map(message => {
-                      console.log('massssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss',message)
-                      return (<li><MenuLink onClick={() => {this.getOneMessage(message._id)}}>from: {message.sender}, subj: {message.subject}</MenuLink></li>)
+                    (this.state.sentMessages.map((message,i) => {
+                      return (<li key={i}><MenuLink onClick={() => {this.getOneMessage(message._id)}}>from: {message.sender}, subj: {message.subject}</MenuLink></li>)
                     })) : <p>No Sent Messages</p>
                   }
 
@@ -140,25 +133,26 @@ export default class SentMessages extends Component {
               </Menu>
             </Column>
             <Column>
-              <Tile isParent>
-                <Tile isChild render={
-                    props => (
-                        <Box {...props}>
-                          {
-                            this.state.currentMessage !== ''?
-                            (<div>
-                              <p>From: {this.state.currentMessage.sender}</p>
-                              <p>To: {this.state.currentMessage.recipient}</p>
-                              <p>Subject: {this.state.currentMessage.subject}</p>
-                              <br/>
-                              <p>{this.state.currentMessage.message}</p>
-                            </div>) :
-                            ''
-                          }
-                        </Box>
-                    )
-                } />
-            </Tile>
+              {
+                this.state.currentMessage !== '' && this.state.sentActive?
+                (
+                  <Tile isParent>
+                    <Tile isChild render={
+                        props => (
+                            <Box {...props}>
+                                <div>
+                                  <p>From: {this.state.currentMessage.sender}</p>
+                                  <p>To: {this.state.currentMessage.recipient}</p>
+                                  <p>Subject: {this.state.currentMessage.subject}</p>
+                                  <br/>
+                                  <p>{this.state.currentMessage.message}</p>
+                                </div>
+                            </Box>
+                        )
+                    } />
+                </Tile>
+              ) : ''
+              }
             </Column>
           </Columns>)
             :
@@ -169,34 +163,34 @@ export default class SentMessages extends Component {
                 <MenuList>
                   {
                     this.state.receivedMessages.length >0?
-                    (this.state.receivedMessages.map(message => {
-                      console.log('messagessssssssssssssssssssss:',message)
-                      return (<li><MenuLink onClick={() => {this.getOneMessage(message._id)}}>from: {message.sender}, subj: {message.subject}</MenuLink></li>)
+                    (this.state.receivedMessages.map((message,i) => {
+                      return (<li key={i}><MenuLink onClick={() => {this.getOneMessage(message._id)}}>from: {message.sender}, subj: {message.subject}</MenuLink></li>)
                     })) : <p>No Received Messages</p>
                   }
                 </MenuList>
               </Menu>
             </Column>
             <Column>
-              <Tile isParent>
-                <Tile isChild render={
-                    props => (
-                        <Box {...props}>
-                          {
-                            this.state.currentMessage !== ''?
-                            (<div>
-                              <p>From: {this.state.currentMessage.sender}</p>
-                              <p>To: {this.state.currentMessage.recipient}</p>
-                              <p>Subject: {this.state.currentMessage.subject}</p>
-                              <br/>
-                              <p>{this.state.currentMessage.message}</p>
-                            </div>) :
-                            ''
-                          }
-                        </Box>
-                    )
-                } />
-            </Tile>
+              {
+                this.state.currentMessage !== '' && this.state.receivedActive?
+                (
+                  <Tile isParent>
+                    <Tile isChild render={
+                        props => (
+                            <Box {...props}>
+                                <div>
+                                  <p>From: {this.state.currentMessage.sender}</p>
+                                  <p>To: {this.state.currentMessage.recipient}</p>
+                                  <p>Subject: {this.state.currentMessage.subject}</p>
+                                  <br/>
+                                  <p>{this.state.currentMessage.message}</p>
+                                </div>
+                            </Box>
+                        )
+                    } />
+                </Tile>
+              ) : ''
+              }
             </Column>
           </Columns>)
         }

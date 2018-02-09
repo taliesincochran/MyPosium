@@ -39,16 +39,10 @@ export default class Login extends Component {
         authObj
           .authenticate()
           .then(response => {
-            console.log(response)
             authObj.isAuthenticated = response.data.isAuth;
             this.setState({user: response.data.user, isLoggedIn: true});
           })
           .catch(err => console.log(err));
-        // setTimeout( () => {
-        //   if (result.data.isAuth){
-        //     this.setState({isLoggedIn: true});
-        //   }
-        // }, 100)
       })
       .catch(err => console.log(err));
   }

@@ -9,16 +9,13 @@ router.post('/create', function (req,res){
     .create(newMessage)
     .then(messageResult => {
       //push reference into senders sent messages
-      console.log(messageResult._id)
       db.User
       .findOneAndUpdate({_id: sender._id}, {$push:{sentMessages: messageResult._id}})
       .then(result => {
         //push reference into recipient's received messages
-        console.log('===========================', result)
         db.User
         .findOneAndUpdate({username: recipient}, {$push:{receivedMessages: messageResult._id}})
         .then(asdf => {
-          console.log('+++++++++++++++++++++++++++++++',asdf);
         })
         res.json(messageResult);
       })
@@ -34,18 +31,15 @@ router.get('/populate', function (req,res){
     .populate('sentMessages')
     .populate('receivedMessages')
     .then(result => {
-      console.log('result from populate:',result);
       res.json(result)
     })
     .catch(err => console.log(err));
 });
 
 router.get('/getOne/:id', function (req,res){
-  console.log(req.params.id)
   db.Message
     .findOne({_id: req.params.id})
     .then(result => {
-      console.log(result);
       res.json(result)
     })
 })
