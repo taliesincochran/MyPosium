@@ -2,10 +2,11 @@ import React, { Component } from 'react';
 import NavbarHeader from '../../components/Nav/Navbar';
 import './Landing.css';
 import { Image,
+	Container,
+	Content,
 	Column,
 	Section,
 	Title,
-	Subtitle,
 	Columns
 	} from 'bloomer';
 export default class Landing extends Component {
@@ -39,7 +40,7 @@ export default class Landing extends Component {
 		          {
 		            text: "Create",
 		            href: "#create",
-		            style: {marginLeft: '150px'}
+		            style: {marginLeft: '0px'}
 		          }, {
 		            text: 'Discover',
 		            href: "#discover",
@@ -53,10 +54,14 @@ export default class Landing extends Component {
 		      }
 		      navbarEnd={[
 		      	{
+								hasEndButtons: true,
+								hasEnd: true,
 		            href:"/login",
 		            text: "Login",
 		            textStyle: {textDecoration: 'none', color: '#4C4CFF'}
 		          }, {
+								hasEndButtons: true,
+								hasEnd: true,
 		            href:"/signup",
 		            text: 'SignUp',
 		            textStyle: {textDecoration: 'none', color: '#4C4CFF'}
@@ -64,44 +69,43 @@ export default class Landing extends Component {
 		    />
 			<a id="create" style={{marginTop: "20px"}}> </a>
 			<div style={{height:'20px'}}/>
-		    <Section>
-			    <Columns>
-			    	<Column isSize='1/3'>
-			    		<Image src = "/img/tempImage.JPG" />
-			    	</Column>
-			    	<Column isSize='2/3'>
-			            <Title>Create</Title>
-			            {/* <Subtitle> A simple container to divide your page into <strong>sections</strong>, like the one you're currently reading */}
-			            {/* </Subtitle> */}
-			      </Column>
-			    </Columns>
-		    </Section>
-				<a id="discover" style={{marginTop: "20px"}}> </a>
-		        <Section>
-			    <Columns>
-			    	<Column isSize='2/3'>
-			            <Title>Discover</Title>
-			            {/* <Subtitle> A simple container to divide your page into <strong>sections</strong>, like the one you're currently reading */}
-			            {/* </Subtitle> */}
-			      </Column>
-			    	<Column isSize='1/3'>
-			    		<Image src = "/img/tempImage.JPG" />
-			    	</Column>
-			    </Columns>
-			</Section>
-	    <a id="connect" style={{marginTop: "20px"}}> </a>
-			<Section>
-			    <Columns>
-			    	<Column isSize='1/3'>
-			    		<Image src = "/img/tempImage.JPG" />
-			    	</Column>
-			    	<Column isSize='2/3'>
-			            <Title>Connect</Title>
-			            {/* <Subtitle> A simple container to divide your page into <strong>sections</strong>, like the one you're currently reading */}
-			            {/* </Subtitle> */}
-			      </Column>
-			    </Columns>
-		    </Section>
+		    <Container>
+					<Section className='is-vertical-center'>
+				    <Columns>
+				    	<Column isSize={4}>
+				    		<Image src = "/img/tempImage.JPG" />
+				    	</Column>
+				    	<Column isSize={6} isOffset={2}>
+				            <Title className='text-center'>Create</Title>
+										<Content>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quisquam hic ipsa quibusdam, dolorum odit saepe molestias ipsum distinctio doloremque, possimus! Quas saepe similique commodi natus eligendi beatae illo. Tenetur, inventore!</Content>
+				      </Column>
+				    </Columns>
+			    </Section>
+					<a id="discover" style={{marginTop: "20px"}}> </a>
+	        <Section className='is-vertical-center'>
+				    <Columns>
+				    	<Column isSize={6} >
+				            <Title className='text-center'>Discover</Title>
+										<Content >Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quos quas velit atque odit rerum, impedit dolore commodi accusamus natus vel, nisi, deserunt magni sint cumque cupiditate magnam molestiae dignissimos quasi.</Content>
+				      </Column>
+				    	<Column isSize={4} isOffset={2}>
+				    		<Image src = "/img/tempImage.JPG" className='is-vertical-center'/>
+				    	</Column>
+				    </Columns>
+					</Section>
+			    <a id="connect" style={{marginTop: "20px"}}> </a>
+					<Section className='is-vertical-center'>
+				    <Columns>
+				    	<Column isSize={4}>
+				    		<Image src = "/img/tempImage.JPG"/>
+				    	</Column>
+				    	<Column isSize={6} isOffset={2}>
+				            <Title className='text-center'>Connect</Title>
+										<Content>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Asperiores eos, consequuntur quidem, ab obcaecati atque veritatis aliquam officiis? Perspiciatis modi dolorum expedita facilis ipsum cupiditate. Quam a facilis nesciunt similique.</Content>
+				      </Column>
+				    </Columns>
+			    </Section>
+				</Container>
       </div>
     )
   }

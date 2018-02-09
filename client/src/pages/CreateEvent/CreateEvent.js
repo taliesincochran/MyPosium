@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Checkbox, Container, Button, Select, Input, option, Label, Control, Field, TextArea} from 'bloomer';
 import { Link, Redirect } from "react-router-dom";
 import axios from 'axios';
-import {API} from "../../utils/API";
+// import {API} from "../../utils/API";
 
 export default class CreateEvent extends Component {
   state = {
@@ -38,7 +38,7 @@ export default class CreateEvent extends Component {
   	this.submitEvent(newEvent);
   	}
 
-  
+
 
   submitEvent = event=>{
   	console.log("event being submitted:");
@@ -46,9 +46,9 @@ export default class CreateEvent extends Component {
       axios
       .post("/api/event/create", event)
       .then(result =>{
-      	   this.setState({isSubmitted: true});	
+      	   this.setState({isSubmitted: true});
         })
-      .catch(err=> console.log(err));  
+      .catch(err=> console.log(err));
 }
 
 
@@ -199,7 +199,7 @@ export default class CreateEvent extends Component {
       		</Control>
         </Field>
         <Control>
-        	<Button isColor='primary' onClick={this.handleSubmit}>Create</Button>        	
+        	<Button isColor='primary' onClick={this.handleSubmit}>Create</Button>
         </Control>
         {this.state.isSubmitted ? (<Redirect to = {{
         	pathname: "/dashboard",

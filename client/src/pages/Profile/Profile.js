@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Container, Columns, Column, Field, Label, Input, Control, TextArea, Button } from 'bloomer';
-import {API} from '../../utils/API';
+// import {API} from '../../utils/API';
 import axios from 'axios';
 import {Redirect} from 'react-router-dom';
 import categories from '../../categories';
@@ -37,7 +37,7 @@ class Profile extends Component {
     else{
       let arr =[...this.state.interests, name];
       this.setState({interests: arr},()=>{
-    });      
+    });
     }
     if (e.target.isColor === 'success') {
 
@@ -99,9 +99,9 @@ class Profile extends Component {
                 <Column>
                   {categories.map((category, i) =>{
                     return(this.state.interests.includes(category)? (
-                      <Button key={i} isColor="success" name={category} onClick={this.handleInterestClick}>{category}</Button>): 
-                    (<Button key={i} isColor="" name={category} onClick={this.handleInterestClick}>{category}</Button>))  
-                    
+                      <Button key={i} isColor="success" name={category} onClick={this.handleInterestClick}>{category}</Button>):
+                    (<Button key={i} isColor="" name={category} onClick={this.handleInterestClick}>{category}</Button>))
+
                   })}
                 </Column>
               </Columns>
