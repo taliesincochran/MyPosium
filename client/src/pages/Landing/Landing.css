@@ -23,12 +23,14 @@ section {
 .navbar-start a {
   transition: all 300ms ease;
   text-decoration: none;
+  transform: scale(1);
 }
 
 .navbar-start a:hover {
   background: transparent;
   text-decoration: none;
-  transform: scale(1.1);
+  /* transform: scale(1.1); */
+  color: rgb(0, 209, 178);
 }
 
 .navbar-start a:active {
@@ -39,4 +41,9 @@ section {
   color: red;
   font-weight: bold;
   font-style: italic;
+}
+
+.navbar-end a:hover {
+  text-decoration: none;
+  background: none;
 }
