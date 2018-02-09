@@ -30,7 +30,7 @@ for (let i = 0; i<50; i++){
     isRemote: ~~(Math.random()*2),
     cost: '$10',
     category: categories[~~(Math.random()* categories.length)],
-    imgUrl: 'https://www.fillmurray.com/300/300',
+    imgUrl: '/img/event'+ ~~(Math.random() * 10) + '.jpg',
     description: "Lorem ipsum dolor amet lomo fingerstache chambray single-origin coffee etsy. Vegan tbh tattooed, blue bottle dreamcatcher pork belly kombucha vaporware man braid you probably haven't heard of them narwhal shabby chic. Flexitarian street art blog leggings vice, stumptown etsy pour-over deep v. Twee gastropub pinterest, umami banh mi beard freegan mlkshk letterpress hell of activated charcoal occupy. Actually hashtag cornhole migas flexitarian.",
     minAttending: 1,
     maxAttending: ~~(Math.random()*50),

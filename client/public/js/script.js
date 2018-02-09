@@ -11,12 +11,6 @@ $(document).ready(function () {
       });
     }
   });
-  if (window.location.pathname==='/dasbboard'){
-    $('html, body').css({
-      'background-image': 'url("")',
-      'background-attachment': 'fixed'
-    })
-  }
   if (window.location.pathname==='/signup' || window.location.pathname==='/login'){
     $('html, body').css({
       'background-image': 'url("../img/coloredLines.jpg")',
@@ -27,7 +21,13 @@ $(document).ready(function () {
     $('html, body').css({
       'background-image': 'url("../img/woodBackground.jpg")',
       'background-attachment': 'fixed',
-      'background-size': 'cover'
+      'background-size': '100% 100%'
+    })
+  }
+  if (window.location.pathname==='/dashboard'){
+    $('html, body').css({
+      'background-image': 'url("")',
+      'background-attachment': 'fixed'
     })
   }
 });

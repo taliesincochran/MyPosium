@@ -50,11 +50,11 @@ class Dashboard extends Component {
   }
   componentDidMount =() => {
       axios.get("/api/users/" + this.state.user.username).then(result=>{
-        console.log("user get", result);
+        // console.log("user get", result);
         this.setState({user: result.data})
       }).then(res=>this.getEvents())
-      console.log("user", this.props.location.state)
-      console.log("state, user", this.state.user)
+      // console.log("user", this.props.location.state)
+      // console.log("state, user", this.state.user)
       this.getEvents();
       $('html, body').css({
         'background-image': 'none',
@@ -71,25 +71,25 @@ class Dashboard extends Component {
       // console.log(eventsArray);
       eventsArray.map(event => {
         var category = event.category
-        if(this.state.user.username == event.username) {
-          console.log('created...', event)
+        if(this.state.user.username === event.username) {
+          // console.log('created...', event)
 
           userCreatedArray.push(event)
         }
         if (
-          this.state.user.interests.indexOf(category) > -1 
-          && event.attendees.indexOf(user._id) == -1 
-          && 
+          this.state.user.interests.indexOf(category) > -1
+          && event.attendees.indexOf(user._id) == -1
+          &&
           this.state.user.attending.indexOf(user._id) == -1
           ){
-          console.log("interesting...", event)
+          // console.log("interesting...", event)
           eventsMatchArray.push(event)
         }
         return event;
       })
       return({eventsMatch: eventsMatchArray, userCreated: userCreatedArray, events: eventsArray})
     }).then(results =>{
-      console.log(results)
+      // console.log(results)
       this.setState({events: results.events, eventsMatchInterests: results.eventsMatch, userCreated: results.userCreated, hasGotEvents: true, userAttending: this.state.user.attending}, ()=> console.log('state set', this.state))})
   }
 
@@ -213,11 +213,12 @@ class Dashboard extends Component {
               <h3>Events you've organized</h3>
               {this.state.events.length<0?(<p>You have organized no events</p>):
                 (this.state.userCreated.map(event=>{
+
                   return(
                       <Box style={{height: '150px', overflow: 'scroll'}}>
                         <Columns>
                           <Column isSize='1/4'>
-                            <Image src={event.imageURL || 'https://images.pexels.com/photos/6227/hands-technology-photo-phone.jpg?h=350&auto=compress&cs=tinysrgb'} />
+                            <Image src={event.imageUrl || 'https://images.pexels.com/photos/6227/hands-technology-photo-phone.jpg?h=350&auto=compress&cs=tinysrgb'} />
                           </Column>
                           <Column isSize='3/4'>
                             <h2>{event.title}</h2>
@@ -233,13 +234,13 @@ class Dashboard extends Component {
               <h3>Events you are attending</h3>
               {this.state.userAttending.length<0?(<p>You are attending no events</p>):(
                 events.map(event=>{
-                    // console.log(this.state.userAttending.indexOf(event.id))
+                  console.log('(((((((((((((((((((((((((((((((())))))))))))))))))))))))))))))))',event)
                     return (
                       this.state.userAttending.includes(event._id)?(
                       <Box style={{height: '150px', overflow: 'scroll'}}>
                         <Columns>
                           <Column isSize='1/4'>
-                            <Image src={event.imageURL || 'https://images.pexels.com/photos/6227/hands-technology-photo-phone.jpg?h=350&auto=compress&cs=tinysrgb'} />
+                            <Image src={event.imgUrl || 'https://images.pexels.com/photos/6227/hands-technology-photo-phone.jpg?h=350&auto=compress&cs=tinysrgb'} />
                           </Column>
                           <Column isSize='3/4'>
                             <h2>{event.title}</h2>
@@ -258,13 +259,14 @@ class Dashboard extends Component {
               <h2>Events you may be interested in.</h2>
               <div style={{height: '50px'}} />
               {this.state.eventsMatchInterests.map(event=>{
+
                 return(
                   <Box key={event._id} style={{height: '250px', overflow: 'auto'}}>
                     <Columns>
                       <Column isSize='1/4' >
                         <h1 style={{textDecoration: 'underline'}}><strong>{event.title}</strong></h1>
                         <br />
-                        <Image src={event.imgURL || 'https://images.pexels.com/photos/6227/hands-technology-photo-phone.jpg?w=1260&h=750&auto=compress&cs=tinysrgb'} />
+                        <Image src={event.imgUrl || 'https://images.pexels.com/photos/6227/hands-technology-photo-phone.jpg?w=1260&h=750&auto=compress&cs=tinysrgb'} />
                       </Column>
                       <Column isSize='3/4'>
                         <p>Description: {event.description}</p>
@@ -284,7 +286,7 @@ class Dashboard extends Component {
           <ModalBackground />
           <ModalContent style={{padding: '20px'}}>
             <Delete onClick={this.closeModal} />
-            <ModalCardTitle className="has-text-centered">Send a Message!</ModalCardTitle>
+            <ModalCardTitle className="has-text-centered">Send a Message to: {this.state.messageRecipient}!</ModalCardTitle>
             <Field>
               <Label className="has-text-left">Subject:</Label>
               <Control>
@@ -298,7 +300,7 @@ class Dashboard extends Component {
               </Control>
             </Field>
             <Control>
-              <Button isColor="primary" isSize="large" onClick={this.submitMessage} style={{width: "100%"}}>Send Message</Button>
+              <Button isColor="primary" onClick={this.submitMessage} className="is-fullwidth">Send Message</Button>
             </Control>
           </ModalContent>
           <ModalClose />
