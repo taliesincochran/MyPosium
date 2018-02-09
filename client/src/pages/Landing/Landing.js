@@ -118,7 +118,7 @@ export default class Landing extends Component {
 				    	</Column>
 				    	<Column isSize={6} isOffset={2}>
 				            <Title className='text-center'>Connect</Title>
-										<Content>MyPosium aims to <span className="highlight">CONNECT</span> people who are thirsty for knowledge and entertainment with those who can provide it.  Ask questions, provide feedback, and shape the future of education!  <a href="/signup">Sign up for an account now!</a></Content>
+										<Content>MyPosium aims to <span className="highlight">CONNECT</span> people who are thirsty for knowledge and entertainment with those who can provide it.  Ask questions, provide feedback, and help shape the future of Edu-tainment!  <a href="/signup">Sign up for an account now!</a></Content>
 				      </Column>
 				    </Columns>
 			    </Section>
