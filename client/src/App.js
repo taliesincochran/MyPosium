@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Link, Route, Switch, withRouter, Redirect, BrowserRouter as Router } from "react-router-dom";
+import { Route, Switch, BrowserRouter as Router } from "react-router-dom";
 import Signup from "./pages/Signup";
 import Profile from "./pages/Profile";
 import Landing from "./pages/Landing";
@@ -37,4 +37,3 @@ export default class App extends Component{
     )
   }
 }
-

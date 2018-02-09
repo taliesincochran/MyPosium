@@ -3,8 +3,8 @@ import { Container, Button, Columns, Column, Box, Image } from 'bloomer';
 import { Redirect } from 'react-router-dom';
 import axios from 'axios';
 import {authObj} from '../../authenticate';
-import EventCard from '../../components/EventCard/EventCard';
-import Media from '../../components/Media/Media';
+// import EventCard from '../../components/EventCard/EventCard';
+// import Media from '../../components/Media/Media';
 import Navbar from '../../components/Nav/Navbar'
 class Dashboard extends Component {
     constructor(props) {
@@ -33,17 +33,17 @@ class Dashboard extends Component {
       var userCreatedArray = [];
       var eventsMatchArray = [];
       var user = this.state.user;
-      var attending = this.state.user.attending;
-      var interests = this.state.user.interests;
+      // var attending = this.state.user.attending;
+      // var interests = this.state.user.interests;
       var eventsArray = events.data
       console.log(eventsArray);
       eventsArray.map(event => {
         var category = event.category
-        if(this.props.location.state.username == event.username) {
+        if(this.props.location.state.username === event.username) {
           console.log('created...', event)
           userCreatedArray.push(event)
         }
-        if (this.props.location.state.interests.indexOf(category) > -1 && event.attendees.indexOf(user._id) == -1 && this.props.location.state.attending.indexOf(user._id) == -1){
+        if (this.props.location.state.interests.indexOf(category) > -1 && event.attendees.indexOf(user._id) === -1 && this.props.location.state.attending.indexOf(user._id) === -1){
           console.log("interesting...", event)
           eventsMatchArray.push(event)
         }
@@ -85,9 +85,9 @@ class Dashboard extends Component {
   }
   burgerOnClick = () =>this.setState((state) => ({isActive:!this.state.isActive}))
   render() {
-    var checkMessages= this.checkMessages;
-    var createEvent = this.createEvent;
-    var handleLogout = this.handleLogout;
+    // var checkMessages= this.checkMessages;
+    // var createEvent = this.createEvent;
+    // var handleLogout = this.handleLogout;
     var events = this.state.events
     //console.log(this.checkMessages)
     return(

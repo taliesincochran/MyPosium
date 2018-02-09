@@ -1,4 +1,4 @@
-import {Component} from "react";
+// import {Component} from "react";
 import axios from "axios";
 // import {authObj} from "../authenticate";
 
@@ -52,7 +52,7 @@ export const API = {
       .then(result =>{
 
         },)
-      .catch(err=> console.log(err));  
+      .catch(err=> console.log(err));
   },
 
   postEventUpdate:  id=>{
@@ -88,4 +88,3 @@ export const API = {
   }
 
 };
-

@@ -1,8 +1,6 @@
 
 $(document).ready(function () {
-  console.log('(((((((((((((((((((((((((())))))))))))))))))))))))))')
   $("a").click(function (event) {
-    console.log('++++++++++++++++++++++++++', this.hash)
     if (this.hash!=="") {
       event.preventDefault();
       var hash = this.hash;
