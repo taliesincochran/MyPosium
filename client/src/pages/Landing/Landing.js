@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import NavbarHeader from '../../components/Nav/Navbar';
+import './Landing.css';
 import { Image,
 	Column,
 	Section,
@@ -18,6 +19,7 @@ export default class Landing extends Component {
   onClickNav = () => {
       this.setState((state) => ({ isActive: !state.isActive }));
   }
+
   render() {
     return(
       <div>
@@ -53,14 +55,14 @@ export default class Landing extends Component {
 		      	{
 		            href:"/login",
 		            text: "Login",
-		            textStyle: {textDecoration: 'underline', color: '#4C4CFF'}
+		            textStyle: {textDecoration: 'none', color: '#4C4CFF'}
 		          }, {
 		            href:"/signup",
 		            text: 'SignUp',
-		            textStyle: {textDecoration: 'underline', color: '#4C4CFF'}
+		            textStyle: {textDecoration: 'none', color: '#4C4CFF'}
 		          }]}
 		    />
-			<a name="create" style={{marginTop: "20px"}}> </a>
+			<a id="create" style={{marginTop: "20px"}}> </a>
 			<div style={{height:'20px'}}/>
 		    <Section>
 			    <Columns>
@@ -69,25 +71,25 @@ export default class Landing extends Component {
 			    	</Column>
 			    	<Column isSize='2/3'>
 			            <Title>Create</Title>
-			            <Subtitle> A simple container to divide your page into <strong>sections</strong>, like the one you're currently reading
-			            </Subtitle>
+			            {/* <Subtitle> A simple container to divide your page into <strong>sections</strong>, like the one you're currently reading */}
+			            {/* </Subtitle> */}
 			      </Column>
 			    </Columns>
 		    </Section>
-				<a name="discover" style={{marginTop: "20px"}}> </a>
+				<a id="discover" style={{marginTop: "20px"}}> </a>
 		        <Section>
 			    <Columns>
 			    	<Column isSize='2/3'>
 			            <Title>Discover</Title>
-			            <Subtitle> A simple container to divide your page into <strong>sections</strong>, like the one you're currently reading
-			            </Subtitle>
+			            {/* <Subtitle> A simple container to divide your page into <strong>sections</strong>, like the one you're currently reading */}
+			            {/* </Subtitle> */}
 			      </Column>
 			    	<Column isSize='1/3'>
 			    		<Image src = "/img/tempImage.JPG" />
 			    	</Column>
 			    </Columns>
 			</Section>
-	    <a name="connect" style={{marginTop: "20px"}}> </a>
+	    <a id="connect" style={{marginTop: "20px"}}> </a>
 			<Section>
 			    <Columns>
 			    	<Column isSize='1/3'>
@@ -95,8 +97,8 @@ export default class Landing extends Component {
 			    	</Column>
 			    	<Column isSize='2/3'>
 			            <Title>Connect</Title>
-			            <Subtitle> A simple container to divide your page into <strong>sections</strong>, like the one you're currently reading
-			            </Subtitle>
+			            {/* <Subtitle> A simple container to divide your page into <strong>sections</strong>, like the one you're currently reading */}
+			            {/* </Subtitle> */}
 			      </Column>
 			    </Columns>
 		    </Section>
