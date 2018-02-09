@@ -22,19 +22,38 @@ class Dashboard extends Component {
       isActive: false
     }
     this.burgerOnClick = this.burgerOnClick.bind(this)
+    this.setState = this.setState.bind(this)
   }  
   componentDidMount =() => {
       this.getEvents();
   }
   getEvents =() => {
     axios.get("/api/event/").then(events => {
-      this.setState({events: events.data}, ()=> {
-        this.getCreatedEvents();
-        this.getInterestEvents();
-        console.log("get events", this.state);
+      console.log(events.data)
+      var userCreatedArray = [];
+      var eventsMatchArray = [];
+      var user = this.state.user;
+      var attending = this.state.user.attending;
+      var interests = this.state.user.interests;
+      var eventsArray = events.data
+      console.log(eventsArray);
+      eventsArray.map(event => {
+        var category = event.category
+        if(this.props.location.state.username == event.username) {
+          console.log('created...', event)
+          userCreatedArray.push(event)
+        }
+        if (this.props.location.state.interests.indexOf(category) > -1 && event.attendees.indexOf(user._id) == -1 && this.props.location.state.attending.indexOf(user._id) == -1){
+          console.log("interesting...", event)
+          eventsMatchArray.push(event)
+        } 
       })
-    })
+      return({eventsMatch: eventsMatchArray, userCreated: userCreatedArray, events: eventsArray})
+    }).then(results =>{
+      console.log(results)
+      this.setState({events: results.events, eventsMatchInterests: results.eventsMatch, userCreated: results.userCreated}, ()=> console.log('state set', this.state))})
   }
+  
   handleLogout = () => {
     console.log("api/users/logout called")
     axios
@@ -47,29 +66,11 @@ class Dashboard extends Component {
       })
       .catch(err => console.log(err));
   }
-  getCreatedEvents = () => {
-    var newArray = [];
-    this.state.events.map(event => {
-      if(this.state.user.username == event.username) {
-        console.log("events created", event)
-        newArray.push(event)
-        this.setState({userCreated: newArray})   
-      }
-    })
-  }
-  getInterestEvents = () => {
-    var user = this.state.user;
-    var attending = this.state.user.attending;
-    var interests = this.state.user.interests;
-    var newArray = [];
-    this.state.events.map(event => {
-      var category = event.category
-      if (interests.indexOf(category) > -1 && event.attendees.indexOf(user._id) == -1 && user.attending.indexOf(user._id) == -1){
-        newArray.push(event)
-      }  
-    })
-    this.setState({eventsMatchInterests: newArray})   
-  }
+  // getCreatedEvents = () => {
+  //   })
+  // }
+  // getInterestEvents = () => {
+  // }
   attend = (e) => {
     console.log("attend called", e.target.value);
     var id = e.target.value
