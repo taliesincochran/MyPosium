@@ -5,11 +5,11 @@ const messageSchema = new Schema({
 		type: String,
 		required: true
 	},
-	'reciever': {
+	'recipient': {
 		type: String,
 		required: true
 	},
-	"header": {
+	"subject": {
 		type: String,
 	},
 	"message": {

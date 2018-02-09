@@ -1,11 +1,32 @@
 import React, { Component } from 'react';
-import { Container, Button, Columns, Column, Box, Image } from 'bloomer';
 import { Redirect } from 'react-router-dom';
-import axios from 'axios';
-import {authObj} from '../../authenticate';
-import EventCard from '../../components/EventCard/EventCard';
-import Media from '../../components/Media/Media';
 import Navbar from '../../components/Nav/Navbar'
+import axios from 'axios';
+import { authObj } from '../../authenticate';
+// import EventCard from '../../components/EventCard/EventCard';
+// import Media from '../../components/Media/Media';
+import { Container,
+        Button,
+        Columns,
+        Column,
+        Box,
+        Image,
+        Modal,
+        ModalContent,
+        ModalClose,
+        // ModalCard,
+        // ModalCardFooter,
+        // ModalCardBody,
+        Delete,
+        ModalBackground,
+        ModalCardTitle,
+        // ModalCardHeader,
+        Field,
+        Label,
+        Control,
+        Input,
+        TextArea } from 'bloomer';
+
 class Dashboard extends Component {
     constructor(props) {
     super(props);
@@ -13,6 +34,7 @@ class Dashboard extends Component {
       logout: false,
       checkMessages: false,
       createEvent: false,
+      updateProfile: false,
       dashboard: false,
       events:[],
       userCreated: [],
@@ -21,11 +43,14 @@ class Dashboard extends Component {
       user: this.props.location.state,
       isActive: false,
       hasGotEvents: false,
-      setState: true
+      activeMessageModal: false,
+      messageRecipient: '',
+      subject: '',
+      message: '',
     }
     this.burgerOnClick = this.burgerOnClick.bind(this)
     this.setState = this.setState.bind(this)
-  }  
+  }
   componentDidMount =() => {
       axios.get("/api/users/" + this.state.user.username).then(result=>{
         console.log("user get", result);
@@ -45,8 +70,6 @@ class Dashboard extends Component {
       console.log(eventsArray);
       eventsArray.map(event => {
         var category = event.category
-        console.log("get events state", this.state)
-        console.log("get events props", this.props)
         if(this.state.user.username == event.username) {
           console.log('created...', event)
           userCreatedArray.push(event)
@@ -59,14 +82,44 @@ class Dashboard extends Component {
           ){
           console.log("interesting...", event)
           eventsMatchArray.push(event)
-        } 
+        }
       })
       return({eventsMatch: eventsMatchArray, userCreated: userCreatedArray, events: eventsArray})
     }).then(results =>{
       console.log(results)
       this.setState({events: results.events, eventsMatchInterests: results.eventsMatch, userCreated: results.userCreated, hasGotEvents: true, userAttending: this.state.user.attending}, ()=> console.log('state set', this.state))})
   }
-  
+
+  openMessageModal = (organizer) => {
+    this.setState({activeMessageModal: true, messageRecipient: organizer});
+  }
+
+  closeModal = () => {
+    this.setState({activeMessageModal: false})
+  }
+
+  handleInput = e => {
+    let { name, value } = e.target;
+    this.setState({ [name]: value });
+  }
+
+  submitMessage = e => {
+    this.setState({activeMessageModal: false})
+    let newMessage = {
+      sender: this.state.user,
+      recipient: this.state.messageRecipient,
+      subject: this.state.subject,
+      message: this.state.message
+    }
+    console.log('(((((((((((((((((((())))))))))))))))))))'  ,newMessage)
+    axios
+      .post('api/message/create', newMessage)
+      .then(response => {
+        console.log('response from creating new message',response)
+      })
+      .catch(err => console.log(err));
+  }
+
   handleLogout = () => {
     console.log("api/users/logout called")
     axios
@@ -103,7 +156,7 @@ class Dashboard extends Component {
     return(
       hasGotEvents?(
       <Container>
-        <Navbar 
+        <Navbar
           hasBrand={true}
           brandText="MyPosium Dashboard"
           onClick={this.burgerOnClick}
@@ -125,6 +178,12 @@ class Dashboard extends Component {
               }
             },
             {
+              text:'Update Profile',
+              onClick:()=>{
+                this.setState({updateProfile: true});
+              }
+            },
+            {
               text:"Logout",
               onClick:() => {
                 axios
@@ -137,7 +196,7 @@ class Dashboard extends Component {
                   })
                   .catch(err => console.log(err));
               },
-              buttonClass: "isDanger"            
+              buttonClass: "isDanger"
             }
           ]}
         />
@@ -172,7 +231,7 @@ class Dashboard extends Component {
               <h3>Events you are attending</h3>
               {this.state.userAttending.length<0?(<p>You are attending no events</p>):(
                 events.map(event=>{
-                    console.log(this.state.userAttending.indexOf(event.id))
+                    // console.log(this.state.userAttending.indexOf(event.id))
                     return (
                       this.state.userAttending.includes(event._id)?(
                       <Box style={{height: '150px', overflow: 'scroll'}}>
@@ -184,6 +243,7 @@ class Dashboard extends Component {
                             <h2>{event.title}</h2>
                             <p>time: {event.time}</p>
                             <p>date: {event.date}</p>
+                            <button  isColor="primary" onClick={() => this.openMessageModal(event.username)}>Send Message</button>
                           </Column>
                         </Columns>
                       </Box>
@@ -217,8 +277,34 @@ class Dashboard extends Component {
             </Box>
           </Column>
         </Columns>
+
+        <Modal isSize='large' isActive={this.state.activeMessageModal? true: false} >
+          <ModalBackground />
+          <ModalContent style={{padding: '20px'}}>
+            <Delete onClick={this.closeModal} />
+            <ModalCardTitle className="has-text-centered">Send a Message!</ModalCardTitle>
+            <Field>
+              <Label className="has-text-left">Subject:</Label>
+              <Control>
+                <Input name="subject" type="text" placeholder='Enter Subject' onChange={this.handleInput} value={this.state.subject}/>
+              </Control>
+            </Field>
+            <Field>
+              <Label className="has-text-left">Message:</Label>
+              <Control>
+                <TextArea name="message" placeholder={'Enter Message'} onChange={this.handleInput} value={this.state.message}/>
+              </Control>
+            </Field>
+            <Control>
+              <Button isColor="primary" isSize="large" onClick={this.submitMessage} style={{width: "100%"}}>Send Message</Button>
+            </Control>
+          </ModalContent>
+          <ModalClose />
+        </Modal>
+
         {this.state.createEvent? (<Redirect to= {{pathname:"/event/create", state:this.state.user}} />) : null}
         {this.state.checkMessages? (<Redirect to={{pathname:"/messages/sent", state:this.state.user}}/>) : null}
+        {this.state.updateProfile? (<Redirect to={{pathname:"/profile", state:this.state.user}}/>) : null}
         {this.state.logout? (<Redirect to="/" />) : null}
       </Container>
       ): null

@@ -10,33 +10,32 @@ import {
 	import NavEnd from './NavEnd';
 
 const NavbarHeader = props => {
-	//console.log("Navbar props", props)
-	
+
 	return(
 		<div>
 			<Navbar style={props.navbarStyle}>
-				<NavBrand 
-					hasBrand={props.hasBrand} 
-					brandStyle={props.brandStyle}  
-					brandHref={props.brandHref} 
-					brandImage={props.brandImage} 
-					brandText={props.brandText} 
-					burgerActive={props.burgerActive} 
-					onClick={props.onClick} 
-					hasStartButtons={props.hasButtons} 
-					buttonClass={props.buttonClass} 
+				<NavBrand
+					hasBrand={props.hasBrand}
+					brandStyle={props.brandStyle}
+					brandHref={props.brandHref}
+					brandImage={props.brandImage}
+					brandText={props.brandText}
+					burgerActive={props.burgerActive}
+					onClick={props.onClick}
+					hasStartButtons={props.hasButtons}
+					buttonClass={props.buttonClass}
 				/>
 				<NavbarMenu isActive={props.isActive} onClick={props.onClick}>
 					<NavDropdown hasDropdown={props.hasDropdown} navbarDropdown={props.navbarDropdown} />
-				    <NavStart 
-				    	hasStart={props.hasStart} 
-				    	navbarStart={props.navbarStart} 
-				    	hasStartButtons={props.hasStartButtons} 					
+				    <NavStart
+				    	hasStart={props.hasStart}
+				    	navbarStart={props.navbarStart}
+				    	hasStartButtons={props.hasStartButtons}
 				    />
-				    <NavEnd 
-				    	hasEnd={props.hasEnd} 
+				    <NavEnd
+				    	hasEnd={props.hasEnd}
 				    	navbarEnd={props.navbarEnd}
-				    	hasEndButtons={props.hasEndButtons} 
+				    	hasEndButtons={props.hasEndButtons}
 				    />
 				</NavbarMenu>
 			</Navbar>

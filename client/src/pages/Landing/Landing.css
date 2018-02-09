@@ -1,0 +1,42 @@
+section {
+  height: 100vh;
+  position: relative;
+}
+
+.is-vertical-center {
+  display: flex;
+  align-items: center;
+}
+.navbar-menu {
+  position: static;
+}
+
+.navbar-start {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%,-50%);
+  text-decoration: none;
+
+}
+
+.navbar-start a {
+  transition: all 300ms ease;
+  text-decoration: none;
+}
+
+.navbar-start a:hover {
+  background: transparent;
+  text-decoration: none;
+  transform: scale(1.1);
+}
+
+.navbar-start a:active {
+  text-decoration: none;
+}
+
+.highlight {
+  color: red;
+  font-weight: bold;
+  font-style: italic;
+}

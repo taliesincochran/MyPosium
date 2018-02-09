@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { Checkbox, Container, Button, Select, Input, option, Label, Control, Field, TextArea} from 'bloomer';
 import { Link, Redirect } from "react-router-dom";
 import axios from 'axios';
-import {API} from "../../utils/API";
+// import {API} from "../../utils/API";
+import categories from "../../categories";
 
 export default class CreateEvent extends Component {
   state = {
@@ -39,7 +40,7 @@ export default class CreateEvent extends Component {
   	this.submitEvent(newEvent);
   	}
 
-  
+
 
   submitEvent = event=>{
   	console.log("event being submitted:");
@@ -47,9 +48,9 @@ export default class CreateEvent extends Component {
       axios
       .post("/api/event/create", event)
       .then(result =>{
-      	   this.setState({isSubmitted: true});	
+      	   this.setState({isSubmitted: true});
         })
-      .catch(err=> console.log(err));  
+      .catch(err=> console.log(err));
 }
 
 
@@ -76,34 +77,9 @@ export default class CreateEvent extends Component {
         			name="category"
         			value={this.state.category}
         			onChange={this.handleChange}>
-	                <option>Crafts</option>
-	                <option>Animals</option>
-	                <option>Music</option>
-	                <option>Books</option>
-	                <option>History</option>
-	                <option>Visual Arts</option>
-	                <option>Finance</option>
-	                <option>Religion</option>
-	                <option>Automotive</option>
-	                <option>Business</option>
-	                <option>Fitness</option>
-	                <option>Electronics</option>
-	                <option>Home Improvement</option>
-	                <option>Science</option>
-	                <option>Politics</option>
-	                <option>Philosophy</option>
-	                <option>Games</option>
-	                <option>Social</option>
-	                <option>Sports</option>
-	                <option>Photography</option>
-	                <option>Real Estate</option>
-	                <option>Self Improvement</option>
-	                <option>Computers</option>
-	                <option>Recreation</option>
-	                <option>Comics</option>
-	                <option>Performing Arts</option>
-	                <option>Miscellaneous</option>
-	                <option>Health and Beauty</option>
+	                {categories.map((category, i)=>{
+        				return(<option key = {i} name={category}>{category}</option>)
+        			})}
         		</Select>
     		</Control>
 		</Field>
@@ -200,7 +176,7 @@ export default class CreateEvent extends Component {
       		</Control>
         </Field>
         <Control>
-        	<Button isColor='primary' onClick={this.handleSubmit}>Create</Button>        	
+        	<Button isColor='primary' onClick={this.handleSubmit}>Create</Button>
         </Control>
         {this.state.isSubmitted ? (<Redirect to = {{
         	pathname: "/dashboard",

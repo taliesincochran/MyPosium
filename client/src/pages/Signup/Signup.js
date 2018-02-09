@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Section, Container, Field, Label, Control, Input, Button } from 'bloomer';
+import { Section, Container, Field, Label, Control, Input, Button, Columns, Column, Box, Title } from 'bloomer';
 import { Redirect } from "react-router-dom";
 import axios from 'axios';
 import {authObj} from '../../authenticate'
@@ -84,57 +84,64 @@ export default class Signup extends Component {
         />
         <div style={{height: '40px'}} />
         <Container>
-          <Field>
-              <Label>User Name:</Label>
-              <Control>
-                  <Input
-                    type="text"
-                    placeholder='Enter User Name'
-                    name="username"
-                    value={this.state.username}
-                    onChange={this.handleChange}
-                  />
-              </Control>
-          </Field>
-          <Field>
-              <Label>Password</Label>
-              <Control>
-                  <Input
-                    type="password"
-                    placeholder='Enter Password'
-                    name="password"
-                    value={this.state.password}
-                    onChange={this.handleChange}
-                  />
-              </Control>
-          </Field>
-          <Field>
-              <Label>Re-Enter Password</Label>
-              <Control>
-                  <Input
-                    type="password"
-                    placeholder='Re-Enter Password'
-                    name="password2"
-                    value={this.state.password2}
-                    onChange={this.handleChange}
-                  />
-              </Control>
-          </Field>
-          <Field>
-              <Label>Zipcode</Label>
-              <Control>
-                  <Input
-                    type="text"
-                    placeholder='Enter Zipcode'
-                    name="zipcode"
-                    value={this.state.zipcode}
-                    onChange={this.handleChange}
-                  />
-              </Control>
-          </Field>
-          <Control>
-              <Button isColor='primary' onClick={this.handleSubmit}>Submit</Button>
-          </Control>
+          <Columns>
+            <Column isSize={8} isOffset={2}>
+              <Box style={{marginTop: '15%', position: 'relative'}}>
+                <Title className="has-text-grey-light" isSize={1} style={{position: 'absolute', top: '-8%', right: '5%', background: 'white'}}>Sign Up</Title>
+                <Field>
+                    <Label className="has-text-left">User Name:</Label>
+                    <Control>
+                        <Input
+                          type="text"
+                          placeholder='Enter User Name'
+                          name="username"
+                          value={this.state.username}
+                          onChange={this.handleChange}
+                        />
+                    </Control>
+                </Field>
+                <Field>
+                    <Label className="has-text-left">Password</Label>
+                    <Control>
+                        <Input
+                          type="password"
+                          placeholder='Enter Password'
+                          name="password"
+                          value={this.state.password}
+                          onChange={this.handleChange}
+                        />
+                    </Control>
+                </Field>
+                <Field>
+                    <Label className="has-text-left">Re-Enter Password</Label>
+                    <Control>
+                        <Input
+                          type="password"
+                          placeholder='Re-Enter Password'
+                          name="password2"
+                          value={this.state.password2}
+                          onChange={this.handleChange}
+                        />
+                    </Control>
+                </Field>
+                <Field>
+                    <Label className="has-text-left">Zipcode</Label>
+                    <Control>
+                        <Input
+                          type="text"
+                          placeholder='Enter Zipcode'
+                          name="zipcode"
+                          value={this.state.zipcode}
+                          onChange={this.handleChange}
+                        />
+                    </Control>
+                </Field>
+                <Control>
+                    <Button isColor='primary' onClick={this.handleSubmit}>Submit</Button>
+                </Control>
+              </Box>
+            </Column>
+          </Columns>
           {this.state.isLoggedIn ? (<Redirect to={{
             pathname: "/profile",
             state: this.state
