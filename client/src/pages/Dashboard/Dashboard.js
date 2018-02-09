@@ -31,6 +31,7 @@ class Dashboard extends Component {
       logout: false,
       checkMessages: false,
       createEvent: false,
+      updateProfile: false,
       dashboard: false,
       events:[],
       userCreated: [],
@@ -169,6 +170,12 @@ class Dashboard extends Component {
               }
             },
             {
+              text:'Update Profile',
+              onClick:()=>{
+                this.setState({updateProfile: true});
+              }
+            },
+            {
               text:"Logout",
               onClick:() => {
                 //console.log("api/users/logout called")
@@ -294,6 +301,7 @@ class Dashboard extends Component {
 
         {this.state.createEvent? (<Redirect to= {{pathname:"/event/create", state:this.state.user}} />) : null}
         {this.state.checkMessages? (<Redirect to={{pathname:"/messages", state:this.state.user}}/>) : null}
+        {this.state.updateProfile? (<Redirect to={{pathname:"/profile", state:this.state.user}}/>) : null}
         {this.state.logout? (<Redirect to="/" />) : null}
       </Container>
     )
