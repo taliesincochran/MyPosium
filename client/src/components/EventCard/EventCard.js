@@ -22,6 +22,7 @@ import {
 
 const EventCard = props => {
   return(
+    
     <Card>
       <CardHeader>
         <CardHeaderTitle>

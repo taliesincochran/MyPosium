@@ -8,7 +8,7 @@ const session      = require('express-session');
 const passport     = require('passport');
 const routes   = require("./routes/");
 
-// Set up promises with mongoose. 
+// Set up promises with mongoose....
 mongoose.Promise = global.Promise;
 // Connect to the Mongo DB
 const MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/myposium"

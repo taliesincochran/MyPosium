@@ -17,6 +17,9 @@ export default class Signup extends Component {
     }
     this.onClickNav = this.onClickNav.bind(this);
   }
+  componentDidMount = () => {
+    axios.get("api/users/logout")
+  }
   onClickNav = () => {
       this.setState((state) => ({ isActive: !state.isActive }));
   }

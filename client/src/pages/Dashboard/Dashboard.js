@@ -35,10 +35,11 @@ class Dashboard extends Component {
       dashboard: false,
       events:[],
       userCreated: [],
-      userAttending: this.props.location.state.attending,
+      userAttending: [],
       eventsMatchInterests:[],
       user: this.props.location.state,
       isActive: false,
+      hasGotEvents: false,
       activeMessageModal: false,
       messageRecipient: '',
       subject: '',
@@ -48,6 +49,12 @@ class Dashboard extends Component {
     this.setState = this.setState.bind(this)
   }
   componentDidMount =() => {
+      axios.get("/api/users/" + this.state.user.username).then(result=>{
+        console.log("user get", result);
+        this.setState({user: result.data})
+      }).then(res=>this.getEvents())
+      console.log("user", this.props.location.state)
+      console.log("state, user", this.state.user)
       this.getEvents();
       $('html, body').css({
         'background-image': 'none',
@@ -59,26 +66,31 @@ class Dashboard extends Component {
       var userCreatedArray = [];
       var eventsMatchArray = [];
       var user = this.state.user;
-      // var attending = this.state.user.attending;
-      // var interests = this.state.user.interests;
+      var interests = this.state.user.interests;
       var eventsArray = events.data
       // console.log(eventsArray);
       eventsArray.map(event => {
         var category = event.category
-        if(this.props.location.state.username === event.username) {
-          // console.log('created...', event)
+        if(this.state.user.username == event.username) {
+          console.log('created...', event)
+
           userCreatedArray.push(event)
         }
-        if (this.props.location.state.interests.indexOf(category) > -1 && event.attendees.indexOf(user._id) === -1 && this.props.location.state.attending.indexOf(user._id) === -1){
-          // console.log("interesting...", event)
+        if (
+          this.state.user.interests.indexOf(category) > -1 
+          && event.attendees.indexOf(user._id) == -1 
+          && 
+          this.state.user.attending.indexOf(user._id) == -1
+          ){
+          console.log("interesting...", event)
           eventsMatchArray.push(event)
         }
         return event;
       })
       return({eventsMatch: eventsMatchArray, userCreated: userCreatedArray, events: eventsArray})
     }).then(results =>{
-      // console.log(results)
-      this.setState({events: results.events, eventsMatchInterests: results.eventsMatch, userCreated: results.userCreated}, ()=> console.log('state set', this.state))})
+      console.log(results)
+      this.setState({events: results.events, eventsMatchInterests: results.eventsMatch, userCreated: results.userCreated, hasGotEvents: true, userAttending: this.state.user.attending}, ()=> console.log('state set', this.state))})
   }
 
   openMessageModal = (organizer) => {
@@ -122,11 +134,6 @@ class Dashboard extends Component {
       })
       .catch(err => console.log(err));
   }
-  // getCreatedEvents = () => {
-  //   })
-  // }
-  // getInterestEvents = () => {
-  // }
   attend = (e) => {
     // console.log("attend called", e.target.value);
     var id = e.target.value
@@ -141,12 +148,15 @@ class Dashboard extends Component {
   }
   burgerOnClick = () =>this.setState((state) => ({isActive:!this.state.isActive}))
   render() {
-    // var checkMessages= this.checkMessages;
-    // var createEvent = this.createEvent;
-    // var handleLogout = this.handleLogout;
-    var events = this.state.events
+    var checkMessages= this.checkMessages;
+    var createEvent = this.createEvent;
+    var handleLogout = this.handleLogout;
+    var events = this.state.events;
+    var hasGotEvents = this.state.hasGotEvents;
+    var setState = this.state.setState;
     //console.log(this.checkMessages)
     return(
+      hasGotEvents?(
       <Container>
         <Navbar
           hasBrand={true}
@@ -178,7 +188,6 @@ class Dashboard extends Component {
             {
               text:"Logout",
               onClick:() => {
-                //console.log("api/users/logout called")
                 axios
                   .get('api/users/logout')
                   .then(response => {
@@ -197,12 +206,8 @@ class Dashboard extends Component {
         <Columns isCentered>
           <Column isSize="1/3">
             <Box>
-              <Column isSize='1/2'>
-                <Image isSize="128x128" src={this.props.location.state.img} />
-              </Column>
-              <Column isSize='1/2'>
-                <p>Hi, {this.props.location.state.username}</p>
-              </Column>
+              <Image isSize="128x128" src={this.props.location.state.img} />
+              <p>Hi, {this.props.location.state.username}</p>
             </Box>
             <Box>
               <h3>Events you've organized</h3>
@@ -304,6 +309,7 @@ class Dashboard extends Component {
         {this.state.updateProfile? (<Redirect to={{pathname:"/profile", state:this.state.user}}/>) : null}
         {this.state.logout? (<Redirect to="/" />) : null}
       </Container>
+      ): null
     )
   }
 }

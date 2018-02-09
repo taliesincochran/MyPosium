@@ -31,8 +31,7 @@ class Profile extends Component {
       let arr =[...this.state.interests];
       arr.splice(index, 1)
       this.setState({interests: arr},()=>{
-      console.log(this.state.interests);
-    });
+      });
     }
     else{
       let arr =[...this.state.interests, name];
@@ -56,17 +55,20 @@ class Profile extends Component {
       age,
       img,
       aboutMe,
-      username: this.props.location.state.username
+      username: this.props.location.state.username,
+
     }
 
     axios.post("/api/users/updateprofile", data).then(result =>{
-      this.setState({user: result.data, finishedProfile: true})
-    })
-      .catch(err => console.error(err));
+      this.setState({user: result.data})
+    }).then(()=> {
+        this.setState({finishedProfile:true})
+    }).catch(err => console.error(err));
 
   }
 
   render() {
+    var user= this.state.user
     return (
       //REDIRECT TO DASHBOARD
       <Container>
@@ -116,7 +118,7 @@ class Profile extends Component {
         {
           this.state.finishedProfile ? (<Redirect to={{
             pathname: "/dashboard",
-            state: this.state.user
+            state: user
           }} />) : null
         }
       </Container>
