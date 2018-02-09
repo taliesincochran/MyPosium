@@ -17,6 +17,9 @@ export default class Signup extends Component {
     }
     this.onClickNav = this.onClickNav.bind(this);
   }
+  componentDidMount = () => {
+    axios.get("api/users/logout")
+  }
   onClickNav = () => {
       this.setState((state) => ({ isActive: !state.isActive }));
   }
@@ -33,11 +36,9 @@ export default class Signup extends Component {
   }
 
   submitUser = user => {
-    console.log('+++++++++++++++++++++++++++++++++++++++++', user)
     axios
       .post('api/users/signup', user)
       .then(result => {
-        console.log('---------------------------------------', result)
         authObj
           .authenticate()
           .then(response => {

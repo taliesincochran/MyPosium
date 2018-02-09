@@ -18,7 +18,8 @@ export default class CreateEvent extends Component {
   	description:'',
   	minAttending:'',
   	maxAttending:'',
-    isSubmitted: false
+    isSubmitted: false,
+    user: this.props.location.state
   }
 
 
@@ -203,7 +204,7 @@ export default class CreateEvent extends Component {
         </Control>
         {this.state.isSubmitted ? (<Redirect to = {{
         	pathname: "/dashboard",
-        	state:this.state
+        	state:this.state.user
         }}/>) : null}
 
       </Container>

@@ -21,6 +21,7 @@ import { Link,
 const EventCard = props => {
   console.log(props)
   return(
+    
     <Card>
       <CardHeader>
         <CardHeaderTitle>
