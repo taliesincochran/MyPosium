@@ -33,7 +33,7 @@ export default class Landing extends Component {
 		      hasBrand={true}
 		      navbarStyle={{boxShadow: '2px 2px 5px', position:"fixed", top:"0", left:"0", zIndex: '998', width: '100%'}}
           hasEndButtons={true}
-		      brandText={window.location.pathname==='/'? (<a href="#myposium" style={{fontSize: '1.6em', textDecoration: 'none'}}>Myposium</a>): "MyPosium"}
+		      brandText={window.location.pathname==='/'? (<a href="#myposium" style={{fontSize: '1.6em', textDecoration: 'none'}}>MyPosium</a>): "MyPosium"}
 		      burgeractive={this.state.isActive}
 		      isActive={this.state.isActive}
 		      onClick={this.onClickNav}
