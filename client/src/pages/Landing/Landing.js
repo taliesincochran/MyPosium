@@ -8,7 +8,6 @@ import { Image,
 	Section,
 	Title,
 	Tile,
-	SubTitle,
 	Columns
 	} from 'bloomer';
 export default class Landing extends Component {

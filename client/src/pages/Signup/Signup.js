@@ -33,11 +33,9 @@ export default class Signup extends Component {
   }
 
   submitUser = user => {
-    console.log('+++++++++++++++++++++++++++++++++++++++++', user)
     axios
       .post('api/users/signup', user)
       .then(result => {
-        console.log('---------------------------------------', result)
         authObj
           .authenticate()
           .then(response => {
@@ -45,11 +43,6 @@ export default class Signup extends Component {
             this.setState({isLoggedIn: true});
           })
           .catch(err => console.log(err));
-        // setTimeout( () => {
-        //   if (result.data.isAuth){
-        //     this.setState({isLoggedIn: true});
-        //   }
-        // }, 100)
       })
       .catch(err => console.log(err));
   }
