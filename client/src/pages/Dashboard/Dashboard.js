@@ -23,7 +23,7 @@ class Dashboard extends Component {
     }
     this.burgerOnClick = this.burgerOnClick.bind(this)
     this.setState = this.setState.bind(this)
-  }  
+  }
   componentDidMount =() => {
       this.getEvents();
   }
@@ -46,14 +46,14 @@ class Dashboard extends Component {
         if (this.props.location.state.interests.indexOf(category) > -1 && event.attendees.indexOf(user._id) == -1 && this.props.location.state.attending.indexOf(user._id) == -1){
           console.log("interesting...", event)
           eventsMatchArray.push(event)
-        } 
+        }
       })
       return({eventsMatch: eventsMatchArray, userCreated: userCreatedArray, events: eventsArray})
     }).then(results =>{
       console.log(results)
       this.setState({events: results.events, eventsMatchInterests: results.eventsMatch, userCreated: results.userCreated}, ()=> console.log('state set', this.state))})
   }
-  
+
   handleLogout = () => {
     console.log("api/users/logout called")
     axios
@@ -92,7 +92,7 @@ class Dashboard extends Component {
     //console.log(this.checkMessages)
     return(
       <Container>
-        <Navbar 
+        <Navbar
           hasBrand={true}
           brandText="MyPosium Dashboard"
           onClick={this.burgerOnClick}
@@ -127,7 +127,7 @@ class Dashboard extends Component {
                   })
                   .catch(err => console.log(err));
               },
-              buttonClass: "isDanger"            
+              buttonClass: "isDanger"
             }
           ]}
         />

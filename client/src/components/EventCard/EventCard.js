@@ -1,25 +1,26 @@
 import React from 'react';
-import { Link, 
-  CardHeaderTitle, 
+import { Link } from 'react-router-dom';
+import {
+  CardHeaderTitle,
   CardHeaderIcon,
-  Image, 
-  Columns, 
-  Column, 
-  Card, 
-  CardHeader, 
-  Icon, 
-  Button, 
-  CardImage, 
-  Media, 
-  MediaLeft, 
-  MediaContent, 
-  Title, 
-  Subtitle, 
-  Content, 
-  CardContent 
+  Image,
+  Columns,
+  Column,
+  Card,
+  CardHeader,
+  Icon,
+  Button,
+  CardImage,
+  Media,
+  MediaLeft,
+  MediaContent,
+  Title,
+  Subtitle,
+  Content,
+  CardContent
 } from 'bloomer';
+
 const EventCard = props => {
-  console.log(props)
   return(
     <Card>
       <CardHeader>
@@ -47,7 +48,7 @@ const EventCard = props => {
           <Link to={"/api/event/"+ props.id}><Button>View More</Button></Link>
         </Content>
       </CardContent>
-    </Card>    
+    </Card>
   )
 }
 
