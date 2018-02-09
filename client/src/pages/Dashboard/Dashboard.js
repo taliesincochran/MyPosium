@@ -12,13 +12,15 @@ import { Container,
         Box,
         Image,
         Modal,
-        ModalCard,
-        ModalCardFooter,
-        ModalCardBody,
+        ModalContent,
+        ModalClose,
+        // ModalCard,
+        // ModalCardFooter,
+        // ModalCardBody,
         Delete,
         ModalBackground,
         ModalCardTitle,
-        ModalCardHeader,
+        // ModalCardHeader,
         Field,
         Label,
         Control,
@@ -262,35 +264,30 @@ class Dashboard extends Component {
           </Column>
         </Columns>
 
-        <Modal isSize='small' isActive={this.state.activeMessageModal? true: false} >
+        <Modal isSize='large' isActive={this.state.activeMessageModal? true: false} >
           <ModalBackground />
-          <ModalCard>
-            <ModalCardHeader>
-              <ModalCardTitle>Send a Message!</ModalCardTitle>
-              <Delete onClick={this.closeModal}/>
-            </ModalCardHeader>
-            <ModalCardBody>
-              <Field>
-                <Label>Subject:</Label>
-                <Control>
-                  <Input name="subject" type="text" placeholder='Enter Subject' onChange={this.handleInput} value={this.state.subject}/>
-                </Control>
-              </Field>
-              <Field>
-                <Label>Message</Label>
-                <Control>
-                  <TextArea name="message" placeholder={'Enter Message'} onChange={this.handleInput} value={this.state.message}/>
-                </Control>
-              </Field>
-
-            </ModalCardBody>
-            <ModalCardFooter>
+          <ModalContent style={{padding: '20px'}}>
+            <Delete onClick={this.closeModal} />
+            <ModalCardTitle className="has-text-centered">Send a Message!</ModalCardTitle>
+            <Field>
+              <Label className="has-text-left">Subject:</Label>
               <Control>
-                  <Button onClick={this.submitMessage}>Send Message</Button>
+                <Input name="subject" type="text" placeholder='Enter Subject' onChange={this.handleInput} value={this.state.subject}/>
               </Control>
-            </ModalCardFooter>
-          </ModalCard>
+            </Field>
+            <Field>
+              <Label className="has-text-left">Message:</Label>
+              <Control>
+                <TextArea name="message" placeholder={'Enter Message'} onChange={this.handleInput} value={this.state.message}/>
+              </Control>
+            </Field>
+            <Control>
+              <Button isColor="primary" isSize="large" onClick={this.submitMessage} style={{width: "100%"}}>Send Message</Button>
+            </Control>
+          </ModalContent>
+          <ModalClose />
         </Modal>
+
         {this.state.createEvent? (<Redirect to= {{pathname:"/event/create", state:this.state.user}} />) : null}
         {this.state.checkMessages? (<Redirect to={{pathname:"/messages/sent", state:this.state.user}}/>) : null}
         {this.state.logout? (<Redirect to="/" />) : null}

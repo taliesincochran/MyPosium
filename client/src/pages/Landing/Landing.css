@@ -34,3 +34,9 @@ section {
 .navbar-start a:active {
   text-decoration: none;
 }
+
+.highlight {
+  color: red;
+  font-weight: bold;
+  font-style: italic;
+}

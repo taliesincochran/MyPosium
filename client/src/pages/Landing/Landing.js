@@ -7,6 +7,8 @@ import { Image,
 	Column,
 	Section,
 	Title,
+	Tile,
+	SubTitle,
 	Columns
 	} from 'bloomer';
 export default class Landing extends Component {
@@ -30,7 +32,7 @@ export default class Landing extends Component {
         	hasEnd={true}
 		      hasBrand={true}
 		      navbarStyle={{boxShadow: '2px 2px 5px', position:"fixed", top:"0", left:"0", zIndex: '998', width: '100%'}}
-		      brandText='Myposium'
+		      brandText={window.location.pathname==='/'? (<a href="#myposium">Myposium</a>): "MyPosium"}
 		      burgerActive={this.state.isActive}
 		      isActive={this.state.isActive}
 		      onClick={this.onClickNav}
@@ -67,29 +69,46 @@ export default class Landing extends Component {
 		            textStyle: {textDecoration: 'none', color: '#4C4CFF'}
 		          }]}
 		    />
-			<a id="create" style={{marginTop: "20px"}}> </a>
+
 			<div style={{height:'20px'}}/>
 		    <Container>
+					<a id="myposium" style={{marginTop: "20px"}}> </a>
+					<Section className='is-vertical-center'>
+				    <Columns>
+							<Column isSize={12} >
+								<Tile isSize={12}>
+									<Title isSize={3}>A New Way to Create, Discover, and Connect!</Title>
+								</Tile>
+							</Column>
+								<Column isSize={7} >
+									<Tile isSize={6}>
+									<Title isSize={1}>...Myposium</Title>
+								</Tile>
+								</Column>
+						</Columns>
+			    </Section>
+					<a id="create" style={{marginTop: "20px"}}> </a>
 					<Section className='is-vertical-center'>
 				    <Columns>
 				    	<Column isSize={4}>
-				    		<Image src = "/img/tempImage.JPG" />
+				    		<Image src = "/img/gearBrain.jpg" />
 				    	</Column>
 				    	<Column isSize={6} isOffset={2}>
 				            <Title className='text-center'>Create</Title>
-										<Content>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quisquam hic ipsa quibusdam, dolorum odit saepe molestias ipsum distinctio doloremque, possimus! Quas saepe similique commodi natus eligendi beatae illo. Tenetur, inventore!</Content>
+										<Content>MyPosium allows real people with real knowledge to create a connection with people who want and need that knowledge.  <span className="highlight">CREATE</span> an event, either in person or virtually, and share your wisdom with the world!</Content>
 				      </Column>
 				    </Columns>
 			    </Section>
+
 					<a id="discover" style={{marginTop: "20px"}}> </a>
 	        <Section className='is-vertical-center'>
 				    <Columns>
 				    	<Column isSize={6} >
 				            <Title className='text-center'>Discover</Title>
-										<Content >Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quos quas velit atque odit rerum, impedit dolore commodi accusamus natus vel, nisi, deserunt magni sint cumque cupiditate magnam molestiae dignissimos quasi.</Content>
+										<Content >The world is brimming with people who have spent a lifetime gathering knowledge.  Search through our expansive categories and <span className="highlight">DISCOVER</span> new content creators, new ideas, and new friends!  </Content>
 				      </Column>
 				    	<Column isSize={4} isOffset={2}>
-				    		<Image src = "/img/tempImage.JPG" className='is-vertical-center'/>
+				    		<Image src = "/img/lightBulb.jpg" className='is-vertical-center' style={{transform: 'rotate(20deg)', width: '70%'}}/>
 				    	</Column>
 				    </Columns>
 					</Section>
@@ -97,15 +116,16 @@ export default class Landing extends Component {
 					<Section className='is-vertical-center'>
 				    <Columns>
 				    	<Column isSize={4}>
-				    		<Image src = "/img/tempImage.JPG"/>
+				    		<Image src = "/img/connect.jpg"/>
 				    	</Column>
 				    	<Column isSize={6} isOffset={2}>
 				            <Title className='text-center'>Connect</Title>
-										<Content>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Asperiores eos, consequuntur quidem, ab obcaecati atque veritatis aliquam officiis? Perspiciatis modi dolorum expedita facilis ipsum cupiditate. Quam a facilis nesciunt similique.</Content>
+										<Content>MyPosium aims to <span className="highlight">CONNECT</span> people who are thirsty for knowledge and entertainment with those who can provide it.  Ask questions, provide feedback, and shape the future of education!  <a href="/signup">Sign up for an account now!</a></Content>
 				      </Column>
 				    </Columns>
 			    </Section>
 				</Container>
+
       </div>
     )
   }
