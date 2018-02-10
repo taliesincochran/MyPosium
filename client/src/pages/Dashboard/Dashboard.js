@@ -3,7 +3,7 @@ import { Redirect } from 'react-router-dom';
 import Navbar from '../../components/Nav/Navbar'
 import axios from 'axios';
 import { authObj } from '../../authenticate';
-// import EventCard from '../../components/EventCard/EventCard';
+import EventCard from '../../components/EventCard/EventCard';
 // import Media from '../../components/Media/Media';
 import { Container,
         Button,
@@ -56,8 +56,6 @@ class Dashboard extends Component {
         console.log("user get", result);
         this.setState({user: result.data})
       }).then(res=>this.getEvents())
-      console.log("user", this.props.location.state)
-      console.log("state, user", this.state.user)
   }
   getEvents =() => {
     axios.get("/api/event/").then(events => {
@@ -71,16 +69,9 @@ class Dashboard extends Component {
       eventsArray.map(event => {
         var category = event.category
         if(this.state.user.username == event.username) {
-          console.log('created...', event)
           userCreatedArray.push(event)
         }
-        if (
-          this.state.user.interests.indexOf(category) > -1 
-          && event.attendees.indexOf(user._id) == -1 
-          && 
-          this.state.user.attending.indexOf(user._id) == -1
-          ){
-          console.log("interesting...", event)
+        if (this.state.user.interests.indexOf(category) > -1 && event.attendees.indexOf(user._id) == -1 && this.state.user.attending.indexOf(user._id) == -1){
           eventsMatchArray.push(event)
         }
       })
@@ -242,6 +233,8 @@ class Dashboard extends Component {
                           <Column isSize='3/4'>
                             <h2>{event.title}</h2>
                             <p>time: {event.time}</p>
+                            <div isWidth='1' />
+                            <br />
                             <p>date: {event.date}</p>
                             <button  isColor="primary" onClick={() => this.openMessageModal(event.username)}>Send Message</button>
                           </Column>
@@ -256,7 +249,14 @@ class Dashboard extends Component {
               <h2>Events you may be interested in.</h2>
               <div style={{height: '50px'}} />
               {this.state.eventsMatchInterests.map(event=>{
-                return(
+                  return(
+                    <EventCard
+                      event={event}
+                      state={this.state}
+                      onClick={this.attend}
+                    />
+                    )
+             {/*}   return(
                   <Box key={event._id} style={{height: '250px', overflow: 'auto'}}>
                     <Columns>
                       <Column isSize='1/4' >
@@ -272,7 +272,7 @@ class Dashboard extends Component {
                       </Column>
                     </Columns>
                   </Box>
-                )
+                )*/}
               })}
             </Box>
           </Column>
