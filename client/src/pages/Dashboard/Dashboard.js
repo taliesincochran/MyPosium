@@ -294,7 +294,7 @@ class Dashboard extends Component {
           <ModalCard>
             <ModalCardTitle className="has-text-centered">{}{this.state.modalEvent.title}!</ModalCardTitle>
             <ModalCardBody style={{padding: '20px'}}>
-              <Delete onClick={this.closeModal} />
+              <Delete onClick={this.closeEventModal} />
                 <Columns>
                   <Column isSize='1/3'>
                     <Image src={this.state.modalEvent.imgUrl} />

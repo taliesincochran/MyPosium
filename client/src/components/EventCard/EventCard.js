@@ -48,7 +48,7 @@ const EventCard = props => {
                 <small>{moment(props.event.date).format("dddd, MMMM Do YYYY")} {'   '}{moment(props.time).format("h:mm a")}</small>
                 <br />
                 <small>${props.event.cost}</small>
-                <Button value={props.event._id} onClick={props.attend}>Attend</Button>
+                <Button value={props.event._id} onClick={props.onClick}>Attend</Button>
                 <Button onClick={()=> props.eventModal(props.event)}>View More</Button>
               </Content>
             </CardContent>
