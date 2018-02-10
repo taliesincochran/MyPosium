@@ -57,7 +57,7 @@ export default class Signup extends Component {
           hasEnd={true}
           hasBrand={true}
           navbarStyle={{boxShadow: '2px 2px 5px', position:"fixed", top:"0", left:"0", zIndex: '998', width: '100%'}}
-          brandText='Myposium'
+          brandText='MyPosium'
           burgeractive={this.state.isActive}
           isActive={this.state.isActive}
           onClick={this.onClickNav}

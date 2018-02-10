@@ -26,8 +26,8 @@ export default class App extends Component{
             <PrivateRoute exact path='/dashboard' component={ Dashboard }/>
             <Route path='/messages' component={ Messages } />
             <Route exact path="/event/create" component={ CreateEvent } />
-            <Route exact path="/dashboard/:eventID" component={ Event} />
-            <Route exact path="/dashboard/settings" component={ UpdateUser } />
+            <Route exact path="/dashboard/:eventID" component={ Event } />
+            <Route exact path="/updateProfile" component={ UpdateUser } />
             <Route component={ NoMatch } />
           </Switch>
         </div>

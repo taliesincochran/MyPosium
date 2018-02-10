@@ -20,7 +20,8 @@ export default class SentMessages extends Component {
     sentActive: false,
     receivedActive: true,
     user: this.props.location.state,
-    currentMessage: ''
+    currentMessage: '',
+    updateProfile: false
   }
   componentDidMount() {
     this.getMessages();
@@ -78,6 +79,12 @@ export default class SentMessages extends Component {
               onClick:() => {
                 this.setState({createEvent: true});
               }
+            },
+            {
+              text:"Update Profile",
+              onClick:() => {
+                this.setState({updateProfile: true});
+              },
             },
             {
               text:"Logout",
@@ -197,6 +204,7 @@ export default class SentMessages extends Component {
 
           {/* end of conditional render */}
         </Container>
+        {this.state.updateProfile? (<Redirect to={{pathname:"/updateProfile", state:this.state.user}}/>) : null}
         {this.state.createEvent? (<Redirect to= {{pathname:"/event/create", state:this.state.user}} />) : null}
         {this.state.dashboard? (<Redirect to={{pathname:"/dashboard", state:this.state.user}}/>) : null}
         {this.state.logout? (<Redirect to="/" />) : null}

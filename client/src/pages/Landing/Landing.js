@@ -80,7 +80,7 @@ export default class Landing extends Component {
 							</Column>
 								<Column isSize={7} >
 									<Tile isSize={6}>
-									<Title isSize={1}>...Myposium</Title>
+									<Title isSize={1}>...MyPosium</Title>
 								</Tile>
 								</Column>
 						</Columns>
@@ -93,7 +93,7 @@ export default class Landing extends Component {
 				    	</Column>
 				    	<Column isSize={6} isOffset={2}>
 				            <Title className='text-center'>Create</Title>
-										<Content>MyPosium allows real people with real knowledge to create a connection with people who want and need that knowledge.  <span className="highlight">CREATE</span> an event, either in person or virtually, and share your wisdom with the world!</Content>
+										<Content className="is-size-4">MyPosium allows real people with real knowledge to create a connection with others who want and need that knowledge.  <span className="highlight">CREATE</span> an event, either in person or virtually, and share your wisdom with the world!</Content>
 				      </Column>
 				    </Columns>
 			    </Section>
@@ -103,7 +103,7 @@ export default class Landing extends Component {
 				    <Columns>
 				    	<Column isSize={6} >
 				            <Title className='text-center'>Discover</Title>
-										<Content >The world is brimming with people who have spent a lifetime gathering knowledge.  Search through our expansive categories and <span className="highlight">DISCOVER</span> new content creators, new ideas, and new friends!  </Content>
+										<Content className="is-size-4">The world is brimming with people who have spent a lifetime gathering knowledge.  Search through our expansive list of events and <span className="highlight">DISCOVER</span> new content creators, new ideas, and new friends!  </Content>
 				      </Column>
 				    	<Column isSize={4} isOffset={2}>
 				    		<Image src = "/img/lightBulb.jpg" className='is-vertical-center' style={{transform: 'rotate(20deg)', width: '70%'}}/>
@@ -118,7 +118,7 @@ export default class Landing extends Component {
 				    	</Column>
 				    	<Column isSize={6} isOffset={2}>
 				            <Title className='text-center'>Connect</Title>
-										<Content>MyPosium aims to <span className="highlight">CONNECT</span> people who are thirsty for knowledge and entertainment with those who can provide it.  Ask questions, provide feedback, and help shape the future of Edu-tainment!  <a href="/signup">Sign up for an account now!</a></Content>
+										<Content className="is-size-4">MyPosium aims to <span className="highlight">CONNECT</span> people who are thirsty for knowledge and entertainment with those who can provide it.  Ask questions, provide feedback, and help shape the future of Edu-tainment!  <a href="/signup">Sign up for an account now!</a></Content>
 				      </Column>
 				    </Columns>
 			    </Section>
