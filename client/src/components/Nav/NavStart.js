@@ -11,7 +11,20 @@ const NavStart = props => {
 	if(hasStart && hasStartButtons) {
 		return(
 				<NavbarStart>
-			    	{props.navbarStart.map((item,i) => (<NavbarItem key={i} href={item.href} style={item.style}><Button onClick={item.onClick} className={item.buttonStyle}><p style={item.textStyle}>{item.text}</p></Button></NavbarItem>))}
+			    	{props.navbarStart.map((item,i) => (
+			    		<NavbarItem 
+			    			key={i} 
+			    			href={item.href} 
+			    			style={item.style}>
+			    			<Button 
+			    				onClick={item.onClick} 
+			    				className={item.buttonStyle}>
+			    				<p style={item.textStyle}>
+			    					{item.text}
+			    				</p>
+			    			</Button>
+			    		</NavbarItem>
+			    	))}
 			    </NavbarStart>
 			)
 	} else if(hasStart){

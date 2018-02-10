@@ -20,17 +20,20 @@ const NavbarHeader = props => {
 					brandHref={props.brandHref}
 					brandImage={props.brandImage}
 					brandText={props.brandText}
-					burgeractive={props.burgeractive}
-					onClick={props.onClick}
-					hasStartButtons={props.hasButtons}
+					burgerActive={props.burgerActive}
+					onClick={props.onClick}					
 					buttonClass={props.buttonClass}
 				/>
-				<NavbarMenu isActive={props.isActive} onClick={props.onClick}>
-					<NavDropdown hasDropdown={props.hasDropdown} navbarDropdown={props.navbarDropdown} />
+				<NavbarMenu 
+					isActive={props.isActive} 
+					onClick={props.onClick}>
+					<NavDropdown 
+						hasDropdown={props.hasDropdown} 
+						navbarDropdown={props.navbarDropdown} />
 				    <NavStart
 				    	hasStart={props.hasStart}
 				    	navbarStart={props.navbarStart}
-				    	hasStartButtons={props.hasStartButtons}
+				    	hasStartButtons={props.hasButtons}
 				    />
 				    <NavEnd
 				    	hasEnd={props.hasEnd}

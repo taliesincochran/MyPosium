@@ -3,8 +3,8 @@ import { Redirect } from 'react-router-dom';
 import Navbar from '../../components/Nav/Navbar'
 import axios from 'axios';
 import { authObj } from '../../authenticate';
+import EventCard from '../../components/EventCard/EventCard';
 import $ from 'jquery'
-// import EventCard from '../../components/EventCard/EventCard';
 // import Media from '../../components/Media/Media';
 import { Container,
         Button,
@@ -53,9 +53,6 @@ class Dashboard extends Component {
         // console.log("user get", result);
         this.setState({user: result.data})
       }).then(res=>this.getEvents())
-      // console.log("user", this.props.location.state)
-      // console.log("state, user", this.state.user)
-      this.getEvents();
       $('html, body').css({
         'background-image': 'none',
       })
@@ -71,18 +68,10 @@ class Dashboard extends Component {
       // console.log(eventsArray);
       eventsArray.map(event => {
         var category = event.category
-        if(this.state.user.username === event.username) {
-          // console.log('created...', event)
-
+        if(this.state.user.username == event.username) {
           userCreatedArray.push(event)
         }
-        if (
-          this.state.user.interests.indexOf(category) > -1
-          && event.attendees.indexOf(user._id) === -1
-          &&
-          this.state.user.attending.indexOf(user._id) === -1
-          ){
-          // console.log("interesting...", event)
+        if (this.state.user.interests.indexOf(category) > -1 && event.attendees.indexOf(user._id) == -1 && this.state.user.attending.indexOf(user._id) == -1){
           eventsMatchArray.push(event)
         }
         return event;
@@ -171,19 +160,22 @@ class Dashboard extends Component {
               text:'Create Event',
               onClick:() => {
                 this.setState({createEvent: true});
-              }
+              },
+              buttonClass: "button is-primary"
             },
             {
               text:"Check Messages",
               onClick:() => {
                 this.setState({checkMessages: true});
               },
+              buttonClass:"button is-primary"
             },
             {
               text:'Update Profile',
               onClick:()=>{
                 this.setState({updateProfile: true});
-              }
+              },
+              buttonClass:"button is-primary"
             },
             {
               text:"Logout",
@@ -198,7 +190,7 @@ class Dashboard extends Component {
                   })
                   .catch(err => console.log(err));
               },
-              buttonClass: "isDanger"
+              buttonClass: "button is-primary"
             }
           ]}
         />
@@ -244,6 +236,8 @@ class Dashboard extends Component {
                           <Column isSize='3/4'>
                             <h2>{event.title}</h2>
                             <p>time: {event.time}</p>
+                            <div isWidth='1' />
+                            <br />
                             <p>date: {event.date}</p>
                             <Button  isColor="secondary" onClick={() => this.openMessageModal(event.username)}>Send Message</Button>
                           </Column>
@@ -258,24 +252,13 @@ class Dashboard extends Component {
               <h2>Events you may be interested in.</h2>
               <div style={{height: '50px'}} />
               {this.state.eventsMatchInterests.map(event=>{
-
-                return(
-                  <Box key={event._id} style={{height: '250px', overflow: 'auto'}}>
-                    <Columns>
-                      <Column isSize='1/4' >
-                        <h1 style={{textDecoration: 'underline'}}><strong>{event.title}</strong></h1>
-                        <br />
-                        <Image src={event.imgUrl || 'https://images.pexels.com/photos/6227/hands-technology-photo-phone.jpg?w=1260&h=750&auto=compress&cs=tinysrgb'} />
-                      </Column>
-                      <Column isSize='3/4'>
-                        <p>Description: {event.description}</p>
-                        <p>Date: {event.date}</p>
-                        <p>Time: {event.time}</p>
-                        <Button onClick={this.attend} value={event._id}>Attend</Button>
-                      </Column>
-                    </Columns>
-                  </Box>
-                )
+                  return(
+                    <EventCard
+                      event={event}
+                      state={this.state}
+                      onClick={this.attend}
+                    />
+                    )
               })}
             </Box>
           </Column>
