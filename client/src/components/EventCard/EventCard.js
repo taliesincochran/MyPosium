@@ -26,29 +26,37 @@ const EventCard = props => {
     <Card>
       <CardHeader>
         <CardHeaderTitle>
-          {props.title}
+          {props.event.title}
         </CardHeaderTitle>
-        <CardHeaderIcon>
-          <Icon className="fa fa-angle-down" />
-        </CardHeaderIcon>
       </CardHeader>
-      <CardImage>
-        <Image isRatio='4:3' src={props.imageURL} alt={props.title} />
-      </CardImage>
-      <CardContent>
-        <Media>
-          <MediaContent>
-            <Title isSize={4}>{props.title}</Title>
-            <Subtitle isSize={6}>{props.date}<span>{'  '}</span>{props.time}</Subtitle>
-          </MediaContent>
-        </Media>
-        <Content>
-          <p>{props.description}</p>
-          <br/>
-          <small>{props.date}{' '}{props.time}</small>
-          <Link to={"/api/event/"+ props.id}><Button>View More</Button></Link>
-        </Content>
-      </CardContent>
+      <Columns >
+        <Column isSize='1/2'>
+          <CardImage>
+            <Image isRatio='4:3' src={props.event.imgURL || 'https://images.pexels.com/photos/6227/hands-technology-photo-phone.jpg?w=1260&h=750&auto=compress&cs=tinysrgb'} alt={props.event.title} />
+          </CardImage>
+        </Column>
+        <Column isSize='1/2'>
+          <CardContent>
+            <Media>
+              <MediaContent>
+                <Title isSize={4}>{props.event.title}</Title>
+              </MediaContent>
+            </Media>
+            <Content>
+              <p>{props.event.description}</p>
+              <br/>
+              <small>{props.event.date}{' '}{props.event.time}</small>
+              <br />
+              <small>${props.event.cost}</small>
+              <Button onClick={props.attend}>Attend</Button>
+              <Link to={{pathname: "/event/", state: {state: props.state, event: props.event}}}>
+                <Button>View More
+                </Button>
+              </Link>
+            </Content>
+          </CardContent>
+        </Column>
+      </Columns>
     </Card>
   )
 }
