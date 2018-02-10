@@ -57,7 +57,7 @@ export default class SentMessages extends Component {
 
   render() {
     return(
-      <div >
+      <div>
         <div style={{height: '100px'}}></div>
         <Navbar
           hasBrand={true}
@@ -132,7 +132,7 @@ export default class SentMessages extends Component {
                   {
                     this.state.sentMessages.length >0?
                     (this.state.sentMessages.map((message,i) => {
-                      return (<li key={i}><MenuLink onClick={() => {this.getOneMessage(message._id)}}>from: {message.sender}, subj: {message.subject}</MenuLink></li>)
+                      return (<li key={i}><MenuLink onClick={() => {this.getOneMessage(message._id)}}>From: {message.sender} <br/> Subject: {message.subject}</MenuLink></li>)
                     })) : <p>No Sent Messages</p>
                   }
 
@@ -171,7 +171,7 @@ export default class SentMessages extends Component {
                   {
                     this.state.receivedMessages.length >0?
                     (this.state.receivedMessages.map((message,i) => {
-                      return (<li key={i}><MenuLink onClick={() => {this.getOneMessage(message._id)}}>from: {message.sender}, subj: {message.subject}</MenuLink></li>)
+                      return (<li key={i}><MenuLink onClick={() => {this.getOneMessage(message._id)}}>From: {message.sender}<br/> Subject: {message.subject}</MenuLink></li>)
                     })) : <p>No Received Messages</p>
                   }
                 </MenuList>

@@ -6,11 +6,13 @@ $(document).ready(function () {
       var hash = this.hash;
       $('html').animate({
         scrollTop: $(hash).offset().top
-      },500, function () {
+      },1000,  function () {
         window.location.hash = hash;
       });
     }
   });
+
+
   if (window.location.pathname==='/dashboard'){
     $('html, body').css({
       'background-image': 'url("")',
