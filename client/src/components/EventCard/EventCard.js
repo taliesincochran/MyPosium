@@ -22,7 +22,7 @@ import {
 
 const EventCard = props => {
   return(
-    
+
     <Card>
       <CardHeader>
         <CardHeaderTitle>
@@ -32,7 +32,7 @@ const EventCard = props => {
       <Columns >
         <Column isSize='1/2'>
           <CardImage>
-            <Image isRatio='4:3' src={props.event.imgURL || 'https://images.pexels.com/photos/6227/hands-technology-photo-phone.jpg?w=1260&h=750&auto=compress&cs=tinysrgb'} alt={props.event.title} />
+            <Image isRatio='4:3' src={props.event.imgUrl || 'https://images.pexels.com/photos/6227/hands-technology-photo-phone.jpg?w=1260&h=750&auto=compress&cs=tinysrgb'} alt={props.event.title} />
           </CardImage>
         </Column>
         <Column isSize='1/2'>

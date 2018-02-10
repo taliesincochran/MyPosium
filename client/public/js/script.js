@@ -11,4 +11,25 @@ $(document).ready(function () {
       });
     }
   });
+
+
+  // if (window.location.pathname==='/dashboard'){
+  //   $('html, body').css({
+  //     'background-image': 'url("")',
+  //     'background-attachment': 'fixed'
+  //   })
+  // }
+  // if (window.location.pathname==='/signup' || window.location.pathname==='/login'){
+  //   $('html, body').css({
+  //     'background-image': 'url("../img/coloredLines.jpg")',
+  //     'background-attachment': 'fixed'
+  //   })
+  // }
+  // if (window.location.pathname==='/'){
+  //   $('html, body').css({
+  //     'background-image': 'url("../img/woodBackground.jpg")',
+  //     'background-attachment': 'fixed',
+  //     'background-size': '100% 100%'
+  //   })
+  // }
 });
