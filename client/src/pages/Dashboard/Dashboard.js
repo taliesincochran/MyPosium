@@ -4,6 +4,7 @@ import Navbar from '../../components/Nav/Navbar'
 import axios from 'axios';
 import { authObj } from '../../authenticate';
 import EventCard from '../../components/EventCard/EventCard';
+import $ from 'jquery'
 // import Media from '../../components/Media/Media';
 import { Container,
         Button,
@@ -14,13 +15,9 @@ import { Container,
         Modal,
         ModalContent,
         ModalClose,
-        // ModalCard,
-        // ModalCardFooter,
-        // ModalCardBody,
         Delete,
         ModalBackground,
         ModalCardTitle,
-        // ModalCardHeader,
         Field,
         Label,
         Control,
@@ -53,19 +50,22 @@ class Dashboard extends Component {
   }
   componentDidMount =() => {
       axios.get("/api/users/" + this.state.user.username).then(result=>{
-        console.log("user get", result);
+        // console.log("user get", result);
         this.setState({user: result.data})
       }).then(res=>this.getEvents())
+      $('html, body').css({
+        'background-image': 'none',
+      })
   }
   getEvents =() => {
     axios.get("/api/event/").then(events => {
-      console.log(events.data)
+      // console.log(events.data)
       var userCreatedArray = [];
       var eventsMatchArray = [];
       var user = this.state.user;
-      var interests = this.state.user.interests;
+      // var interests = this.state.user.interests;
       var eventsArray = events.data
-      console.log(eventsArray);
+      // console.log(eventsArray);
       eventsArray.map(event => {
         var category = event.category
         if(this.state.user.username == event.username) {
@@ -74,10 +74,11 @@ class Dashboard extends Component {
         if (this.state.user.interests.indexOf(category) > -1 && event.attendees.indexOf(user._id) == -1 && this.state.user.attending.indexOf(user._id) == -1){
           eventsMatchArray.push(event)
         }
+        return event;
       })
       return({eventsMatch: eventsMatchArray, userCreated: userCreatedArray, events: eventsArray})
     }).then(results =>{
-      console.log(results)
+      // console.log(results)
       this.setState({events: results.events, eventsMatchInterests: results.eventsMatch, userCreated: results.userCreated, hasGotEvents: true, userAttending: this.state.user.attending}, ()=> console.log('state set', this.state))})
   }
 
@@ -102,17 +103,16 @@ class Dashboard extends Component {
       subject: this.state.subject,
       message: this.state.message
     }
-    console.log('(((((((((((((((((((())))))))))))))))))))'  ,newMessage)
     axios
       .post('api/message/create', newMessage)
       .then(response => {
-        console.log('response from creating new message',response)
+        // console.log('response from creating new message',response)
       })
       .catch(err => console.log(err));
   }
 
   handleLogout = () => {
-    console.log("api/users/logout called")
+    // console.log("api/users/logout called")
     axios
       .get('api/users/logout')
       .then(response => {
@@ -124,25 +124,25 @@ class Dashboard extends Component {
       .catch(err => console.log(err));
   }
   attend = (e) => {
-    console.log("attend called", e.target.value);
+    // console.log("attend called", e.target.value);
     var id = e.target.value
     axios.post("/api/event/" + e.target.value, this.state.user._id).then(result=>{
-      console.log("attending update result: ", result)
+      // console.log("attending update result: ", result)
       this.getEvents();
       var attending = this.state.userAttending;
       attending.push(id)
-      console.log(attending);
+      // console.log(attending);
       this.setState({userAttending: attending})
     })
   }
   burgerOnClick = () =>this.setState((state) => ({isActive:!this.state.isActive}))
   render() {
-    var checkMessages= this.checkMessages;
-    var createEvent = this.createEvent;
-    var handleLogout = this.handleLogout;
+    // var checkMessages= this.checkMessages;
+    // var createEvent = this.createEvent;
+    // var handleLogout = this.handleLogout;
     var events = this.state.events;
     var hasGotEvents = this.state.hasGotEvents;
-    var setState = this.state.setState;
+    // var setState = this.state.setState;
     //console.log(this.checkMessages)
     return(
       hasGotEvents?(
@@ -157,16 +157,16 @@ class Dashboard extends Component {
           navbarStyle={{boxShadow: '2px 2px 5px', position:"fixed", top:"0", left:"0", zIndex: '998', width: '100%'}}
           navbarEnd={[
             {
-              text:"Check Messages",
-              onClick:() => {
-                this.setState({checkMessages: true});
-              },
-            },
-            {
               text:'Create Event',
               onClick:() => {
                 this.setState({createEvent: true});
               }
+            },
+            {
+              text:"Check Messages",
+              onClick:() => {
+                this.setState({checkMessages: true});
+              },
             },
             {
               text:'Update Profile',
@@ -192,21 +192,22 @@ class Dashboard extends Component {
           ]}
         />
         <div style={{height: '100px'}}/>
-        <Columns>
-          <Column isSize="1/4">
+        <Columns isCentered>
+          <Column isSize="1/3">
             <Box>
-              <Image isSize="64x64" src="http://wrs8a3ki8zth7aut28u4yi107g.wpengine.netdna-cdn.com/wikiblog/wp-content/uploads/sites/2/2013/10/events-heavenly-header-e1383170712910.jpg" />
+              <Image isSize="128x128" src={this.props.location.state.img} />
               <p>Hi, {this.props.location.state.username}</p>
             </Box>
             <Box>
               <h3>Events you've organized</h3>
               {this.state.events.length<0?(<p>You have organized no events</p>):
                 (this.state.userCreated.map(event=>{
+
                   return(
                       <Box style={{height: '150px', overflow: 'scroll'}}>
                         <Columns>
                           <Column isSize='1/4'>
-                            <Image src={event.imageURL || 'https://images.pexels.com/photos/6227/hands-technology-photo-phone.jpg?h=350&auto=compress&cs=tinysrgb'} />
+                            <Image src={event.imageUrl || 'https://images.pexels.com/photos/6227/hands-technology-photo-phone.jpg?h=350&auto=compress&cs=tinysrgb'} />
                           </Column>
                           <Column isSize='3/4'>
                             <h2>{event.title}</h2>
@@ -222,13 +223,12 @@ class Dashboard extends Component {
               <h3>Events you are attending</h3>
               {this.state.userAttending.length<0?(<p>You are attending no events</p>):(
                 events.map(event=>{
-                    // console.log(this.state.userAttending.indexOf(event.id))
                     return (
                       this.state.userAttending.includes(event._id)?(
                       <Box style={{height: '150px', overflow: 'scroll'}}>
                         <Columns>
                           <Column isSize='1/4'>
-                            <Image src={event.imageURL || 'https://images.pexels.com/photos/6227/hands-technology-photo-phone.jpg?h=350&auto=compress&cs=tinysrgb'} />
+                            <Image src={event.imgUrl || 'https://images.pexels.com/photos/6227/hands-technology-photo-phone.jpg?h=350&auto=compress&cs=tinysrgb'} />
                           </Column>
                           <Column isSize='3/4'>
                             <h2>{event.title}</h2>
@@ -236,7 +236,7 @@ class Dashboard extends Component {
                             <div isWidth='1' />
                             <br />
                             <p>date: {event.date}</p>
-                            <button  isColor="primary" onClick={() => this.openMessageModal(event.username)}>Send Message</button>
+                            <Button  isColor="secondary" onClick={() => this.openMessageModal(event.username)}>Send Message</Button>
                           </Column>
                         </Columns>
                       </Box>
@@ -244,7 +244,7 @@ class Dashboard extends Component {
                 )}
             </Box>
           </Column>
-          <Column isSize='3/4'>
+          <Column isSize='2/3'>
             <Box>
               <h2>Events you may be interested in.</h2>
               <div style={{height: '50px'}} />
@@ -256,23 +256,6 @@ class Dashboard extends Component {
                       onClick={this.attend}
                     />
                     )
-             {/*}   return(
-                  <Box key={event._id} style={{height: '250px', overflow: 'auto'}}>
-                    <Columns>
-                      <Column isSize='1/4' >
-                        <h1 style={{textDecoration: 'underline'}}><strong>{event.title}</strong></h1>
-                        <br />
-                        <Image src={event.imgURL || 'https://images.pexels.com/photos/6227/hands-technology-photo-phone.jpg?w=1260&h=750&auto=compress&cs=tinysrgb'} />
-                      </Column>
-                      <Column isSize='3/4'>
-                        <p>Description: {event.description}</p>
-                        <p>Date: {event.date}</p>
-                        <p>Time: {event.time}</p>
-                        <Button onClick={this.attend} value={event._id}>Attend</Button>
-                      </Column>
-                    </Columns>
-                  </Box>
-                )*/}
               })}
             </Box>
           </Column>
@@ -282,7 +265,7 @@ class Dashboard extends Component {
           <ModalBackground />
           <ModalContent style={{padding: '20px'}}>
             <Delete onClick={this.closeModal} />
-            <ModalCardTitle className="has-text-centered">Send a Message!</ModalCardTitle>
+            <ModalCardTitle className="has-text-centered">Send a Message to: {this.state.messageRecipient}!</ModalCardTitle>
             <Field>
               <Label className="has-text-left">Subject:</Label>
               <Control>
@@ -296,15 +279,15 @@ class Dashboard extends Component {
               </Control>
             </Field>
             <Control>
-              <Button isColor="primary" isSize="large" onClick={this.submitMessage} style={{width: "100%"}}>Send Message</Button>
+              <Button isColor="primary" onClick={this.submitMessage} className="is-fullwidth">Send Message</Button>
             </Control>
           </ModalContent>
           <ModalClose />
         </Modal>
 
         {this.state.createEvent? (<Redirect to= {{pathname:"/event/create", state:this.state.user}} />) : null}
-        {this.state.checkMessages? (<Redirect to={{pathname:"/messages/sent", state:this.state.user}}/>) : null}
-        {this.state.updateProfile? (<Redirect to={{pathname:"/profile", state:this.state.user}}/>) : null}
+        {this.state.checkMessages? (<Redirect to={{pathname:"/messages", state:this.state.user}}/>) : null}
+        {this.state.updateProfile? (<Redirect to={{pathname:"/updateProfile", state:this.state.user}}/>) : null}
         {this.state.logout? (<Redirect to="/" />) : null}
       </Container>
       ): null

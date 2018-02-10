@@ -46,11 +46,6 @@ export default class Signup extends Component {
             this.setState({isLoggedIn: true});
           })
           .catch(err => console.log(err));
-        // setTimeout( () => {
-        //   if (result.data.isAuth){
-        //     this.setState({isLoggedIn: true});
-        //   }
-        // }, 100)
       })
       .catch(err => console.log(err));
   }
@@ -62,8 +57,8 @@ export default class Signup extends Component {
           hasEnd={true}
           hasBrand={true}
           navbarStyle={{boxShadow: '2px 2px 5px', position:"fixed", top:"0", left:"0", zIndex: '998', width: '100%'}}
-          brandText='Myposium'
-          burgerActive={this.state.isActive}
+          brandText='MyPosium'
+          burgeractive={this.state.isActive}
           isActive={this.state.isActive}
           onClick={this.onClickNav}
           hasTextColor={'black'}

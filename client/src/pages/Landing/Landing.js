@@ -8,7 +8,6 @@ import { Image,
 	Section,
 	Title,
 	Tile,
-	SubTitle,
 	Columns
 	} from 'bloomer';
 export default class Landing extends Component {
@@ -32,8 +31,9 @@ export default class Landing extends Component {
         	hasEnd={true}
 		      hasBrand={true}
 		      navbarStyle={{boxShadow: '2px 2px 5px', position:"fixed", top:"0", left:"0", zIndex: '998', width: '100%'}}
-		      brandText={window.location.pathname==='/'? (<a href="#myposium">Myposium</a>): "MyPosium"}
-		      burgerActive={this.state.isActive}
+          hasEndButtons={true}
+		      brandText={window.location.pathname==='/'? (<a href="#myposium" style={{fontSize: '1.6em', textDecoration: 'none'}}>MyPosium</a>): "MyPosium"}
+		      burgeractive={this.state.isActive}
 		      isActive={this.state.isActive}
 		      onClick={this.onClickNav}
 		      hasTextColor={'black'}
@@ -42,31 +42,29 @@ export default class Landing extends Component {
 		          {
 		            text: "Create",
 		            href: "#create",
-		            style: {marginLeft: '0px'}
+		            style: {marginLeft: '0px', fontSize: '1.5em'}
 		          }, {
 		            text: 'Discover',
 		            href: "#discover",
-		            style: {marginLeft: '150px'}
+		            style: {marginLeft: '150px', fontSize: '1.5em'}
 		          }, {
 		          	text: 'Connect',
 		          	href: "#connect",
-		            style: {marginLeft: '150px'}
+		            style: {marginLeft: '150px', fontSize: '1.5em'}
 		          }
 		        ]
 		      }
 		      navbarEnd={[
 		      	{
-								hasEndButtons: true,
-								hasEnd: true,
 		            href:"/login",
 		            text: "Login",
-		            textStyle: {textDecoration: 'none', color: '#4C4CFF'}
+								buttonClass: 'is-primary',
+		            textStyle: {textDecoration: 'none'}
 		          }, {
-								hasEndButtons: true,
-								hasEnd: true,
 		            href:"/signup",
-		            text: 'SignUp',
-		            textStyle: {textDecoration: 'none', color: '#4C4CFF'}
+		            text: 'Sign Up',
+								buttonClass: 'is-primary',
+		            textStyle: {textDecoration: 'none'}
 		          }]}
 		    />
 
@@ -82,7 +80,7 @@ export default class Landing extends Component {
 							</Column>
 								<Column isSize={7} >
 									<Tile isSize={6}>
-									<Title isSize={1}>...Myposium</Title>
+									<Title isSize={1}>...MyPosium</Title>
 								</Tile>
 								</Column>
 						</Columns>
@@ -95,7 +93,7 @@ export default class Landing extends Component {
 				    	</Column>
 				    	<Column isSize={6} isOffset={2}>
 				            <Title className='text-center'>Create</Title>
-										<Content>MyPosium allows real people with real knowledge to create a connection with people who want and need that knowledge.  <span className="highlight">CREATE</span> an event, either in person or virtually, and share your wisdom with the world!</Content>
+										<Content className="is-size-4">MyPosium allows real people with real knowledge to create a connection with others who want and need that knowledge.  <span className="highlight">CREATE</span> an event, either in person or virtually, and share your wisdom with the world!</Content>
 				      </Column>
 				    </Columns>
 			    </Section>
@@ -105,7 +103,7 @@ export default class Landing extends Component {
 				    <Columns>
 				    	<Column isSize={6} >
 				            <Title className='text-center'>Discover</Title>
-										<Content >The world is brimming with people who have spent a lifetime gathering knowledge.  Search through our expansive categories and <span className="highlight">DISCOVER</span> new content creators, new ideas, and new friends!  </Content>
+										<Content className="is-size-4">The world is brimming with people who have spent a lifetime gathering knowledge.  Search through our expansive list of events and <span className="highlight">DISCOVER</span> new content creators, new ideas, and new friends!  </Content>
 				      </Column>
 				    	<Column isSize={4} isOffset={2}>
 				    		<Image src = "/img/lightBulb.jpg" className='is-vertical-center' style={{transform: 'rotate(20deg)', width: '70%'}}/>
@@ -120,7 +118,7 @@ export default class Landing extends Component {
 				    	</Column>
 				    	<Column isSize={6} isOffset={2}>
 				            <Title className='text-center'>Connect</Title>
-										<Content>MyPosium aims to <span className="highlight">CONNECT</span> people who are thirsty for knowledge and entertainment with those who can provide it.  Ask questions, provide feedback, and shape the future of education!  <a href="/signup">Sign up for an account now!</a></Content>
+										<Content className="is-size-4">MyPosium aims to <span className="highlight">CONNECT</span> people who are thirsty for knowledge and entertainment with those who can provide it.  Ask questions, provide feedback, and help shape the future of Edu-tainment!  <a href="/signup">Sign up for an account now!</a></Content>
 				      </Column>
 				    </Columns>
 			    </Section>

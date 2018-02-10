@@ -19,7 +19,7 @@ class Message extends React.Component {
       recievedMessages: [],
       makeNewMessage: false,
       newMessage: {},
-			burgerActive:false,
+			burgeractive:false,
 			displayNew: false,
 			displayRecieved: false,
 			displaySent: false,
@@ -38,7 +38,7 @@ class Message extends React.Component {
 		)
 	}
   onClickBurger = () => {
-      this.setState((state) => ({ isActive: !state.burgerActive }));
+      this.setState((state) => ({ isActive: !state.burgeractive }));
   }
   getRecievedMessages=()=> {
   }
@@ -95,7 +95,7 @@ class Message extends React.Component {
       }
       hasBrand={true}
       brandText='MyPosium: Messages'
-      burgerActive={this.state.burgerActive}
+      burgeractive={this.state.burgeractive}
       burgerOnClick={this.onClickBurger}
       navbarStyle={{boxShadow: '2px 2px 5px', position:"fixed", top:"0", left:"0", zIndex: '998', width: '100%'}} 
       isActive={this.navbarActive} 
