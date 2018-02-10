@@ -14,7 +14,7 @@ const NavBrand = props => {
 						<img src={props.brandImage} alt=""/>
 						{props.brandText}
 					</NavbarItem>
-					<NavbarBurger isHidden='desktop' burgeractive={props.burgeractive} style={{position: 'absolute', right: '0px', top: '0px', zIndex:'999'}} onClick={props.onClick}>
+					<NavbarBurger isHidden='desktop' burgerActive={props.burgeractive} style={{position: 'absolute', right: '0px', top: '0px', zIndex:'999'}} onClick={props.onClick}>
 						<div height="40px" />
 					</NavbarBurger>
 				</NavbarBrand>

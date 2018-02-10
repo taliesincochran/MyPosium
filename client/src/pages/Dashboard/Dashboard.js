@@ -168,16 +168,16 @@ class Dashboard extends Component {
           navbarStyle={{boxShadow: '2px 2px 5px', position:"fixed", top:"0", left:"0", zIndex: '998', width: '100%'}}
           navbarEnd={[
             {
-              text:"Check Messages",
-              onClick:() => {
-                this.setState({checkMessages: true});
-              },
-            },
-            {
               text:'Create Event',
               onClick:() => {
                 this.setState({createEvent: true});
               }
+            },
+            {
+              text:"Check Messages",
+              onClick:() => {
+                this.setState({checkMessages: true});
+              },
             },
             {
               text:'Update Profile',
@@ -234,7 +234,6 @@ class Dashboard extends Component {
               <h3>Events you are attending</h3>
               {this.state.userAttending.length<0?(<p>You are attending no events</p>):(
                 events.map(event=>{
-                  console.log('(((((((((((((((((((((((((((((((())))))))))))))))))))))))))))))))',event)
                     return (
                       this.state.userAttending.includes(event._id)?(
                       <Box style={{height: '150px', overflow: 'scroll'}}>
@@ -308,7 +307,7 @@ class Dashboard extends Component {
 
         {this.state.createEvent? (<Redirect to= {{pathname:"/event/create", state:this.state.user}} />) : null}
         {this.state.checkMessages? (<Redirect to={{pathname:"/messages", state:this.state.user}}/>) : null}
-        {this.state.updateProfile? (<Redirect to={{pathname:"/profile", state:this.state.user}}/>) : null}
+        {this.state.updateProfile? (<Redirect to={{pathname:"/updateProfile", state:this.state.user}}/>) : null}
         {this.state.logout? (<Redirect to="/" />) : null}
       </Container>
       ): null
