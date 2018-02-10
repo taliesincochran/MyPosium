@@ -4,7 +4,6 @@ import Navbar from '../../components/Nav/Navbar'
 import axios from 'axios';
 import { authObj } from '../../authenticate';
 import EventCard from '../../components/EventCard/EventCard';
-import $ from 'jquery'
 // import Media from '../../components/Media/Media';
 import { Container,
         Button,
@@ -53,9 +52,10 @@ class Dashboard extends Component {
         // console.log("user get", result);
         this.setState({user: result.data})
       }).then(res=>this.getEvents())
-      $('html, body').css({
-        'background-image': 'none',
-      })
+      // console.log("user", this.props.location.state)
+      // console.log("state, user", this.state.user)
+      this.getEvents();
+      document.querySelector('body').style.backgroundImage = 'none';
   }
   getEvents =() => {
     axios.get("/api/event/").then(events => {
