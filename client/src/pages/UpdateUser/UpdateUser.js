@@ -12,10 +12,10 @@ class Profile extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      interests: [],
-      age: "",
-      img: "",
-      aboutMe: "",
+      interests: this.props.location.state.interests,
+      age: this.props.location.state.age,
+      img: this.props.location.state.img,
+      aboutMe: this.props.location.state.aboutMe,
       finishedProfile: false,
       user: this.props.location.state,
       logout: false,
@@ -37,8 +37,9 @@ class Profile extends Component {
     if(index>-1){
       //if interest exists in the array, the user must be trying to remove it
       let arr =[...this.state.interests];
-      arr.splice(index, 1)//splice it out and then set state
+      arr.splice(index, 1);//splice it out and then set state
       this.setState({interests: arr},()=>{
+
       });
     }
     else{
@@ -159,6 +160,7 @@ class Profile extends Component {
               <Box style={{marginTop: '5%', position: 'relative'}}>
                 <Title className="has-text-grey-light" isSize={1} style={{position: 'absolute', top: '-37px', right: '5%', background: 'white'}}>Interests</Title>
                 {
+
                   categories.map((category, i) =>{
                   //map through categories and render them different colors
                   //depending on whether the user has selected it or not
@@ -174,7 +176,7 @@ class Profile extends Component {
                         :
                       (<Button
                         key={i}
-                        isColor="primary"
+                        isColor=""
                         isOutlined
                         name={category}
                         onClick={this.handleInterestClick}>

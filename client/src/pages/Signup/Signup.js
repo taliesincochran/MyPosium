@@ -17,9 +17,15 @@ export default class Signup extends Component {
     }
     this.onClickNav = this.onClickNav.bind(this);
   }
-  componentDidMount = () => {
+
+  componentDidMount() {
+    let body = document.querySelector('body');
+    body.style.backgroundImage = "url('img/coloredLines.jpg')"
+    body.style.backgroundSize = '100% 100%';
+    body.style.backgroundAttachment = 'fixed';
     axios.get("api/users/logout")
   }
+
   onClickNav = () => {
       this.setState((state) => ({ isActive: !state.isActive }));
   }

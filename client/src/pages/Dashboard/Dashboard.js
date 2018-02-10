@@ -4,7 +4,6 @@ import Navbar from '../../components/Nav/Navbar'
 import axios from 'axios';
 import { authObj } from '../../authenticate';
 import EventCard from '../../components/EventCard/EventCard';
-import $ from 'jquery'
 // import Media from '../../components/Media/Media';
 import { Container,
         Button,
@@ -54,9 +53,10 @@ class Dashboard extends Component {
         // console.log("user get", result);
         this.setState({user: result.data})
       }).then(res=>this.getEvents())
-      $('html, body').css({
-        'background-image': 'none',
-      })
+      // console.log("user", this.props.location.state)
+      // console.log("state, user", this.state.user)
+      this.getEvents();
+      document.querySelector('body').style.backgroundImage = 'none';
   }
   getEvents =() => {
     axios.get("/api/event/").then(events => {
@@ -125,15 +125,16 @@ class Dashboard extends Component {
       .catch(err => console.log(err));
   }
   attend = (e) => {
-    // console.log("attend called", e.target.value);
+     console.log("attend called", e.target.value);
     var id = e.target.value
     var attending = this.state.userAttending;
     axios.post("/api/event/" + e.target.value, this.state.user._id).then(result=>{
-      // console.log("attending update result: ", result)
+      console.log("attending update result: ", result)
       this.getEvents();
       attending.push(id)
-      // console.log(attending);
-    }).then(res=> this.setState({userAttending: attending}))
+      console.log(attending);
+      this.setState({userAttending: attending})
+    })
   }
       
   eventModal = () => this.setState({activeEventModal: !this.state.activeEventModal})
@@ -203,50 +204,33 @@ class Dashboard extends Component {
               <Image isSize="128x128" src={this.props.location.state.img} />
               <p>Hi, {this.props.location.state.username}</p>
             </Box>
+            <div style={{height: '20px'}} />
             <Box>
               <h3>Events you've organized</h3>
+              <div style={{height: '15px'}} />
               {this.state.events.length<0?(<p>You have organized no events</p>):
                 (this.state.userCreated.map(event=>{
 
                   return(
+                    <div>
                       <EventCard event={event} isSmall={true} eventModal={this.eventModal} />
-                      // <Box style={{height: '150px', overflow: 'scroll'}}>
-                      //   <Columns>
-                      //     <Column isSize='1/4'>
-                      //       <Image src={event.imageUrl || 'https://images.pexels.com/photos/6227/hands-technology-photo-phone.jpg?h=350&auto=compress&cs=tinysrgb'} />
-                      //     </Column>
-                      //     <Column isSize='3/4'>
-                      //       <h2>{event.title}</h2>
-                      //       <p>time: {event.time}</p>
-                      //       <p>date: {event.date}</p>
-                      //     </Column>
-                      //   </Columns>
-                      // </Box>
+                      <div style={{height: '20px'}} />
+                    </div>
                     )
                 }))}
             </Box>
+            <div style={{height: '20px'}} />
             <Box>
               <h3>Events you are attending</h3>
+              <div style={{height: '15px'}} />
               {this.state.userAttending.length<0?(<p>You are attending no events</p>):(
                 events.map(event=>{
                     return (
                       this.state.userAttending.includes(event._id)?(
+                      <div>
                         <EventCard event={event} isSmall={true} eventModal={this.eventModal} />
-                      // <Box style={{height: '150px', overflow: 'scroll'}}>
-                      //   <Columns>
-                      //     <Column isSize='1/4'>
-                      //       <Image src={event.imgUrl || 'https://images.pexels.com/photos/6227/hands-technology-photo-phone.jpg?h=350&auto=compress&cs=tinysrgb'} />
-                      //     </Column>
-                      //     <Column isSize='3/4'>
-                      //       <h2>{event.title}</h2>
-                      //       <p>time: {event.time}</p>
-                      //       <div isWidth='1' />
-                      //       <br />
-                      //       <p>date: {event.date}</p>
-                      //       <Button  isColor="secondary" onClick={() => this.openMessageModal(event.username)}>Send Message</Button>
-                      //     </Column>
-                      //   </Columns>
-                      // </Box>
+                        <div style={{height: '20px'}} />
+                      </div>
                     ): null)})
                 )}
             </Box>
@@ -257,11 +241,14 @@ class Dashboard extends Component {
               <div style={{height: '50px'}} />
               {this.state.eventsMatchInterests.map(event=>{
                   return(
-                    <EventCard
-                      event={event}
-                      state={this.state}
-                      onClick={this.attend}
-                    />
+                    <div>
+                      <EventCard
+                        event={event}
+                        state={this.state}
+                        onClick={this.attend}
+                      />
+                      <div style={{height: '20px'}} />
+                    </div>
                     )
               })}
             </Box>

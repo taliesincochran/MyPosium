@@ -45,11 +45,11 @@ const EventCard = props => {
               <Content>
                 <p>{props.event.description}</p>
                 <br/>
-                <small>{moment(props.event.date).format("dddd, MMMM Do YYYY")}{moment(props.time).format("h:mm a")}</small>
+                <small>{moment(props.event.date).format("dddd, MMMM Do YYYY")} {'   '}{moment(props.time).format("h:mm a")}</small>
                 <br />
                 <small>${props.event.cost}</small>
                 <Button onClick={props.attend}>Attend</Button>
-                  <Button onClick={props.eventModal}>View More</Button>
+                  <Button value={props.event._id} onClick={props.eventModal}>View More</Button>
                 </Content>
             </CardContent>
           </Column>
@@ -75,8 +75,9 @@ const EventCard = props => {
           <Column isSize='1/2' style={{position: 'relative', top: '0px'}}>
             <CardContent>
               <Content>
-                <Title isSize={6}>{props.event.date}</Title>
-                <small>{props.event.time}</small>
+                <small>{moment(props.event.date).format("dddd, MMMM Do YYYY")}</small>
+                {'  '}
+                <small>{moment(props.time).format("h:mm a")}</small>
               </Content>
             </CardContent>
           </Column>
