@@ -160,19 +160,22 @@ class Dashboard extends Component {
               text:'Create Event',
               onClick:() => {
                 this.setState({createEvent: true});
-              }
+              },
+              buttonClass: "button is-primary"
             },
             {
               text:"Check Messages",
               onClick:() => {
                 this.setState({checkMessages: true});
               },
+              buttonClass:"button is-primary"
             },
             {
               text:'Update Profile',
               onClick:()=>{
                 this.setState({updateProfile: true});
-              }
+              },
+              buttonClass:"button is-primary"
             },
             {
               text:"Logout",
@@ -187,7 +190,7 @@ class Dashboard extends Component {
                   })
                   .catch(err => console.log(err));
               },
-              buttonClass: "isDanger"
+              buttonClass: "button is-primary"
             }
           ]}
         />

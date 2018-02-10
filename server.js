@@ -8,7 +8,7 @@ const session      = require('express-session');
 const passport     = require('passport');
 const routes   = require("./routes/");
 
-// Set up promises with mongoose....
+// Set up promises with mongoose
 mongoose.Promise = global.Promise;
 // Connect to the Mongo DB
 const MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/myposium"
@@ -42,6 +42,7 @@ store
   });
 
 //Configuring express session
+
 app.use(session({
     secret: '52e0d0v5h5t5r2e0s0s2cvb1j1j2k25u', // session secret
     cookie: { maxAge: 24 * 60 * 60 * 1000 },
