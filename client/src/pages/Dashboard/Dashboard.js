@@ -41,6 +41,7 @@ class Dashboard extends Component {
       isActive: false,
       hasGotEvents: false,
       activeMessageModal: false,
+      activeEventModal: false,
       messageRecipient: '',
       subject: '',
       message: '',
@@ -68,10 +69,10 @@ class Dashboard extends Component {
       // console.log(eventsArray);
       eventsArray.map(event => {
         var category = event.category
-        if(this.state.user.username == event.username) {
+        if(this.state.user.username === event.username) {
           userCreatedArray.push(event)
         }
-        if (this.state.user.interests.indexOf(category) > -1 && event.attendees.indexOf(user._id) == -1 && this.state.user.attending.indexOf(user._id) == -1){
+        if (this.state.user.interests.indexOf(category) > -1 && event.attendees.indexOf(user._id) === -1 && this.state.user.attending.indexOf(user._id) === -1){
           eventsMatchArray.push(event)
         }
         return event;
@@ -126,15 +127,16 @@ class Dashboard extends Component {
   attend = (e) => {
     // console.log("attend called", e.target.value);
     var id = e.target.value
+    var attending = this.state.userAttending;
     axios.post("/api/event/" + e.target.value, this.state.user._id).then(result=>{
       // console.log("attending update result: ", result)
       this.getEvents();
-      var attending = this.state.userAttending;
       attending.push(id)
       // console.log(attending);
-      this.setState({userAttending: attending})
-    })
+    }).then(res=> this.setState({userAttending: attending}))
   }
+      
+  eventModal = () => this.setState({activeEventModal: !this.state.activeEventModal})
   burgerOnClick = () =>this.setState((state) => ({isActive:!this.state.isActive}))
   render() {
     // var checkMessages= this.checkMessages;
@@ -207,18 +209,19 @@ class Dashboard extends Component {
                 (this.state.userCreated.map(event=>{
 
                   return(
-                      <Box style={{height: '150px', overflow: 'scroll'}}>
-                        <Columns>
-                          <Column isSize='1/4'>
-                            <Image src={event.imageUrl || 'https://images.pexels.com/photos/6227/hands-technology-photo-phone.jpg?h=350&auto=compress&cs=tinysrgb'} />
-                          </Column>
-                          <Column isSize='3/4'>
-                            <h2>{event.title}</h2>
-                            <p>time: {event.time}</p>
-                            <p>date: {event.date}</p>
-                          </Column>
-                        </Columns>
-                      </Box>
+                      <EventCard event={event} isSmall={true} eventModal={this.eventModal} />
+                      // <Box style={{height: '150px', overflow: 'scroll'}}>
+                      //   <Columns>
+                      //     <Column isSize='1/4'>
+                      //       <Image src={event.imageUrl || 'https://images.pexels.com/photos/6227/hands-technology-photo-phone.jpg?h=350&auto=compress&cs=tinysrgb'} />
+                      //     </Column>
+                      //     <Column isSize='3/4'>
+                      //       <h2>{event.title}</h2>
+                      //       <p>time: {event.time}</p>
+                      //       <p>date: {event.date}</p>
+                      //     </Column>
+                      //   </Columns>
+                      // </Box>
                     )
                 }))}
             </Box>
@@ -228,21 +231,22 @@ class Dashboard extends Component {
                 events.map(event=>{
                     return (
                       this.state.userAttending.includes(event._id)?(
-                      <Box style={{height: '150px', overflow: 'scroll'}}>
-                        <Columns>
-                          <Column isSize='1/4'>
-                            <Image src={event.imgUrl || 'https://images.pexels.com/photos/6227/hands-technology-photo-phone.jpg?h=350&auto=compress&cs=tinysrgb'} />
-                          </Column>
-                          <Column isSize='3/4'>
-                            <h2>{event.title}</h2>
-                            <p>time: {event.time}</p>
-                            <div isWidth='1' />
-                            <br />
-                            <p>date: {event.date}</p>
-                            <Button  isColor="secondary" onClick={() => this.openMessageModal(event.username)}>Send Message</Button>
-                          </Column>
-                        </Columns>
-                      </Box>
+                        <EventCard event={event} isSmall={true} eventModal={this.eventModal} />
+                      // <Box style={{height: '150px', overflow: 'scroll'}}>
+                      //   <Columns>
+                      //     <Column isSize='1/4'>
+                      //       <Image src={event.imgUrl || 'https://images.pexels.com/photos/6227/hands-technology-photo-phone.jpg?h=350&auto=compress&cs=tinysrgb'} />
+                      //     </Column>
+                      //     <Column isSize='3/4'>
+                      //       <h2>{event.title}</h2>
+                      //       <p>time: {event.time}</p>
+                      //       <div isWidth='1' />
+                      //       <br />
+                      //       <p>date: {event.date}</p>
+                      //       <Button  isColor="secondary" onClick={() => this.openMessageModal(event.username)}>Send Message</Button>
+                      //     </Column>
+                      //   </Columns>
+                      // </Box>
                     ): null)})
                 )}
             </Box>
