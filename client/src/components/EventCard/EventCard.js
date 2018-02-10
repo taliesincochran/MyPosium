@@ -48,9 +48,9 @@ const EventCard = props => {
                 <small>{moment(props.event.date).format("dddd, MMMM Do YYYY")} {'   '}{moment(props.time).format("h:mm a")}</small>
                 <br />
                 <small>${props.event.cost}</small>
-                <Button onClick={props.attend}>Attend</Button>
-                  <Button value={props.event._id} onClick={props.eventModal}>View More</Button>
-                </Content>
+                <Button value={props.event._id} onClick={props.onClick}>Attend</Button>
+                <Button onClick={()=> props.eventModal(props.event)}>View More</Button>
+              </Content>
             </CardContent>
           </Column>
         </Columns>
@@ -70,7 +70,6 @@ const EventCard = props => {
             <CardImage>
               <Image isRatio='4:3' src={props.event.imgUrl || 'https://images.pexels.com/photos/6227/hands-technology-photo-phone.jpg?w=1260&h=750&auto=compress&cs=tinysrgb'} alt={props.event.title} />
             </CardImage>
-            <Button className="button is-primary" style={{margin: "5px 0px 0px 0px"}} onClick={props.eventModal}>View More</Button>
           </Column>
           <Column isSize='1/2' style={{position: 'relative', top: '0px'}}>
             <CardContent>
@@ -82,6 +81,7 @@ const EventCard = props => {
             </CardContent>
           </Column>
         </Columns>
+        <Button className="button is-primary" style={{margin: "5px 0px 0px 0px"}} onClick={()=> props.eventModal(props.event)}>View More</Button>
       </Card>
       )
   }
