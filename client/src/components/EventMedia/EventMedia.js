@@ -1,27 +1,28 @@
 import React from 'react';
 import { Media, MediaLeft, Image, MediaContent, Button, Content, Link, Delete, MediaRight} from 'bloomer';
 
-const MediaEvent = props => {
+const EventMedia = props => {
   return(
     <Media>
       <MediaLeft>
         <Image isSize='64x64' src={props.imageURL} />
+        <strong style={{fontSize: '1em'}}>{props.title}</strong>
       </MediaLeft>
       <MediaContent>
         <Content>
           <p>
-            <strong>{props.title}</strong>{' '}<small>{props.date}</small>
+            <small>{props.event.date}</small>
             <br />
-            {props.description}
+            {props.event.time}
           </p>
         </Content>
       </MediaContent>
       <MediaRight>
-          <Link to={"/events/" + props.id}><Button>Go to event</Button></Link>
+          <Button className='button is-Primary' onClick={props.eventModal}>Details</Button>
         <Delete />
       </MediaRight>
     </Media>
 
     )
 }
-export default MediaEvent;
+export default EventMedia;
