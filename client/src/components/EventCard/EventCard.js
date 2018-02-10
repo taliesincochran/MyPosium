@@ -48,7 +48,7 @@ const EventCard = props => {
               <small>{props.event.date}{' '}{props.event.time}</small>
               <br />
               <small>${props.event.cost}</small>
-              <Button onClick={props.attend}>Attend</Button>
+              <Button value={props.event._id} onClick={props.onClick}>Attend</Button>
               <Link to={{pathname: "/event/", state: {state: props.state, event: props.event}}}>
                 <Button>View More
                 </Button>
