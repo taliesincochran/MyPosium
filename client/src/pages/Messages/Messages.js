@@ -122,7 +122,6 @@ export default class SentMessages extends Component {
             </TabList>
           </Tabs>
 
-          {/* conditional render here */}
           { this.state.toggle?
           (<Columns>
             <Column isSize={3}>
@@ -135,7 +134,6 @@ export default class SentMessages extends Component {
                       return (<li key={i}><MenuLink onClick={() => {this.getOneMessage(message._id)}}>From: {message.sender} <br/> Subject: {message.subject}</MenuLink></li>)
                     })) : <p>No Sent Messages</p>
                   }
-
                 </MenuList>
               </Menu>
             </Column>
@@ -155,10 +153,10 @@ export default class SentMessages extends Component {
                                   <p>{this.state.currentMessage.message}</p>
                                 </div>
                             </Box>
-                        )
-                    } />
-                </Tile>
-              ) : ''
+                          )
+                      } />
+                  </Tile>
+                ) : ''
               }
             </Column>
           </Columns>)
@@ -193,16 +191,15 @@ export default class SentMessages extends Component {
                                   <p>{this.state.currentMessage.message}</p>
                                 </div>
                             </Box>
-                        )
-                    } />
-                </Tile>
-              ) : ''
+                          )
+                      } />
+                  </Tile>
+                ) : ''
               }
             </Column>
           </Columns>)
         }
 
-          {/* end of conditional render */}
         </Container>
         {this.state.updateProfile? (<Redirect to={{pathname:"/updateProfile", state:this.state.user}}/>) : null}
         {this.state.createEvent? (<Redirect to= {{pathname:"/event/create", state:this.state.user}} />) : null}

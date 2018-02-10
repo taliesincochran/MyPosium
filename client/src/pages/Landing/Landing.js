@@ -10,6 +10,7 @@ import { Image,
 	Tile,
 	Columns
 	} from 'bloomer';
+	
 export default class Landing extends Component {
 	constructor(props) {
     super(props);
@@ -18,6 +19,15 @@ export default class Landing extends Component {
     };
     this.onClickNav = this.onClickNav.bind(this);
   }
+
+	componentDidMount() {
+		let body = document.querySelector('body');
+		body.style.backgroundImage = "url('img/woodBackground.jpg')"
+		body.style.backgroundSize = '100% 100%';
+		body.style.backgroundAttachment = 'fixed';
+	}
+
+
   onClickNav = () => {
       this.setState((state) => ({ isActive: !state.isActive }));
   }

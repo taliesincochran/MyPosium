@@ -3,7 +3,6 @@ import { Redirect } from 'react-router-dom';
 import Navbar from '../../components/Nav/Navbar'
 import axios from 'axios';
 import { authObj } from '../../authenticate';
-import $ from 'jquery'
 // import EventCard from '../../components/EventCard/EventCard';
 // import Media from '../../components/Media/Media';
 import { Container,
@@ -56,9 +55,7 @@ class Dashboard extends Component {
       // console.log("user", this.props.location.state)
       // console.log("state, user", this.state.user)
       this.getEvents();
-      $('html, body').css({
-        'background-image': 'none',
-      })
+      document.querySelector('body').style.backgroundImage = 'none';
   }
   getEvents =() => {
     axios.get("/api/event/").then(events => {
