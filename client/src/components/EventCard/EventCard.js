@@ -20,6 +20,7 @@ import {
   CardContent
 } from 'bloomer';
 import moment from 'moment';
+
 const EventCard = props => {
   if(!props.isSmall) {
     return(
