@@ -19,46 +19,73 @@ import {
   Content,
   CardContent
 } from 'bloomer';
+import moment from 'moment';
 
 const EventCard = props => {
-  return(
-
-    <Card>
-      <CardHeader>
-        <CardHeaderTitle>
-          {props.event.title}
-        </CardHeaderTitle>
-      </CardHeader>
-      <Columns >
-        <Column isSize='1/2'>
-          <CardImage>
-            <Image isRatio='4:3' src={props.event.imgUrl || 'https://images.pexels.com/photos/6227/hands-technology-photo-phone.jpg?w=1260&h=750&auto=compress&cs=tinysrgb'} alt={props.event.title} />
-          </CardImage>
-        </Column>
-        <Column isSize='1/2'>
-          <CardContent>
-            <Media>
-              <MediaContent>
-                <Title isSize={4}>{props.event.title}</Title>
-              </MediaContent>
-            </Media>
-            <Content>
-              <p>{props.event.description}</p>
-              <br/>
-              <small>{props.event.date}{' '}{props.event.time}</small>
-              <br />
-              <small>${props.event.cost}</small>
-              <Button value={props.event._id} onClick={props.onClick}>Attend</Button>
-              <Link to={{pathname: "/event/", state: {state: props.state, event: props.event}}}>
-                <Button>View More
-                </Button>
-              </Link>
-            </Content>
-          </CardContent>
-        </Column>
-      </Columns>
-    </Card>
-  )
+  if(!props.isSmall) {
+    return(
+      <Card>
+        <CardHeader>
+          <CardHeaderTitle>
+            {props.event.title}
+          </CardHeaderTitle>
+        </CardHeader>
+        <Columns >
+          <Column isSize='1/2'>
+            <CardImage>
+              <Image isRatio='4:3' src={props.event.imgUrl || 'https://images.pexels.com/photos/6227/hands-technology-photo-phone.jpg?w=1260&h=750&auto=compress&cs=tinysrgb'} alt={props.event.title} />
+            </CardImage>
+          </Column>
+          <Column isSize='1/2'>
+            <CardContent>
+              <Media>
+                <MediaContent>
+                  <Title isSize={4}>{props.event.title}</Title>
+                </MediaContent>
+              </Media>
+              <Content>
+                <p>{props.event.description}</p>
+                <br/>
+                <small>{moment(props.event.date).format("dddd, MMMM Do YYYY")} {'   '}{moment(props.event.time).format("h:mm a")}</small>
+                <br />
+                <small>{props.event.cost}</small>
+                <Button value={props.event._id} onClick={props.onClick}>Attend</Button>
+                <Button onClick={()=> props.eventModal(props.event)}>View More</Button>
+              </Content>
+            </CardContent>
+          </Column>
+        </Columns>
+      </Card>
+    )
+  } else {
+    //For a smaller card
+    return(
+      <Card>
+        <CardHeader>
+          <CardHeaderTitle>
+            {props.event.title}
+          </CardHeaderTitle>
+        </CardHeader>
+        <Columns >
+          <Column isSize='1/2'>
+            <CardImage>
+              <Image isRatio='4:3' src={props.event.imgUrl || 'https://images.pexels.com/photos/6227/hands-technology-photo-phone.jpg?w=1260&h=750&auto=compress&cs=tinysrgb'} alt={props.event.title} />
+            </CardImage>
+          </Column>
+          <Column isSize='1/2' style={{position: 'relative', top: '0px'}}>
+            <CardContent>
+              <Content>
+                <small>{moment(props.event.date).format("dddd, MMMM Do YYYY")}</small>
+                {'  '}
+                <small>{moment(props.event.time).format("h:mm a")}</small>
+              </Content>
+            </CardContent>
+          </Column>
+        </Columns>
+        <Button className="button is-primary" style={{margin: "5px 0px 0px 0px"}} onClick={()=> props.eventModal(props.event)}>View More</Button>
+      </Card>
+      )
+  }
 }
 
 export default EventCard;
