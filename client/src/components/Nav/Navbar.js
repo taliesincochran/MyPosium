@@ -24,10 +24,9 @@ const NavbarHeader = props => {
 					onClick={props.onClick}					
 					buttonClass={props.buttonClass}
 				/>
-				<NavbarMenu 
-					isActive={props.isActive} 
-					onClick={props.onClick}>
+				<NavbarMenu isActive={props.isActive} onClick={props.onClick}>
 					<NavDropdown 
+						dropdownText={props.dropdownText}
 						hasDropdown={props.hasDropdown} 
 						navbarDropdown={props.navbarDropdown} />
 				    <NavStart
