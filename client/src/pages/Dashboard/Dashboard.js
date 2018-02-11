@@ -45,7 +45,7 @@ class Dashboard extends Component {
       hasGotEvents: false,
       activeMessageModal: false,
       activeEventModal: false,
-      modalEvent: {},
+      modalEvent: {attendees: []},
       messageRecipient: '',
       subject: '',
       message: '',
@@ -111,7 +111,7 @@ class Dashboard extends Component {
       //returned to select correct events to include from the local   ==
       //event array                                                   ==      
       //================================================================ 
-      if(remote === false) {
+      if(remote === false && userLocation.toString().length === 5) {
         const queryURL = `https://maps.googleapis.com/maps/api/distancematrix/json?origins=${userLocation}&destinations=${destinations}&key=AIzaSyDpwnTjzyOwCRmPRQhpu0eREKplFV0TCDI`
         axios.get(queryURL).then(result=> {
           console.log(result.data);
@@ -206,6 +206,7 @@ class Dashboard extends Component {
     }
   }
   render() {
+    console.log(this.state.modalEvent.attendees.length)
     // var checkMessages= this.checkMessages;
     // var createEvent = this.createEvent;
     // var handleLogout = this.handleLogout;
@@ -404,7 +405,7 @@ class Dashboard extends Component {
                   <Column isSize='1/3'>
                     <Image src={this.state.modalEvent.imgUrl} />
                     <Title>{moment(this.state.modalEvent.date).format("dddd, MMMM Do YYYY")}</Title>
-                    <Subtitle>{moment(this.state.modalEvent.time).format("h:mm a")}</Subtitle>
+                    <Subtitle>{moment(this.state.modalEvent.time).format("h:hh a")}</Subtitle>
                     {this.state.modalEvent.isRemote?(<Subtitle>Remote</Subtitle>):(
                       <Subtitle>Located in: {this.state.modalEvent.zipcode}</Subtitle>
                     )}
@@ -414,11 +415,14 @@ class Dashboard extends Component {
                     {this.state.modalEvent.cost?(<Subtitle>Cost: {this.state.modalEvent.cost}</Subtitle>):(<Subtitle>Free Event</Subtitle>)}
                     <Subtitle>Because your intrested in {this.state.modalEvent.category}</Subtitle>
                     <Subtitle>{this.state.modalEvent.description}</Subtitle>
-                    <Subtitle>{this.state.modalEvent.minAttending}/{this.state.modalEvent.maxAttending} of attendees signed up</Subtitle>
+                    <Subtitle>{this.state.modalEvent.attendees.length}/{this.state.modalEvent.maxAttending} of attendees signed up</Subtitle>
                   </Column>
                 </Columns>
                 {this.state.user.attending.includes(this.state.modalEvent._id)?
-                  (<Button isColor='primary' onClick={this.openMessageModal}>Send Message To Organizer</Button>):
+                  (<Button isColor='primary' onClick={() => {
+                    this.openMessageModal(this.state.modalEvent.username);
+                    this.closeEventModal();
+                  }}>Send Message To Organizer</Button>):
                   (<Button isColor="primary" onClick={this.attend} className="is-fullwidth">Attend</Button>)
                 }
               </ModalCardBody>
