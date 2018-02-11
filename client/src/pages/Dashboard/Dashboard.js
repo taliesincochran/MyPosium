@@ -97,6 +97,7 @@ class Dashboard extends Component {
       //================================================================
       var eventsToShow =[];
       eventsMatchArray.map(event=> {
+        console.log(event)
         if(event.isRemote === remote) {
           destinations = destinations + event.zipcode + "|" 
           eventsToShow.push(event);
@@ -112,46 +113,27 @@ class Dashboard extends Component {
       //================================================================ 
       if(remote === false) {
         const queryURL = `https://maps.googleapis.com/maps/api/distancematrix/json?origins=${userLocation}&destinations=${destinations}&key=AIzaSyDpwnTjzyOwCRmPRQhpu0eREKplFV0TCDI`
-        if(user.zipcode.toString().length === 5){
-          axios.get(queryURL).then(result=> {
-            console.log(result.data);
-            var eventsWithinDistance = [];
-            result.data.status==="OK"?(
-            result.data.rows[0].elements.map((destination, i)=> {
-              if(destination.distance.value < travelMeters) {
-                eventsWithinDistance.push(eventsToShow[i])
-              }
-            })):console.log("queryURL", queryURL)
+        axios.get(queryURL).then(result=> {
+          console.log(result.data);
+          var eventsWithinDistance = [];
+          result.data.status==="OK"?(
+          result.data.rows[0].elements.map((destination, i)=> {
+            if(destination.distance.value < travelMeters) {
+              eventsWithinDistance.push(eventsToShow[i])
+            }
+          })):console.log("queryURL", queryURL)
           //=============================================================
           //To insure the axios call is done before setting the state, ==
           //return query results and arrays and set up a .then         ==        
           //=============================================================
-            return({eventsMatch: eventsToShow, userCreated: userCreatedArray, events: eventsArray, eventsWithinDistance: eventsWithinDistance})
-          }).then(results =>{
-          this.setState({eventsWithinDistance: results.eventsWithinDistance, events: results.events, eventsMatchInterests: results.eventsMatch, userCreated: results.userCreated, hasGotEvents: true, userAttending: this.state.user.attending}, ()=> console.log('state set', this.state))
-          })
-        } else {
-          //=============================================================
-          //In case the users zipcode is not in a format understandable==
-          //to google maps, this will prevent errors until we add      ==
-          //validation.                                                ==
-          //=============================================================
-          console.log(user.zipcode)
-          this.setState({eventsWithinDistance: [{
-            title: 'Zipcode Not Found',
-            description: "The zipcode in your profile was not found by the google api. You can still check remote events, but you might want to check your profile.",
-            username: '',
-            time: '',
-            date: '',
-            imgUrl: '',
-            _id: '0',
-            onClick: ()=> console.log('invalid zipcope')
-          }], hasGotEvents: true})
-        }
+          return({eventsMatch: eventsToShow, userCreated: userCreatedArray, events: eventsArray, eventsWithinDistance: eventsWithinDistance})
+        }).then(results =>{
+        this.setState({eventsWithinDistance: results.eventsWithinDistance, events: results.events, eventsMatchInterests: results.eventsMatch, userCreated: results.userCreated, hasGotEvents: true, userAttending: this.state.user.attending}, ()=> console.log('state set', this.state))
+        })
       } else{
-        this.setState({eventsMatch: eventsToShow, userCreated: userCreatedArray, events: eventsArray, eventsWithinDistance: eventsToShow})
+        this.setState({eventsMatch: eventsToShow, userCreated: userCreatedArray, events: eventsArray, eventsWithinDistance: eventsToShow, userAttending: this.state.user.attending, hasGotEvents: true})
       }
-    })
+   })
   }
 
   openMessageModal = (organizer) => {
