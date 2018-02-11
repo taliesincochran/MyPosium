@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import NavbarHeader from '../../components/Nav/Navbar';
 import './Landing.css';
+import { injectGlobal } from 'emotion';
 import { Image,
 	Container,
 	Content,
@@ -9,7 +10,15 @@ import { Image,
 	Title,
 	Tile,
 	Columns
-	} from 'bloomer';
+} from 'bloomer';
+
+injectGlobal`
+	html, body {
+		background-image: url('img/woodBackground.jpg');
+		background-attachment: fixed;
+		background-size: 100% 100%;
+	}
+`
 
 export default class Landing extends Component {
 	constructor(props) {
@@ -20,11 +29,14 @@ export default class Landing extends Component {
     this.onClickNav = this.onClickNav.bind(this);
   }
 
+
+
 	componentDidMount() {
-		let body = document.querySelector('body');
-		body.style.backgroundImage = "url('img/woodBackground.jpg')"
-		body.style.backgroundSize = '100% 100%';
-		body.style.backgroundAttachment = 'fixed';
+		// let body = document.querySelector('body');
+		// body.style.backgroundImage = "url('img/woodBackground.jpg')"
+		// body.style.backgroundSize = '100% 100%';
+		// body.style.backgroundAttachment = 'fixed';
+		// body.style.backgroundColor = 'green';
 	}
 
 
@@ -82,20 +94,12 @@ export default class Landing extends Component {
 		    <Container>
 					<a id="myposium" style={{marginTop: "20px"}}></a>
 					<Section className='is-vertical-center' style={{position: 'fixed', zIndex: '0' }}>
-				    <Columns>
-							<Column isSize={12} >
-								<Tile isSize={12}>
-									<Title isSize={3}>A New Way to Create, Discover, and Connect!</Title>
-								</Tile>
-							</Column>
-								<Column isSize={7} >
-									<Tile isSize={6}>
-									<Title isSize={1}>...MyPosium</Title>
-								</Tile>
-								</Column>
-						</Columns>
+						<Container className="is-clearfix">
+							<Title isSize={1}>A New Way to Create, Discover, and Connect!</Title>
+							<Title isSize={3}>...MyPosium</Title>
+						</Container>
 			    </Section>
-					<div isFullWidth={true} style={{position: 'relative', 'z-index': '100', marginTop: '100vh', background: 'white'}} >
+					<div isFullWidth={true} style={{position: 'relative', 'z-index': '100', marginTop: '100vh', background: ''}} >
 						<a id="create" style={{marginTop: "20px"}}> </a>
 						<Section className='is-vertical-center'>
 					    <Columns>

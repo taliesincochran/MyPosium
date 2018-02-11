@@ -103,7 +103,7 @@ export default class Login extends Component {
                   </Control>
               </Field>
               <Field>
-                  <Label className="has-text-left">Name</Label>
+                  <Label className="has-text-left">Password:</Label>
                   <Control>
                     <Input
                       type="password"

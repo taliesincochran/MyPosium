@@ -161,7 +161,7 @@ class Dashboard extends Component {
               onClick:() => {
                 this.setState({createEvent: true});
               },
-              buttonClass: "button is-primary"
+              buttonClass: "button is-warning"
             },
             {
               text:"Check Messages",
@@ -190,7 +190,7 @@ class Dashboard extends Component {
                   })
                   .catch(err => console.log(err));
               },
-              buttonClass: "button is-primary"
+              buttonClass: "button is-danger"
             }
           ]}
         />
