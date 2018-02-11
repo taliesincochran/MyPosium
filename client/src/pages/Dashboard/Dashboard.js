@@ -39,7 +39,7 @@ class Dashboard extends Component {
       events:[],
       userCreated: [],
       userAttending: [],
-      eventsMatchInterests:[],
+      // eventsMatchInterests:[],
       user: this.props.location.state,
       isActive: false,
       hasGotEvents: false,
@@ -49,6 +49,8 @@ class Dashboard extends Component {
       messageRecipient: '',
       subject: '',
       message: '',
+      eventsWithin: 5,
+      eventsWithinDistance: []
     }
     this.burgerOnClick = this.burgerOnClick.bind(this)
     this.setState = this.setState.bind(this)
@@ -57,22 +59,30 @@ class Dashboard extends Component {
       axios.get("/api/users/" + this.state.user.username).then(result=>{
         // console.log("user get", result);
         this.setState({user: result.data})
-      }).then(res=>this.getEvents())
+      }).then(res=>this.getEvents(false))
       // console.log("user", this.props.location.state)
       // console.log("state, user", this.state.user)
-      this.getEvents();
       document.querySelector('body').style.backgroundImage = 'none';
   }
-  getEvents =() => {
+  getEvents =(remote) => {
     axios.get("/api/event/").then(events => {
-      // console.log(events.data)
+      //======================================================================================================
       var userCreatedArray = [];
       var eventsMatchArray = [];
+      //Set up parameters of google maps distance matrix api call=============================================
+      //======================================================================================================
+      const userLocation = this.state.user.zipcode;
+      const metersPerMile = 1609.344;
+      const travelMiles = this.state.eventsWithin;
+      const travelMeters = travelMiles * metersPerMile;
+      var destinations = '';
       var user = this.state.user;
-      // var interests = this.state.user.interests;
-      var eventsArray = events.data
-      // console.log(eventsArray);
-      eventsArray.map(event => {
+      //=====================================================================================================
+      //Seperate user created events, events user is already attending, and other events that match the =====
+      //users interests======================================================================================
+      //=====================================================================================================
+      var eventsArray = events.data;
+      eventsArray.map(event=> {
         var category = event.category
         if(this.state.user.username === event.username) {
           userCreatedArray.push(event)
@@ -80,12 +90,61 @@ class Dashboard extends Component {
         if (this.state.user.interests.indexOf(category) > -1 && event.attendees.indexOf(user._id) === -1 && this.state.user.attending.indexOf(user._id) === -1){
           eventsMatchArray.push(event)
         }
-        return event;
       })
-      return({eventsMatch: eventsMatchArray, userCreated: userCreatedArray, events: eventsArray})
-    }).then(results =>{
-      // console.log(results)
-      this.setState({events: results.events, eventsMatchInterests: results.eventsMatch, userCreated: results.userCreated, hasGotEvents: true, userAttending: this.state.user.attending}, ()=> console.log('state set', this.state))})
+      //======================================================================================================
+      //Seperating local from remote if remote === true then only remote events events========================
+      //======================================================================================================
+      var eventsToShow =[];
+      eventsMatchArray.map(event=> {
+        if(event.isRemote === remote) {
+          destinations = destinations + event.zipcode + "|" 
+          eventsToShow.push(event);
+        } 
+        return({events: eventsArray, eventsToShow: eventsToShow})
+      })
+      //=======================================================================================================
+      //Query google maps distance matrix to get rough distance of event by zipcodes, as google maps returns ==
+      //the distances in the order queried, use the index of the row.element array returned to select correct== 
+      //events to include from the local event array===========================================================
+      //======================================================================================================= 
+      if(remote === false) {
+        const queryURL = `https://maps.googleapis.com/maps/api/distancematrix/json?origins=${userLocation}&destinations=${destinations}&key=AIzaSyDpwnTjzyOwCRmPRQhpu0eREKplFV0TCDI`
+        if(user.zipcode.toString().length === 5){
+          axios.get(queryURL).then(result=> {
+            console.log(result.data);
+            var eventsWithinDistance = [];
+            result.data.status==="OK"?(
+            result.data.rows[0].elements.map((destination, i)=> {
+              console.log(destination, "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++")
+              if(destination.distance.value < travelMeters) {
+                eventsWithinDistance.push(eventsToShow[i])
+              }
+            })):console.log("queryURL", queryURL)
+          //======================================================================================================
+          //To insure the axios call is done before setting the state, return query results and arrays and set up= 
+          // a .then==============================================================================================
+          //======================================================================================================
+            return({eventsMatch: eventsToShow, userCreated: userCreatedArray, events: eventsArray, eventsWithinDistance: eventsWithinDistance})
+          }).then(results =>{
+          this.setState({eventsWithinDistance: results.eventsWithinDistance, events: results.events, eventsMatchInterests: results.eventsMatch, userCreated: results.userCreated, hasGotEvents: true, userAttending: this.state.user.attending}, ()=> console.log('state set', this.state))
+          })
+        } else {
+          console.log(user.zipcode)
+          this.setState({eventsWithinDistance: [{
+            title: 'Zipcode Not Found',
+            description: "The zipcode in your profile was not found by the google api.",
+            username: '',
+            time: '',
+            date: '',
+            imgUrl: '',
+            _id: '0',
+            onClick: ()=> console.log('invalid zipcope')
+          }], hasGotEvents: true})
+        }
+      } else{
+        this.setState({eventsMatch: eventsToShow, userCreated: userCreatedArray, events: eventsArray, eventsWithinDistance: eventsToShow})
+      }
+    })
   }
 
   openMessageModal = (organizer) => {
@@ -102,7 +161,14 @@ class Dashboard extends Component {
     let { name, value } = e.target;
     this.setState({ [name]: value });
   }
-
+  setDistance = (x) => {
+    if(isNaN(x)) {
+      this.getEvents(true)
+    }
+    else {
+      this.setState({eventsWithin: x}, () => this.getEvents(false))
+    }
+  }
   submitMessage = e => {
     this.setState({activeMessageModal: false})
     let newMessage = {
@@ -140,13 +206,15 @@ class Dashboard extends Component {
       this.getEvents();
       attending.push(id)
       console.log(attending);
-      this.setState({userAttending: attending})
+      this.setState({userAttending: attending, activeEventModal: false})
     })
   }
   burgerOnClick = () =>this.setState((state) => ({isActive:!this.state.isActive}))
       
   eventModal = (event) => {
-    this.setState({modalEvent: event, activeEventModal: !this.state.activeEventModal})
+    if(event._id !== '0'){
+      this.setState({modalEvent: event, activeEventModal: !this.state.activeEventModal})
+    }
   }
   render() {
     // var checkMessages= this.checkMessages;
@@ -166,6 +234,54 @@ class Dashboard extends Component {
           isActive={this.state.isActive}
           hasEnd={true}
           hasEndButtons={true}
+          hasDropdown={true}
+          dropdownText={`Events Within ${this.state.eventsWithin} miles`}
+          navbarDropdown={[
+            {
+              value: 5,
+              text: '5 miles',
+              class: 'button is-primary',
+              onClick: () => this.setDistance(5)
+
+            },
+            {
+              value: 10,
+              text: '10 miles',
+              class: 'button is-primary',
+              onClick: () => this.setDistance(10)
+
+            },{
+              value: 15,
+              text: '15 miles',
+              class: 'button is-primary',
+              onClick: () => this.setDistance(15)
+            },{
+              value: 20,
+              text: '20 miles',
+              class: 'button is-primary',
+              onClick: () => this.setDistance(20)
+            },{
+              value: 30,
+              text: '30 miles',
+              class: 'button is-primary',
+              onClick: () => this.setDistance(30)
+            },{
+              value: 40,
+              text: '40 miles',
+              class: 'button is-primary',
+              onClick: () => this.setDistance(40)
+            },{
+              value: 50,
+              text: '50 miles',
+              class: 'button is-primary',
+              onClick: () => this.setDistance(50)
+            },{
+              value: 'remote',
+              text: 'Remote',
+              class: 'button is-primary',
+              onClick: () => this.setDistance('remote')
+            }
+          ]}
           navbarStyle={{boxShadow: '2px 2px 5px', position:"fixed", top:"0", left:"0", zIndex: '998', width: '100%'}}
           navbarEnd={[
             {
@@ -248,7 +364,7 @@ class Dashboard extends Component {
             <Box>
               <h2>Events you may be interested in.</h2>
               <div style={{height: '50px'}} />
-              {this.state.eventsMatchInterests.map(event=>{
+              {this.state.eventsWithinDistance.map(event=>{
                   return(
                     <div>
                       <EventCard
@@ -300,7 +416,7 @@ class Dashboard extends Component {
                     <Image src={this.state.modalEvent.imgUrl} />
                     <Title>{moment(this.state.modalEvent.date).format("dddd, MMMM Do YYYY")}</Title>
                     <Subtitle>{moment(this.state.modalEvent.time).format("h:mm a")}</Subtitle>
-                    {this.state.modalEvent.isRemote?(<Subtitle>(Remote</Subtitle>):(
+                    {this.state.modalEvent.isRemote?(<Subtitle>Remote</Subtitle>):(
                       <Subtitle>Located in: {this.state.modalEvent.zipcode}</Subtitle>
                     )}
                   </Column>
@@ -312,7 +428,10 @@ class Dashboard extends Component {
                     <Subtitle>{this.state.modalEvent.minAttending}/{this.state.modalEvent.maxAttending} of attendees signed up</Subtitle>
                   </Column>
                 </Columns>
-                <Button isColor="primary" onClick={this.attend} className="is-fullwidth">Attend</Button>
+                {this.state.user.attending.includes(this.state.modalEvent._id)?
+                  (<Button isColor='primary' onClick={this.openMessageModal}>Send Message To Organizer</Button>):
+                  (<Button isColor="primary" onClick={this.attend} className="is-fullwidth">Attend</Button>)
+                }
               </ModalCardBody>
             </ModalCard>
           <ModalClose isSize='large'/>
