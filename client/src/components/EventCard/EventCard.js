@@ -76,7 +76,7 @@ const EventCard = props => {
               <Content>
                 <small>{moment(props.event.date).format("dddd, MMMM Do YYYY")}</small>
                 {'  '}
-                <small>{moment(props.time).format("h:mm a")}</small>
+                <small>{moment(props.event.time).format("h:mm a")}</small>
               </Content>
             </CardContent>
           </Column>

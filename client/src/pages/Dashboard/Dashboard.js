@@ -66,21 +66,21 @@ class Dashboard extends Component {
   }
   getEvents =(remote) => {
     axios.get("/api/event/").then(events => {
-      //======================================================================================================
       var userCreatedArray = [];
       var eventsMatchArray = [];
-      //Set up parameters of google maps distance matrix api call=============================================
-      //======================================================================================================
+      //================================================================
+      //Set up parameters of google maps distance matrix api call=======
+      //================================================================
       const userLocation = this.state.user.zipcode;
       const metersPerMile = 1609.344;
       const travelMiles = this.state.eventsWithin;
       const travelMeters = travelMiles * metersPerMile;
       var destinations = '';
       var user = this.state.user;
-      //=====================================================================================================
-      //Seperate user created events, events user is already attending, and other events that match the =====
-      //users interests======================================================================================
-      //=====================================================================================================
+      //================================================================
+      //Seperate user created events, events user is already attending,=
+      // and other events that match the users interests================
+      //================================================================
       var eventsArray = events.data;
       eventsArray.map(event=> {
         var category = event.category
@@ -91,9 +91,10 @@ class Dashboard extends Component {
           eventsMatchArray.push(event)
         }
       })
-      //======================================================================================================
-      //Seperating local from remote if remote === true then only remote events events========================
-      //======================================================================================================
+      //================================================================
+      //Seperating local from remote if remote === true then only ======
+      //remote events events============================================
+      //================================================================
       var eventsToShow =[];
       eventsMatchArray.map(event=> {
         if(event.isRemote === remote) {
@@ -102,11 +103,13 @@ class Dashboard extends Component {
         } 
         return({events: eventsArray, eventsToShow: eventsToShow})
       })
-      //=======================================================================================================
-      //Query google maps distance matrix to get rough distance of event by zipcodes, as google maps returns ==
-      //the distances in the order queried, use the index of the row.element array returned to select correct== 
-      //events to include from the local event array===========================================================
-      //======================================================================================================= 
+      //================================================================
+      //Query google maps distance matrix to get rough distance of    ==
+      //event by zipcodes, as google maps returns the distances in    ==
+      //the order queried, use the index of the row.element array     ==
+      //returned to select correct events to include from the local   ==
+      //event array                                                   ==      
+      //================================================================ 
       if(remote === false) {
         const queryURL = `https://maps.googleapis.com/maps/api/distancematrix/json?origins=${userLocation}&destinations=${destinations}&key=AIzaSyDpwnTjzyOwCRmPRQhpu0eREKplFV0TCDI`
         if(user.zipcode.toString().length === 5){
@@ -115,24 +118,28 @@ class Dashboard extends Component {
             var eventsWithinDistance = [];
             result.data.status==="OK"?(
             result.data.rows[0].elements.map((destination, i)=> {
-              console.log(destination, "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++")
               if(destination.distance.value < travelMeters) {
                 eventsWithinDistance.push(eventsToShow[i])
               }
             })):console.log("queryURL", queryURL)
-          //======================================================================================================
-          //To insure the axios call is done before setting the state, return query results and arrays and set up= 
-          // a .then==============================================================================================
-          //======================================================================================================
+          //=============================================================
+          //To insure the axios call is done before setting the state, ==
+          //return query results and arrays and set up a .then         ==        
+          //=============================================================
             return({eventsMatch: eventsToShow, userCreated: userCreatedArray, events: eventsArray, eventsWithinDistance: eventsWithinDistance})
           }).then(results =>{
           this.setState({eventsWithinDistance: results.eventsWithinDistance, events: results.events, eventsMatchInterests: results.eventsMatch, userCreated: results.userCreated, hasGotEvents: true, userAttending: this.state.user.attending}, ()=> console.log('state set', this.state))
           })
         } else {
+          //=============================================================
+          //In case the users zipcode is not in a format understandable==
+          //to google maps, this will prevent errors until we add      ==
+          //validation.                                                ==
+          //=============================================================
           console.log(user.zipcode)
           this.setState({eventsWithinDistance: [{
             title: 'Zipcode Not Found',
-            description: "The zipcode in your profile was not found by the google api.",
+            description: "The zipcode in your profile was not found by the google api. You can still check remote events, but you might want to check your profile.",
             username: '',
             time: '',
             date: '',
