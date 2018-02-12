@@ -23,6 +23,7 @@ import moment from 'moment';
 
 const EventCard = props => {
   if(!props.isSmall) {
+    //Fullsize card render
     return(
       <Card>
         <CardHeader>
