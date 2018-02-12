@@ -362,7 +362,14 @@ class Dashboard extends Component {
                   <Column>
                     <Title isSize={5}>Hi, {this.props.location.state.username}, welcome back!</Title>
                     {/* nested ternary checks if there are new messages, and outputs the message according to the number of new messages.  */}
-                    <p>You have {this.state.unread===0 ? 'No new messages.' : (this.state.unread === 1 ? (<Link to={{pathname: '/messages', state: this.state.user}}>{this.state.unread + ' new message!'}</Link>) : (<Link to={{pathname: '/messages', state: this.state.user}}>{this.state.unread + ' new messages!'}</Link>))}</p>
+                    {console.log('+++++++++++++++++++++++++',this.state.unread)}
+                    <p>You have {this.state.unread===0 ?
+                      'No new messages.'
+                      :
+                      (this.state.unread === 1 ?
+                        (<Link to={{pathname: '/messages', state: this.state.user}}>{this.state.unread + ' new message!'}</Link>)
+                        :
+                        (<Link to={{pathname: '/messages', state: this.state.user}}>{this.state.unread + ' new messages!'}</Link>))}</p>
                   </Column>
                 </Columns>
               </Box>
@@ -458,7 +465,7 @@ class Dashboard extends Component {
                   </Column>
                   <Column>
                     <Title>Organized By: {this.state.modalEvent.username} </Title>
-                  
+
                     {this.state.modalEvent.cost?(<Subtitle>Cost: {this.state.modalEvent.cost}</Subtitle>):(<Subtitle>Free Event</Subtitle>)}
                     <Subtitle>Because you are interested in {this.state.modalEvent.category}</Subtitle>
                     <Subtitle>{this.state.modalEvent.description}</Subtitle>
