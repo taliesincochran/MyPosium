@@ -5,7 +5,6 @@ import Profile from "./pages/Profile";
 import Landing from "./pages/Landing";
 import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
-import Event from "./pages/Event";
 import UpdateUser from "./pages/UpdateUser";
 import CreateEvent from "./pages/CreateEvent";
 import Messages from './pages/Messages';
@@ -26,7 +25,6 @@ export default class App extends Component{
             <Route exact path='/dashboard' component={ Dashboard }/>
             <Route path='/messages' component={ Messages } />
             <Route exact path="/event/create" component={ CreateEvent } />
-            <Route exact path="/dashboard/:eventID" component={ Event } />
             <Route exact path="/updateProfile" component={ UpdateUser } />
             <Route component={ NoMatch } />
           </Switch>

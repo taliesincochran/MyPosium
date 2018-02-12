@@ -49,7 +49,7 @@ class Dashboard extends Component {
       hasGotEvents: false,
       activeMessageModal: false,
       activeEventModal: false,
-      modalEvent: {attendees: []},
+      modalEvent: {attendees: [], username: null},
       messageRecipient: '',
       subject: '',
       message: '',
@@ -60,8 +60,9 @@ class Dashboard extends Component {
     this.setState = this.setState.bind(this)
   }
   componentDidMount =() => {
+    console.log('state on did mount', this.state)
       axios.get("/api/users/" + this.state.user.username).then(result=>{
-        // console.log("user get", result);
+        console.log("user get", result);
         this.setState({user: result.data})
       }).then(res=>this.getEvents(false))
       // console.log("user", this.props.location.state)
@@ -117,8 +118,9 @@ class Dashboard extends Component {
       //================================================================
       if(remote === false && userLocation.toString().length === 5) {
         const queryUrl = `https://maps.googleapis.com/maps/api/distancematrix/json?origins=${userLocation}&destinations=${destinations}&key=AIzaSyDpwnTjzyOwCRmPRQhpu0eREKplFV0TCDI`
+        console.log('query url', queryUrl)
         axios.get(queryUrl).then(result=> {
-          console.log(result.data);
+          console.log("api result", result);
           var eventsWithinDistance = [];
           result.data.status==="OK"?(
           result.data.rows[0].elements.map((destination, i)=> {
@@ -177,7 +179,13 @@ class Dashboard extends Component {
       })
       .catch(err => console.log(err));
   }
-
+  sendToAllAttendees= () => {
+    console.log("I'm a placeholder.")
+  }
+  sendMessageToOrganizer = () => {
+    this.openMessageModal(this.state.modalEvent.username);
+    this.closeEventModal();
+  }
   handleLogout = () => {
     // console.log("api/users/logout called")
     axios
@@ -235,45 +243,45 @@ class Dashboard extends Component {
             {
               value: 5,
               text: '5 miles',
-              class: 'button is-primary',
+              class: 'button is-primary is-fullwidth',
               onClick: () => this.setDistance(5)
 
             },
             {
               value: 10,
               text: '10 miles',
-              class: 'button is-primary',
+              class: 'button is-primary is-fullwidth',
               onClick: () => this.setDistance(10)
 
             },{
               value: 15,
               text: '15 miles',
-              class: 'button is-primary',
+              class: 'button is-primary is-fullwidth',
               onClick: () => this.setDistance(15)
             },{
               value: 20,
               text: '20 miles',
-              class: 'button is-primary',
+              class: 'button is-primary is-fullwidth',
               onClick: () => this.setDistance(20)
             },{
               value: 30,
               text: '30 miles',
-              class: 'button is-primary',
+              class: 'button is-primary is-fullwidth',
               onClick: () => this.setDistance(30)
             },{
               value: 40,
               text: '40 miles',
-              class: 'button is-primary',
+              class: 'button is-primary is-fullwidth',
               onClick: () => this.setDistance(40)
             },{
               value: 50,
               text: '50 miles',
-              class: 'button is-primary',
+              class: 'button is-primary is-fullwidth',
               onClick: () => this.setDistance(50)
             },{
               value: 'remote',
               text: 'Remote',
-              class: 'button is-primary',
+              class: 'button is-primary is-fullwidth',
               onClick: () => this.setDistance('remote')
             }
           ]}
@@ -318,20 +326,18 @@ class Dashboard extends Component {
           ]}
         />
         <div style={{height: '100px'}}/>
-
-          <Columns isCentered>
-            <Column isSize="1/3">
-              <Box>
-                <Image isSize="128x128" src={this.props.location.state.img} />
-                <p>Hi, {this.props.location.state.username}</p>
-              </Box>
-              <div style={{height: '20px'}} />
-              <Box>
-                <h3>Events you've organized</h3>
-                <div style={{height: '15px'}} />
-                {this.state.events.length<0?(<p>You have organized no events</p>):
-                  (this.state.userCreated.map(event=>{
-
+        <Columns isCentered>
+          <Column isSize="1/3">
+            <Box>
+              <Image isSize="128x128" src={this.props.location.state.img || "https://upload.wikimedia.org/wikipedia/commons/thumb/4/42/Simpleicons_Interface_user-black-close-up-shape.svg/1024px-Simpleicons_Interface_user-black-close-up-shape.svg.png"} />
+              <p>Hi, {this.props.location.state.username}</p>
+            </Box>
+            <div style={{height: '20px'}} />
+            <Box>
+              <h3>Events you've organized</h3>
+              <div style={{height: '15px'}} />
+              {this.state.events.length<0?(<p>You have organized no events</p>):
+                (this.state.userCreated.map(event=>{
                     return(
                       <div>
                         <EventCard event={event} isSmall={true} eventModal={this.eventModal} />
@@ -377,7 +383,7 @@ class Dashboard extends Component {
             </Column>
           </Columns>
 
-        <Modal isSize='large' isActive={this.state.activeMessageModal? true: false} >
+        <Modal isActive={this.state.activeMessageModal? true: false} >
           <ModalBackground />
           <ModalContent style={{padding: '20px'}}>
             <Delete onClick={this.closeEventModal} />
@@ -401,7 +407,7 @@ class Dashboard extends Component {
           <ModalClose />
         </Modal>
 
-        <Modal isSize='large' isActive={this.state.activeEventModal? true: false} >
+        <Modal isActive={this.state.activeEventModal? true: false} >
           <ModalBackground />
           <ModalCard>
             <ModalCardTitle className="has-text-centered">{}{this.state.modalEvent.title}!</ModalCardTitle>
@@ -418,19 +424,16 @@ class Dashboard extends Component {
                   </Column>
                   <Column>
                     <Title>Organized By: {this.state.modalEvent.username} </Title>
+                  
                     {this.state.modalEvent.cost?(<Subtitle>Cost: {this.state.modalEvent.cost}</Subtitle>):(<Subtitle>Free Event</Subtitle>)}
                     <Subtitle>Because you are interested in {this.state.modalEvent.category}</Subtitle>
                     <Subtitle>{this.state.modalEvent.description}</Subtitle>
                     <Subtitle>{this.state.modalEvent.attendees.length}/{this.state.modalEvent.maxAttending} of attendees signed up</Subtitle>
                   </Column>
                 </Columns>
-                {this.state.user.attending.includes(this.state.modalEvent._id)?
-                  (<Button isFullWidth isColor='primary' onClick={() => {
-                    this.openMessageModal(this.state.modalEvent.username);
-                    this.closeEventModal();
-                  }}>Send Message To Organizer</Button>):
-                  (<Button isColor="primary" onClick={this.attend} className="is-fullwidth">Attend</Button>)
-                }
+                {this.state.user.attending.includes(this.state.modalEvent._id)?(<Button isColor='primary' onClick={this.sendMessageToOrganizer} className="is-fullWidth">Send Message To Organizer</Button>):null}
+                {(this.state.user.username !== this.state.modalEvent.username && !this.state.user.attending.includes(this.state.modalEvent._id))?(<Button isColor="primary" onClick={this.attend} className="is-fullwidth">Attend</Button>):null}
+                {(this.state.modalEvent.username === this.state.user.username)?(<Button isColor="primary" onClick={this.sendToAllAttendees} className='is-fullwidth'>Send Message To All Attending</Button>):null}
               </ModalCardBody>
             </ModalCard>
           <ModalClose isSize='large'/>
