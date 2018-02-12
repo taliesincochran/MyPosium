@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Redirect } from 'react-router-dom';
+import { Redirect, Link } from 'react-router-dom';
 import Navbar from '../../components/Nav/Navbar'
 import axios from 'axios';
 import { authObj } from '../../authenticate';
@@ -57,14 +57,21 @@ class Dashboard extends Component {
       cancelEventMessage: '',
       cancelEventModal: false,
       eventsWithin: 5,
-      eventsWithinDistance: []
+      eventsWithinDistance: [],
+      unread: 0
     }
     this.burgerOnClick = this.burgerOnClick.bind(this)
     this.setState = this.setState.bind(this)
     this.handleInput = this.handleInput.bind(this)
   }
   componentDidMount =() => {
-    console.log('state on did mount', this.state)
+    axios
+      .get('api/message/checkForNewMessage')
+      .then(response => {
+        let unread = 0;
+        response.data.map(message => message.read===false? unread++: message)
+        this.setState({unread});
+      })
       axios.get("/api/users/" + this.state.user.username).then(result=>{
         console.log("user get", result);
         this.setState({user: result.data})
@@ -238,7 +245,6 @@ class Dashboard extends Component {
     this.setState({cancelEventModal: !this.state.cancelEventModal, activeEventModal: !this.state.activeEventModal})
   }
   render() {
-    console.log(this.state.modalEvent.attendees.length)
     // var checkMessages= this.checkMessages;
     // var createEvent = this.createEvent;
     // var handleLogout = this.handleLogout;
@@ -248,7 +254,7 @@ class Dashboard extends Component {
     //console.log(this.checkMessages)
     return(
       hasGotEvents?(
-        <div style={{width: '100%', background: 'linear-gradient(to right, rgb(200,245,240), MintCream, MintCream, white, white, MintCream, MintCream, rgb(200,245,240))'}}>
+        <div style={{width: '100%', minHeight: '100vh', background: 'linear-gradient(to right, rgb(200,245,240), MintCream, MintCream, white, white, MintCream, MintCream, rgb(200,245,240))'}}>
       <Container>
         <Navbar
           hasBrand={true}
@@ -346,18 +352,26 @@ class Dashboard extends Component {
           ]}
         />
         <div style={{height: '100px'}}/>
-        <Columns isCentered>
-          <Column isSize="1/3">
-            <Box>
-              <Image isSize="128x128" src={this.props.location.state.img || "https://upload.wikimedia.org/wikipedia/commons/thumb/4/42/Simpleicons_Interface_user-black-close-up-shape.svg/1024px-Simpleicons_Interface_user-black-close-up-shape.svg.png"} />
-              <p>Hi, {this.props.location.state.username}</p>
-            </Box>
-            <div style={{height: '20px'}} />
-            <Box>
-              <h3>Events you've organized</h3>
-              <div style={{height: '15px'}} />
-              {this.state.events.length<0?(<p>You have organized no events</p>):
-                (this.state.userCreated.map(event=>{
+          <Columns isCentered>
+            <Column isSize="1/3">
+              <Box>
+                <Columns>
+                  <Column>
+                    <Image isSize="128x128" src={this.props.location.state.img || 'img/defaultUser.jpg'} />
+                  </Column>
+                  <Column>
+                    <Title isSize={5}>Hi, {this.props.location.state.username}, welcome back!</Title>
+                    {/* nested ternary checks if there are new messages, and outputs the message according to the number of new messages.  */}
+                    <p>You have {this.state.unread===0 ? 'No new messages.' : (this.state.unread === 1 ? (<Link to={{pathname: '/messages', state: this.state.user}}>{this.state.unread + ' new message!'}</Link>) : (<Link to={{pathname: '/messages', state: this.state.user}}>{this.state.unread + ' new messages!'}</Link>))}</p>
+                  </Column>
+                </Columns>
+              </Box>
+              <div style={{height: '20px'}} />
+              <Box>
+                <h3>Events you've organized</h3>
+                <div style={{height: '15px'}} />
+                {this.state.events.length<0?(<p>You have organized no events</p>):
+                  (this.state.userCreated.map(event=>{
                     return(
                       <div>
                         <EventCard event={event} isSmall={true} eventModal={this.eventModal} />
@@ -384,7 +398,7 @@ class Dashboard extends Component {
             </Column>
             <Column isSize='2/3'>
               <Box>
-                <h2>Events you may be interested in.</h2>
+                <Title isSize={5}>Events you may be interested in.</Title>
                 <div style={{height: '50px'}} />
                 {this.state.eventsWithinDistance.map(event=>{
                     return(

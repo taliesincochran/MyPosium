@@ -5,7 +5,7 @@ const messageRoutes = require('./message');
 
 
 
-//user routes
+//api routes
 router.use("/users", userRoutes);
 router.use("/event", eventRoutes);
 router.use("/message", messageRoutes);
