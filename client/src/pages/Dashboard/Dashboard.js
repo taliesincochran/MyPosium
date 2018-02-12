@@ -193,6 +193,8 @@ class Dashboard extends Component {
       .catch(err => console.log(err));
   }
   sendToAllAttendees= () => {
+    this.openMessageModal(this.state.modalEvent.attendees);
+    this.closeEventModal();
     console.log("I'm a placeholder.")
   }
   sendMessageToOrganizer = () => {
