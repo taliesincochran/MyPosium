@@ -63,24 +63,26 @@ export default class Login extends Component {
           hasEnd={true}
           hasBrand={true}
           navbarStyle={{boxShadow: '2px 2px 5px', position:"fixed", top:"0", left:"0", zIndex: '998', width: '100%'}}
-          brandText='MyPosium'
+          brandText={window.location.pathname==='/login'? (<a href="/" style={{fontSize: '1.6em', textDecoration: 'none'}}>MyPosium</a>): "MyPosium"}
           burgeractive={this.state.isActive}
           isActive={this.state.isActive}
           onClick={this.onClickNav}
           hasTextColor={'black'}
-          hasEndButton={true}
+          hasEndButtons={true}
           navbarEnd={
             [
               {
                 href:"/",
                 text:"Home",
-                textStyle: {textDecoration: 'underline', color: '#4C4CFF'},
+                  buttonClass: 'button is-primary',
+                textStyle: {textDecoration: 'none'},
                 buttonHelper: 'isPrimary'
               },
               {
                 href:"/signup",
                 text: 'SignUp',
-                textStyle: {textDecoration: 'underline', color: '#4C4CFF'}
+                  buttonClass: 'button is-primary',
+                textStyle: {textDecoration: 'none'}
               }
             ]
           }
@@ -115,7 +117,7 @@ export default class Login extends Component {
                   </Control>
               </Field>
               <Control>
-                  <Button isColor='primary' onClick={this.handleSubmit}>Submit</Button>
+                  <Button isColor='primary' onClick={this.handleSubmit} isFullWidth={true}>Submit</Button>
               </Control>
             </Box>
           </Column>
