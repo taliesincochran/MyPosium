@@ -44,9 +44,17 @@ export default class SentMessages extends Component {
     this.setState({toggle: false, sentActive: false, receivedActive: true, currentMessage: ''});
   }
 
-  getOneMessage = id => {
+  getOneSentMessage = id => {
     axios
-      .get('/api/message/getOne/' + id)
+      .get('/api/message/getOneSent/' + id)
+      .then(result => {
+        this.setState({currentMessage: result.data});
+      })
+  }
+
+  getOneReceivedMessage = id => {
+    axios
+      .get('/api/message/getOneReceived/' + id)
       .then(result => {
         this.setState({currentMessage: result.data});
       })
@@ -136,7 +144,7 @@ export default class SentMessages extends Component {
                   {
                     this.state.sentMessages.length >0?
                     (this.state.sentMessages.map((message,i) => {
-                      return (<li key={i}><MenuLink onClick={() => {this.getOneMessage(message._id)}}>From: {message.sender} <br/> Subject: {message.subject}</MenuLink></li>)
+                      return (<li key={i}><MenuLink onClick={() => {this.getOneSentMessage(message._id)}}>From: {message.sender} <br/> Subject: {message.subject}</MenuLink></li>)
                     })) : <p>No Sent Messages</p>
                   }
                 </MenuList>
@@ -172,10 +180,18 @@ export default class SentMessages extends Component {
                 <MenuLabel>Messages</MenuLabel>
                 <MenuList>
                   {
-                    this.state.receivedMessages.length >0?
-                    (this.state.receivedMessages.map((message,i) => {
-                      return (<li key={i}><MenuLink onClick={() => {this.getOneMessage(message._id)}}>From: {message.sender}<br/> Subject: {message.subject}</MenuLink></li>)
-                    })) : <p>No Received Messages</p>
+                    this.state.receivedMessages.length >0 ?//start first ternary
+
+                    (this.state.receivedMessages.map((message,i) => {//first ternary first condition
+                      // console.log(message.read)
+                      if (message.read) {
+                        return (<li key={i}><MenuLink style={{whiteSpace: 'pre', textDecoration: 'none'}} onClick={() => {this.getOneReceivedMessage(message._id)}}><i class="far fa-envelope-open"></i>{" "}From: {message.sender}<br/>{"     "}Subject: {message.subject}</MenuLink></li>)
+                      } else {
+                        return (<li key={i}><MenuLink style={{whiteSpace: 'pre', textDecoration: 'none'}} onClick={() => {this.getOneReceivedMessage(message._id)}}><i class="far fa-envelope"></i>{" "}<b>From: {message.sender}<br/>{"     "}Subject: {message.subject}</b></MenuLink></li>)
+                      }
+                    }))//end second ter
+                    :
+                    (<p>No Received Messages</p>)//first ternary second condition
                   }
                 </MenuList>
               </Menu>

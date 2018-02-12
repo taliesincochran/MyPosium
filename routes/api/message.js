@@ -36,12 +36,31 @@ router.get('/populate', function (req,res){
     .catch(err => console.log(err));
 });
 
-router.get('/getOne/:id', function (req,res){
+router.get('/getOneSent/:id', function (req,res){
   db.Message
     .findOne({_id: req.params.id})
     .then(result => {
       res.json(result)
     })
+})
+
+router.get('/getOneReceived/:id', function (req,res){
+  db.Message
+    .findOneAndUpdate({_id: req.params.id}, {read:true})
+    .then(result => {
+      console.log('result from findOneAndUpdate', result)
+      res.json(result)
+    })
+})
+
+router.get('/checkForNewMessage', function(req,res){
+  db.Message
+    .find({read: false})
+    .then(results => {
+      console.log(results)
+      res.json(results)
+    })
+    .catch(err => console.log(err));
 })
 
 module.exports = router;
