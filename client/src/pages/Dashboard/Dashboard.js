@@ -226,12 +226,12 @@ class Dashboard extends Component {
   cancelEvent = () => {
     if(this.state.usernameForEventCancellation === this.state.modalEvent.username) {
       axios.get("api/event/cancelEvent/" + this.state.modalEvent._id).then(result =>{
-        //Code for sending message
         this.setState({cancelEventModal: false}, ()=> {
           this.getEvents(false);
         })
       })
     }
+    //Code for sending message
   }
   toggleCancelEventModal = () => {
     console.log('toggel cancel event modal firing')
