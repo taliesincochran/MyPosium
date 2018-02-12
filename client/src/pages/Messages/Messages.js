@@ -61,7 +61,7 @@ export default class SentMessages extends Component {
         <div style={{height: '100px'}}></div>
         <Navbar
           hasBrand={true}
-          brandText="MyPosium Dashboard"
+          brandText="MyPosium Messages"
           onClick={this.burgerOnClick}
           isActive={this.state.isActive}
           hasEnd={true}
@@ -73,18 +73,21 @@ export default class SentMessages extends Component {
               onClick:() => {
                 this.setState({dashboard: true});
               },
+              buttonClass: "button is-primary"
             },
             {
               text:'Create Event',
               onClick:() => {
                 this.setState({createEvent: true});
-              }
+              },
+              buttonClass: 'button is-primary'
             },
             {
               text:"Update Profile",
               onClick:() => {
                 this.setState({updateProfile: true});
               },
+              buttonClass: 'button is-primary'
             },
             {
               text:"Logout",
@@ -99,7 +102,7 @@ export default class SentMessages extends Component {
                   })
                   .catch(err => console.log(err));
               },
-              buttonClass: "isDanger"
+              buttonClass: "button is-danger"
             }
           ]}
         />
