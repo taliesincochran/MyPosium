@@ -10,11 +10,14 @@ const eventController = require("../../controllers/");
       res.json(result)
     })
   });
+
+  //Event Create Route
   router.post('/create', (req,res) => {
     let newEvent = req.body;
     db.Event.create(newEvent).then(result => res.json(result))
   });
 
+  //Attending Route
   router.post('/:id', (req,res) => {
     console.log("id", req.params.id)
     console.log("user", req.user._id)
@@ -27,8 +30,9 @@ const eventController = require("../../controllers/");
           })
       })
   })
+
+  //Route to get events and populate event suggestion
   router.get("/", (req,res) =>{
-    console.log("event route working")
     db.Event.find({}).then(result=> res.json(result))
   })
 
