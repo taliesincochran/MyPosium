@@ -26,24 +26,5 @@ $(document).ready(function () {
   });
 
 
-  if (window.location.pathname==='/dashboard'){
-    $('html, body').css({
-      'background-image': 'url("")',
-      'background-attachment': 'fixed'
-      //body.style.background = 'background: linear-gradient(to right, rgb(200,245,240), MintCream, MintCream, white, white, MintCream, MintCream, rgb(200,245,240));'
-    })
-  }
-  // if (window.location.pathname==='/signup' || window.location.pathname==='/login'){
-  //   $('html, body').css({
-  //     'background-image': 'url("../img/coloredLines.jpg")',
-  //     'background-attachment': 'fixed'
-  //   })
-  // }
-  if (window.location.pathname==='/'){
-    $('html, body').css({
-      'background-image': 'url("../img/woodBackground.jpg")',
-      'background-attachment': 'fixed',
-      'background-size': '100% 100%'
-    })
-  }
+
 });
