@@ -194,7 +194,7 @@ class Dashboard extends Component {
       .catch(err => console.log(err));
   }
   attend = (e) => {
-    console.log("attend called", e.target.value);
+     console.log("attend called", e.target.value);
     var id = e.target.value
     var attending = this.state.userAttending;
     axios.post("/api/event/" + e.target.value, this.state.user._id).then(result=>{
