@@ -18,12 +18,11 @@ const eventController = require("../../controllers/");
   });
 
   //Attending Route
-  router.post('/:id', (req,res) => {
-    console.log("id", req.params.id)
-    console.log("user", req.user.username)
-    db.Event.findOneAndUpdate({_id : req.params.id}, {$push: { attendees: req.user.username}})
+  router.post('/attend', (req,res) => {
+    db.Event.findOneAndUpdate({_id : req.body.eventId}, {$push: { attendees: req.body.username}})
       .then(result => {
-        db.User.findOneAndUpdate({_id: req.user._id}, {$push: { attending: req.params.id}})
+        console.log("findAndUpdate result", result)
+        db.User.findOneAndUpdate({_id: req.body.userId}, {$push: { attending: req.body.eventId}})
           .then(data=> {
             res.send({"result": result, "data": data})
 

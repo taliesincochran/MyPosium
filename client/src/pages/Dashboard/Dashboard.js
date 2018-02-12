@@ -212,10 +212,10 @@ class Dashboard extends Component {
       .catch(err => console.log(err));
   }
   attend = (e) => {
-    console.log("attend called", e.target.value);
+    console.log("attend called", e.target.value, 'userID', this.state.user._id);
     var id = e.target.value
     var attending = this.state.userAttending;
-    axios.post("/api/event/" + e.target.value, this.state.user._id).then(result=>{
+    axios.post("/api/event/attend", {eventId: e.target.value, userId: this.state._id, username: this.state.username}).then(result=>{
       console.log("attending update result: ", result)
       this.getEvents(false);
       attending.push(id)
@@ -431,7 +431,7 @@ class Dashboard extends Component {
             <Field>
               <Label className="has-text-left">Message:</Label>
               <Control>
-                <TextArea name="message" placeholder={'Enter Message'} onChange={this.handleInput} value={this.state.message}/>
+                <TextArea name="message" placeholder='Enter Message' onChange={this.handleInput} value={this.state.message}/>
               </Control>
             </Field>
             <Control>
@@ -465,6 +465,7 @@ class Dashboard extends Component {
                     <Subtitle>{this.state.modalEvent.attendees.length}/{this.state.modalEvent.maxAttending} of attendees signed up</Subtitle>
                   </Column>
                 </Columns>
+                {console.log(this.state.user.attending, this.state.modalEvent._id)}
                 {this.state.user.attending.includes(this.state.modalEvent._id)?(<Button isColor='primary' onClick={this.sendMessageToOrganizer} className="is-fullWidth">Send Message To Organizer</Button>):null}
                 {(this.state.user.username !== this.state.modalEvent.username && !this.state.user.attending.includes(this.state.modalEvent._id))?(<Button isColor="primary" onClick={this.attend} className="is-fullwidth">Attend</Button>):null}
                 {(this.state.modalEvent.username === this.state.user.username)?(
