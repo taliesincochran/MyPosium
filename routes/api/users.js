@@ -33,17 +33,23 @@ const axios = require('axios')
       }
     });
   });
+
+//Authentication route to check for passport requirements satisfied
   router.get('/checkAuth', function (req,res){
     let authObj = {};
     authObj.user = req.user || null;
     authObj.isAuth = req.isAuthenticated();
     res.json(authObj);
   })
+
+  //Route to updayte profile, post because multiple points can be edited
   router.post('/updateprofile', function(req, res) {
     UC.updateUser(req.body).then(result=> {
       res.send(req.body)
       })
   });
+
+
   router.get('/:username', function(req,res) {
     db.User.findOne({username: req.params.username}).then(result=> {
       res.json(result)
