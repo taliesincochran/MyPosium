@@ -81,8 +81,7 @@ class Profile extends Component {
   render() {
     var user= this.state.user
     return (
-
-      // <Container>
+      <div style={{height: '100vh', backgroundImage: 'url("img/coloredLines.jpg")', backgroundAttachment: 'fixed', backgroundSize: '100% 100%'}}>
         <Container>
           <Navbar
             hasBrand={true}
@@ -95,18 +94,21 @@ class Profile extends Component {
             navbarEnd={[
               {
                 text:'Dashboard',
+                buttonClass: 'is-success',
                 onClick:()=>{
                   this.setState({dashboard: true});
                 }
               },
               {
                 text:'Create Event',
+                buttonClass: 'is-info',
                 onClick:() => {
                   this.setState({createEvent: true});
                 }
               },
               {
                 text:"Check Messages",
+                buttonClass: 'is-warning',
                 onClick:() => {
                   this.setState({checkMessages: true});
                 },
@@ -124,87 +126,84 @@ class Profile extends Component {
                     })
                     .catch(err => console.log(err));
                 },
-                buttonClass: "isDanger"
+                buttonClass: "is-danger"
               }
             ]}
           />
           <div style={{height: '100px'}}></div>
-          <Columns isCentered>
-            <Column isSize="1/2">
-              <Box style={{marginTop: '5%', position: 'relative'}}>
-                <Title className="has-text-grey-light" isSize={1} style={{position: 'absolute', top: '-9%', right: '5%', background: 'white'}}>Profile</Title>
-                <Field>
-                  <Label className="has-text-left">Age:</Label>
+            <Columns isCentered>
+              <Column isSize="1/2">
+                <Box style={{marginTop: '5%', position: 'relative'}}>
+                  <Title className="has-text-grey-light" isSize={1} style={{position: 'absolute', top: '-9%', right: '5%', background: 'white'}}>Profile</Title>
+                  <Field>
+                    <Label className="has-text-left">Age:</Label>
+                    <Control>
+                      <Input type="text" name="age" value={this.state.age} onChange={this.handleInput} />
+                    </Control>
+                  </Field>
+                  <Field>
+                    <Label className="has-text-left">Image URL:</Label>
+                    <Control>
+                      <Input type="text" name="img" value={this.state.img} onChange={this.handleInput} />
+                    </Control>
+                  </Field>
+                  <Field>
+                    <Label className="has-text-left">About Me:</Label>
+                    <Control>
+                      <TextArea type="text" name="aboutMe" value={this.state.aboutMe} onChange={this.handleInput} />
+                    </Control>
+                  </Field>
                   <Control>
-                    <Input type="text" name="age" value={this.state.age} onChange={this.handleInput} />
+                      <Button isColor='primary' onClick={this.handleSubmit} className="is-fullwidth">Submit</Button>
                   </Control>
-                </Field>
-                <Field>
-                  <Label className="has-text-left">Image URL:</Label>
-                  <Control>
-                    <Input type="text" name="img" value={this.state.img} onChange={this.handleInput} />
-                  </Control>
-                </Field>
-                <Field>
-                  <Label className="has-text-left">About Me:</Label>
-                  <Control>
-                    <TextArea type="text" name="aboutMe" value={this.state.aboutMe} onChange={this.handleInput} />
-                  </Control>
-                </Field>
-                <Control>
-                    <Button isColor='primary' onClick={this.handleSubmit} className="is-fullwidth">Submit</Button>
-                </Control>
-              </Box>
-            </Column>
-            <Column isSize="1/2">
-              <Box style={{marginTop: '5%', position: 'relative'}}>
-                <Title className="has-text-grey-light" isSize={1} style={{position: 'absolute', top: '-37px', right: '5%', background: 'white'}}>Interests</Title>
-                {
+                </Box>
+              </Column>
+              <Column isSize="1/2">
+                <Box style={{marginTop: '5%', position: 'relative'}} className="has-text-centered">
+                  <Title className="has-text-grey-light" isSize={1} style={{position: 'absolute', top: '-37px', right: '5%', background: 'white'}}>Interests</Title>
+                  {
 
-                  categories.map((category, i) =>{
-                  //map through categories and render them different colors
-                  //depending on whether the user has selected it or not
-                  return(
-                    this.state.interests.includes(category) ?
-                      (<Button
-                        key={i}
-                        isColor="primary"
-                        name={category}
-                        onClick={this.handleInterestClick}>
-                        {category}
-                      </Button>)
-                        :
-                      (<Button
-                        key={i}
-                        isColor=""
-                        isOutlined
-                        name={category}
-                        onClick={this.handleInterestClick}>
-                        {category}
-                      </Button>)
-                    )
-                  })
-                }
-              </Box>
-              {/* <Columns hasTextAlign='centered'>
-                <Column>
-
-                </Column>
-              </Columns> */}
-            </Column>
-          </Columns>
-        {/* </Container> */}
-        {this.state.checkMessages? (<Redirect to= {{pathname:"/messages", state:this.state.user}} />) : null}
-        {this.state.createEvent? (<Redirect to= {{pathname:"/event/create", state:this.state.user}} />) : null}
-        {this.state.dashboard? (<Redirect to={{pathname:"/dashboard", state:this.state.user}}/>) : null}
-        {this.state.logout? (<Redirect to="/" />) : null}
-        {
-          this.state.finishedProfile ? (<Redirect to={{
-            pathname: "/dashboard",
-            state: user
-          }} />) : null
-        }
-      </Container>
+                    categories.map((category, i) =>{
+                    //map through categories and render them different colors
+                    //depending on whether the user has selected it or not
+                    return(
+                      this.state.interests.includes(category) ?
+                        (<Button
+                          key={i}
+                          className="is-medium"
+                          isColor="info"
+                          name={category}
+                          onClick={this.handleInterestClick}>
+                          {category}
+                        </Button>)
+                          :
+                        (<Button
+                          key={i}
+                          className="is-medium"
+                          isColor=""
+                          isOutlined
+                          name={category}
+                          onClick={this.handleInterestClick}>
+                          {category}
+                        </Button>)
+                      )
+                    })
+                  }
+                </Box>
+              </Column>
+            </Columns>
+            {this.state.checkMessages? (<Redirect to= {{pathname:"/messages", state:this.state.user}} />) : null}
+            {this.state.createEvent? (<Redirect to= {{pathname:"/event/create", state:this.state.user}} />) : null}
+            {this.state.dashboard? (<Redirect to={{pathname:"/dashboard", state:this.state.user}}/>) : null}
+            {this.state.logout? (<Redirect to="/" />) : null}
+            {
+              this.state.finishedProfile ? (<Redirect to={{
+                pathname: "/dashboard",
+                state: user
+              }} />) : null
+            }
+        </Container>
+      </div>
     )
   }
 }

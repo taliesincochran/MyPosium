@@ -27,6 +27,10 @@ import { Container,
         Input,
         TextArea } from 'bloomer';
 import moment from 'moment';
+
+
+
+
 class Dashboard extends Component {
     constructor(props) {
     super(props);
@@ -99,9 +103,9 @@ class Dashboard extends Component {
       eventsMatchArray.map(event=> {
         console.log(event)
         if(event.isRemote === remote) {
-          destinations = destinations + event.zipcode + "|" 
+          destinations = destinations + event.zipcode + "|"
           eventsToShow.push(event);
-        } 
+        }
         return({events: eventsArray, eventsToShow: eventsToShow})
       })
       //================================================================
@@ -109,11 +113,11 @@ class Dashboard extends Component {
       //event by zipcodes, as google maps returns the distances in    ==
       //the order queried, use the index of the row.element array     ==
       //returned to select correct events to include from the local   ==
-      //event array                                                   ==      
-      //================================================================ 
+      //event array                                                   ==
+      //================================================================
       if(remote === false && userLocation.toString().length === 5) {
-        const queryURL = `https://maps.googleapis.com/maps/api/distancematrix/json?origins=${userLocation}&destinations=${destinations}&key=AIzaSyDpwnTjzyOwCRmPRQhpu0eREKplFV0TCDI`
-        axios.get(queryURL).then(result=> {
+        const queryUrl = `https://maps.googleapis.com/maps/api/distancematrix/json?origins=${userLocation}&destinations=${destinations}&key=AIzaSyDpwnTjzyOwCRmPRQhpu0eREKplFV0TCDI`
+        axios.get(queryUrl).then(result=> {
           console.log(result.data);
           var eventsWithinDistance = [];
           result.data.status==="OK"?(
@@ -121,10 +125,10 @@ class Dashboard extends Component {
             if(destination.distance.value < travelMeters) {
               eventsWithinDistance.push(eventsToShow[i])
             }
-          })):console.log("queryURL", queryURL)
+          })):console.log("queryURL", queryUrl)
           //=============================================================
           //To insure the axios call is done before setting the state, ==
-          //return query results and arrays and set up a .then         ==        
+          //return query results and arrays and set up a .then         ==
           //=============================================================
           return({eventsMatch: eventsToShow, userCreated: userCreatedArray, events: eventsArray, eventsWithinDistance: eventsWithinDistance})
         }).then(results =>{
@@ -199,7 +203,7 @@ class Dashboard extends Component {
     })
   }
   burgerOnClick = () =>this.setState((state) => ({isActive:!this.state.isActive}))
-      
+
   eventModal = (event) => {
     if(event._id !== '0'){
       this.setState({modalEvent: event, activeEventModal: !this.state.activeEventModal})
@@ -216,6 +220,7 @@ class Dashboard extends Component {
     //console.log(this.checkMessages)
     return(
       hasGotEvents?(
+        <div style={{width: '100%', background: 'linear-gradient(to right, rgb(200,245,240), MintCream, MintCream, white, white, MintCream, MintCream, rgb(200,245,240))'}}>
       <Container>
         <Navbar
           hasBrand={true}
@@ -279,14 +284,14 @@ class Dashboard extends Component {
               onClick:() => {
                 this.setState({createEvent: true});
               },
-              buttonClass: "button is-warning"
+              buttonClass: "button is-info"
             },
             {
               text:"Check Messages",
               onClick:() => {
                 this.setState({checkMessages: true});
               },
-              buttonClass:"button is-primary"
+              buttonClass:"button is-warning"
             },
             {
               text:'Update Profile',
@@ -313,63 +318,64 @@ class Dashboard extends Component {
           ]}
         />
         <div style={{height: '100px'}}/>
-        <Columns isCentered>
-          <Column isSize="1/3">
-            <Box>
-              <Image isSize="128x128" src={this.props.location.state.img} />
-              <p>Hi, {this.props.location.state.username}</p>
-            </Box>
-            <div style={{height: '20px'}} />
-            <Box>
-              <h3>Events you've organized</h3>
-              <div style={{height: '15px'}} />
-              {this.state.events.length<0?(<p>You have organized no events</p>):
-                (this.state.userCreated.map(event=>{
 
-                  return(
-                    <div>
-                      <EventCard event={event} isSmall={true} eventModal={this.eventModal} />
-                      <div style={{height: '20px'}} />
-                    </div>
-                    )
-                }))}
-            </Box>
-            <div style={{height: '20px'}} />
-            <Box>
-              <h3>Events you are attending</h3>
-              <div style={{height: '15px'}} />
-              {this.state.userAttending.length<0?(<p>You are attending no events</p>):(
-                events.map(event=>{
-                    return (
-                      this.state.userAttending.includes(event._id)?(
+          <Columns isCentered>
+            <Column isSize="1/3">
+              <Box>
+                <Image isSize="128x128" src={this.props.location.state.img} />
+                <p>Hi, {this.props.location.state.username}</p>
+              </Box>
+              <div style={{height: '20px'}} />
+              <Box>
+                <h3>Events you've organized</h3>
+                <div style={{height: '15px'}} />
+                {this.state.events.length<0?(<p>You have organized no events</p>):
+                  (this.state.userCreated.map(event=>{
+
+                    return(
                       <div>
                         <EventCard event={event} isSmall={true} eventModal={this.eventModal} />
                         <div style={{height: '20px'}} />
                       </div>
-                    ): null)})
-                )}
-            </Box>
-          </Column>
-          <Column isSize='2/3'>
-            <Box>
-              <h2>Events you may be interested in.</h2>
-              <div style={{height: '50px'}} />
-              {this.state.eventsWithinDistance.map(event=>{
-                  return(
-                    <div>
-                      <EventCard
-                        event={event}
-                        state={this.state}
-                        onClick={this.attend}
-                        eventModal={this.eventModal}
-                      />
-                      <div style={{height: '20px'}} />
-                    </div>
-                    )
-              })}
-            </Box>
-          </Column>
-        </Columns>
+                      )
+                  }))}
+              </Box>
+              <div style={{height: '20px'}} />
+              <Box>
+                <h3>Events you are attending</h3>
+                <div style={{height: '15px'}} />
+                {this.state.userAttending.length<0?(<p>You are attending no events</p>):(
+                  events.map(event=>{
+                      return (
+                        this.state.userAttending.includes(event._id)?(
+                        <div>
+                          <EventCard event={event} isSmall={true} eventModal={this.eventModal} />
+                          <div style={{height: '20px'}} />
+                        </div>
+                      ): null)})
+                  )}
+              </Box>
+            </Column>
+            <Column isSize='2/3'>
+              <Box>
+                <h2>Events you may be interested in.</h2>
+                <div style={{height: '50px'}} />
+                {this.state.eventsWithinDistance.map(event=>{
+                    return(
+                      <div>
+                        <EventCard
+                          event={event}
+                          state={this.state}
+                          onClick={this.attend}
+                          eventModal={this.eventModal}
+                        />
+                        <div style={{height: '20px'}} />
+                      </div>
+                      )
+                })}
+              </Box>
+            </Column>
+          </Columns>
 
         <Modal isSize='large' isActive={this.state.activeMessageModal? true: false} >
           <ModalBackground />
@@ -400,7 +406,7 @@ class Dashboard extends Component {
           <ModalCard>
             <ModalCardTitle className="has-text-centered">{}{this.state.modalEvent.title}!</ModalCardTitle>
             <ModalCardBody style={{padding: '20px'}}>
-              <Delete onClick={this.closeEventModal} />
+              <Delete onClick={this.closeEventModal} style={{margin: '20px 0'}}/>
                 <Columns>
                   <Column isSize='1/3'>
                     <Image src={this.state.modalEvent.imgUrl} />
@@ -413,13 +419,13 @@ class Dashboard extends Component {
                   <Column>
                     <Title>Organized By: {this.state.modalEvent.username} </Title>
                     {this.state.modalEvent.cost?(<Subtitle>Cost: {this.state.modalEvent.cost}</Subtitle>):(<Subtitle>Free Event</Subtitle>)}
-                    <Subtitle>Because your intrested in {this.state.modalEvent.category}</Subtitle>
+                    <Subtitle>Because you are interested in {this.state.modalEvent.category}</Subtitle>
                     <Subtitle>{this.state.modalEvent.description}</Subtitle>
                     <Subtitle>{this.state.modalEvent.attendees.length}/{this.state.modalEvent.maxAttending} of attendees signed up</Subtitle>
                   </Column>
                 </Columns>
                 {this.state.user.attending.includes(this.state.modalEvent._id)?
-                  (<Button isColor='primary' onClick={() => {
+                  (<Button isFullWidth isColor='primary' onClick={() => {
                     this.openMessageModal(this.state.modalEvent.username);
                     this.closeEventModal();
                   }}>Send Message To Organizer</Button>):
@@ -434,6 +440,7 @@ class Dashboard extends Component {
         {this.state.updateProfile? (<Redirect to={{pathname:"/updateProfile", state:this.state.user}}/>) : null}
         {this.state.logout? (<Redirect to="/" />) : null}
       </Container>
+    </div>
       ): null
     )
   }

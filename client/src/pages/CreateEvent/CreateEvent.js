@@ -42,11 +42,11 @@ export default class CreateEvent extends Component {
   handleSubmit = e=> {
   	e.preventDefault();
   	console.log("Submit button clicked");
-	let {title, zipcode, username, date, time, isRemote, cost, category, imgURL, description, minAttending, maxAttending} = this.state;
+  	let {title, zipcode, username, date, time, isRemote, cost, category, imgURL, description, minAttending, maxAttending} = this.state;
   	let newEvent = {title, zipcode, username, date, time, isRemote, cost, category, imgURL, description, minAttending, maxAttending};
   	console.log(newEvent);
   	this.submitEvent(newEvent);
-  	}
+	}
 
 
 
@@ -64,7 +64,8 @@ export default class CreateEvent extends Component {
 
   render(){
     return (
-      <div>
+      // <div style={{width: '100%', background: 'linear-gradient(to right, rgb(200,245,240), MintCream, MintCream, white, white, MintCream, MintCream, rgb(200,245,240))', backgroundAttachment: 'fixed', backgroundSize: '100% 100%'}}>
+      <div style={{height: '100vh', backgroundImage: 'url("img/coloredLines.jpg")', backgroundAttachment: 'fixed', backgroundSize: '100% 100%'}}>
         <Navbar
           hasBrand={true}
           brandText="MyPosium Dashboard"
@@ -76,18 +77,21 @@ export default class CreateEvent extends Component {
           navbarEnd={[
             {
               text:"Dashboard",
+              buttonClass: 'button is-success',
               onClick:() => {
                 this.setState({dashboard: true});
               },
             },
             {
               text:'Check Messages',
+              buttonClass: 'button is-warning',
               onClick:() => {
                 this.setState({checkMessages: true});
               }
             },
             {
               text:'Update Profile',
+              buttonClass: 'button is-primary',
               onClick:() => {
                 this.setState({updateProfile: true});
               }
@@ -105,7 +109,7 @@ export default class CreateEvent extends Component {
                   })
                   .catch(err => console.log(err));
               },
-              buttonClass: "isDanger"
+              buttonClass: "is-danger"
             }
           ]}
         />
