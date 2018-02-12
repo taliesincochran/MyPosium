@@ -57,7 +57,8 @@ export default class SentMessages extends Component {
 
   render() {
     return(
-      <div>
+      // <div style={{width: '100%', height: '100%', background: 'linear-gradient(to right, rgb(200,245,240), MintCream, MintCream, white, white, MintCream, MintCream, rgb(200,245,240))'}}>
+      <div style={{height: '100vh', backgroundImage: 'url("img/coloredLines.jpg")', backgroundAttachment: 'fixed', backgroundSize: '100% 100%'}}>
         <div style={{height: '100px'}}></div>
         <Navbar
           hasBrand={true}
@@ -70,24 +71,24 @@ export default class SentMessages extends Component {
           navbarEnd={[
             {
               text:"Dashboard",
+              buttonClass: 'button is-success',
               onClick:() => {
                 this.setState({dashboard: true});
               },
-              buttonClass: "button is-primary"
             },
             {
               text:'Create Event',
+              buttonClass: 'button is-info',
               onClick:() => {
                 this.setState({createEvent: true});
               },
-              buttonClass: 'button is-primary'
             },
             {
               text:"Update Profile",
+              buttonClass: 'button is-primary',
               onClick:() => {
                 this.setState({updateProfile: true});
               },
-              buttonClass: 'button is-primary'
             },
             {
               text:"Logout",
@@ -106,7 +107,8 @@ export default class SentMessages extends Component {
             }
           ]}
         />
-        <Container isFluid>
+        <Container >
+          <Box style={{minHeight: '80vh'}}>
           <Tabs isBoxed={true}>
             <TabList>
               <Tab isActive={this.state.sentActive? true : false}>
@@ -202,7 +204,7 @@ export default class SentMessages extends Component {
             </Column>
           </Columns>)
         }
-
+        </Box>
         </Container>
         {this.state.updateProfile? (<Redirect to={{pathname:"/updateProfile", state:this.state.user}}/>) : null}
         {this.state.createEvent? (<Redirect to= {{pathname:"/event/create", state:this.state.user}} />) : null}

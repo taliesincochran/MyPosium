@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import NavbarHeader from '../../components/Nav/Navbar';
 import './Landing.css';
+// import { injectGlobal } from 'emotion';
 import { Image,
 	Container,
 	Content,
@@ -9,8 +10,8 @@ import { Image,
 	Title,
 	Tile,
 	Columns
-	} from 'bloomer';
-	
+} from 'bloomer';
+
 export default class Landing extends Component {
 	constructor(props) {
     super(props);
@@ -20,11 +21,14 @@ export default class Landing extends Component {
     this.onClickNav = this.onClickNav.bind(this);
   }
 
+
+
 	componentDidMount() {
-		let body = document.querySelector('body');
-		body.style.backgroundImage = "url('img/woodBackground.jpg')"
-		body.style.backgroundSize = '100% 100%';
-		body.style.backgroundAttachment = 'fixed';
+		// let body = document.querySelector('body');
+		// body.style.backgroundImage = "url('img/woodBackground.jpg')"
+		// body.style.backgroundSize = '100% 100%';
+		// body.style.backgroundAttachment = 'fixed';
+		// body.style.backgroundColor = 'green';
 	}
 
 
@@ -34,7 +38,7 @@ export default class Landing extends Component {
 
   render() {
     return(
-      <div>
+      <div style={{backgroundImage: 'url("img/woodBackground.jpg")', backgroundSize: '100% 100%', backgroundAttachment: 'fixed'}}>
         <NavbarHeader
         	hasStart={true}
         	brandStyle={{marginRight:'-50px'}}
@@ -78,62 +82,57 @@ export default class Landing extends Component {
 		          }]}
 		    />
 
-			<div style={{height:'20px'}}/>
-		    <Container>
-					<a id="myposium" style={{marginTop: "20px"}}> </a>
-					<Section className='is-vertical-center'>
-				    <Columns>
-							<Column isSize={12} >
-								<Tile isSize={12}>
-									<Title isSize={3}>A New Way to Create, Discover, and Connect!</Title>
-								</Tile>
-							</Column>
-								<Column isSize={7} >
-									<Tile isSize={6}>
-									<Title isSize={1}>...MyPosium</Title>
-								</Tile>
-								</Column>
-						</Columns>
-			    </Section>
-					<a id="create" style={{marginTop: "20px"}}> </a>
-					<Section className='is-vertical-center'>
-				    <Columns>
-				    	<Column isSize={4}>
-				    		<Image src = "/img/gearBrain.jpg" />
-				    	</Column>
-				    	<Column isSize={6} isOffset={2}>
-				            <Title className='text-center'>Create</Title>
-										<Content className="is-size-4">MyPosium allows real people with real knowledge to create a connection with others who want and need that knowledge.  <span className="highlight">CREATE</span> an event, either in person or virtually, and share your wisdom with the world!</Content>
-				      </Column>
-				    </Columns>
-			    </Section>
+			<div style={{height:'1px'}}/>
+					<a id="myposium" ></a>
+					<Section className='is-vertical-center' style={{position: 'fixed', zIndex: '0' }}>
+						<Container className="is-clearfix">
+							<Title isSize={1}  style={{marginLeft: '150px'}}>...MyPosium</Title>
+							<br/>
+								<Title isSize={3} className="is-pulled-right">A New Way to Create, Discover, and Connect!</Title>
 
-					<a id="discover" style={{marginTop: "20px"}}> </a>
-	        <Section className='is-vertical-center'>
-				    <Columns>
-				    	<Column isSize={6} >
-				            <Title className='text-center'>Discover</Title>
-										<Content className="is-size-4">The world is brimming with people who have spent a lifetime gathering knowledge.  Search through our expansive list of events and <span className="highlight">DISCOVER</span> new content creators, new ideas, and new friends!  </Content>
-				      </Column>
-				    	<Column isSize={4} isOffset={2}>
-				    		<Image src = "/img/lightBulb.jpg" className='is-vertical-center' style={{transform: 'rotate(20deg)', width: '70%'}}/>
-				    	</Column>
-				    </Columns>
-					</Section>
-			    <a id="connect" style={{marginTop: "20px"}}> </a>
-					<Section className='is-vertical-center'>
-				    <Columns>
-				    	<Column isSize={4}>
-				    		<Image src = "/img/connect.jpg"/>
-				    	</Column>
-				    	<Column isSize={6} isOffset={2}>
-				            <Title className='text-center'>Connect</Title>
-										<Content className="is-size-4">MyPosium aims to <span className="highlight">CONNECT</span> people who are thirsty for knowledge and entertainment with those who can provide it.  Ask questions, provide feedback, and help shape the future of Edu-tainment!  <a href="/signup">Sign up for an account now!</a></Content>
-				      </Column>
-				    </Columns>
+						</Container>
 			    </Section>
-				</Container>
+					<div isFullWidth={true} style={{ width: '100%', position: 'relative', 'z-index': '100', marginTop: '100vh', background: 'linear-gradient(to right, rgb(200,245,240), MintCream, MintCream, white, white, MintCream, MintCream, rgb(200,245,240)  )'}} >
+						<a id="create" style={{marginTop: "20px"}}> </a>
+						<Container>
+						<Section className='is-vertical-center'>
+					    <Columns>
+					    	<Column isSize={4}>
+					    		<Image src = "/img/gearBrain.jpg" />
+					    	</Column>
+					    	<Column isSize={6} isOffset={2}>
+					            <Title className='text-center'>Create</Title>
+											<Content className="is-size-4">MyPosium allows real people with real knowledge to create a connection with others who want and need that knowledge.  <span className="highlight">CREATE</span> an event, either in person or virtually, and share your wisdom with the world!</Content>
+					      </Column>
+					    </Columns>
+				    </Section>
 
+						<a id="discover" style={{marginTop: "20px"}}> </a>
+		        <Section className='is-vertical-center'>
+					    <Columns>
+					    	<Column isSize={6} >
+					            <Title className='text-center'>Discover</Title>
+											<Content className="is-size-4">The world is brimming with people who have spent a lifetime gathering knowledge.  Search through our expansive list of events and <span className="highlight">DISCOVER</span> new content creators, new ideas, and new friends!  </Content>
+					      </Column>
+					    	<Column isSize={4} isOffset={2}>
+					    		<Image src = "/img/lightBulb.jpg" className='is-vertical-center' style={{transform: 'rotate(20deg)', width: '70%'}}/>
+					    	</Column>
+					    </Columns>
+						</Section>
+				    <a id="connect" style={{marginTop: "20px"}}> </a>
+						<Section className='is-vertical-center'>
+					    <Columns>
+					    	<Column isSize={4}>
+					    		<Image src = "/img/connect.jpg"/>
+					    	</Column>
+					    	<Column isSize={6} isOffset={2}>
+					            <Title className='text-center'>Connect</Title>
+											<Content className="is-size-4">MyPosium aims to <span className="highlight">CONNECT</span> people who are thirsty for knowledge and entertainment with those who can provide it.  Ask questions, provide feedback, and help shape the future of Edu-tainment!  <a href="/signup">Sign up for an account now!</a></Content>
+					      </Column>
+					    </Columns>
+				    </Section>
+						</Container>
+					</div>
       </div>
     )
   }

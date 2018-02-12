@@ -17,41 +17,33 @@ import {
   Title,
   Subtitle,
   Content,
-  CardContent
+  CardContent,
 } from 'bloomer';
 import moment from 'moment';
+
 const EventCard = props => {
   if(!props.isSmall) {
     return(
       <Card>
         <CardHeader>
           <CardHeaderTitle>
-            {props.event.title}
+            <Title isSize={4}>{props.event.title}</Title>
           </CardHeaderTitle>
         </CardHeader>
-        <Columns >
+        <Columns style={{margin: '20px'}}>
           <Column isSize='1/2'>
-            <CardImage>
+            <CardImage style={{marginBottom: '20px'}}>
               <Image isRatio='4:3' src={props.event.imgUrl || 'https://images.pexels.com/photos/6227/hands-technology-photo-phone.jpg?w=1260&h=750&auto=compress&cs=tinysrgb'} alt={props.event.title} />
             </CardImage>
+              <Title isSize={6}>Event Date: {moment(props.event.date).format("dddd, MMMM Do YYYY")} {'   '}{moment(props.event.time).format("h:mm a")}</Title>
+              <Title isSize={6}>Event Cost: {props.event.cost}</Title>
+
           </Column>
           <Column isSize='1/2'>
-            <CardContent>
-              <Media>
-                <MediaContent>
-                  <Title isSize={4}>{props.event.title}</Title>
-                </MediaContent>
-              </Media>
-              <Content>
-                <p>{props.event.description}</p>
-                <br/>
-                <small>{moment(props.event.date).format("dddd, MMMM Do YYYY")} {'   '}{moment(props.event.time).format("h:mm a")}</small>
-                <br />
-                <small>{props.event.cost}</small>
-                <Button value={props.event._id} onClick={props.onClick}>Attend</Button>
-                <Button onClick={()=> props.eventModal(props.event)}>View More</Button>
-              </Content>
-            </CardContent>
+            <Title isSize={4}>{props.event.title}</Title>
+            <p style={{marginBottom: '20px'}}>{props.event.description}</p>
+            <Button value={props.event._id} onClick={props.onClick} style={{width: '50%'}} className="is-success">Attend</Button>
+            <Button onClick={()=> props.eventModal(props.event)} className="is-info" style={{width: '50%'}}>View More</Button>
           </Column>
         </Columns>
       </Card>
@@ -81,7 +73,7 @@ const EventCard = props => {
             </CardContent>
           </Column>
         </Columns>
-        <Button className="button is-primary" style={{margin: "5px 0px 0px 0px"}} onClick={()=> props.eventModal(props.event)}>View More</Button>
+        <Button className="button is-primary is-fullwidth" style={{margin: "5px 0px 0px 0px"}} onClick={()=> props.eventModal(props.event)}>View More</Button>
       </Card>
       )
   }
