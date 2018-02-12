@@ -96,7 +96,7 @@ class Dashboard extends Component {
         if(this.state.user.username === event.username) {
           userCreatedArray.push(event)
         }
-        if (this.state.user.interests.indexOf(category) > -1 && event.attendees.indexOf(user._id) === -1 && this.state.user.attending.indexOf(user._id) === -1){
+        if (this.state.user.interests.indexOf(category) > -1 && event.attendees.indexOf(user.username) === -1 && this.state.user.attending.indexOf(event._id) === -1){
           eventsMatchArray.push(event)
         }
       })

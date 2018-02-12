@@ -15,8 +15,10 @@ const eventController = require("../../controllers/");
     db.Event.create(newEvent).then(result => res.json(result))
   });
 
-  router.post('/update', (req,res) => {
-    db.Event.findOneAndUpdate({_id : req.params.id}, {$push: { attendees: req.user._id}})
+  router.post('/:id', (req,res) => {
+    console.log("id", req.params.id)
+    console.log("user", req.user.username)
+    db.Event.findOneAndUpdate({_id : req.params.id}, {$push: { attendees: req.user.username}})
       .then(result => {
         db.User.findOneAndUpdate({_id: req.user._id}, {$push: { attending: req.params.id}})
           .then(data=> {
