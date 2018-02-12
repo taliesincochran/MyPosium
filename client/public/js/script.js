@@ -15,7 +15,7 @@ $(document).ready(function () {
   });//end soft scroll function
 
   $(window).scroll(function () {
-    var wScroll = $(this).scrollTop();
+    var wScroll = $(this).scrollTop()
     // console.log(wScroll)
   });//end scroll event
 
