@@ -185,9 +185,9 @@ export default class SentMessages extends Component {
                     (this.state.receivedMessages.map((message,i) => {//first ternary first condition
                       // console.log(message.read)
                       if (message.read) {
-                        return (<li key={i}><MenuLink style={{whiteSpace: 'pre', textDecoration: 'none'}} onClick={() => {this.getOneReceivedMessage(message._id)}}><i class="far fa-envelope-open"></i>{" "}From: {message.sender}<br/>{"     "}Subject: {message.subject}</MenuLink></li>)
+                        return (<li key={i}><MenuLink style={{whiteSpace: 'pre', textDecoration: 'none'}} onClick={() => {this.getOneReceivedMessage(message._id)}}>{" "}From: {message.sender}<br/>{"     "}Subject: {message.subject}</MenuLink></li>)
                       } else {
-                        return (<li key={i}><MenuLink style={{whiteSpace: 'pre', textDecoration: 'none'}} onClick={() => {this.getOneReceivedMessage(message._id)}}><i class="far fa-envelope"></i>{" "}<b>From: {message.sender}<br/>{"     "}Subject: {message.subject}</b></MenuLink></li>)
+                        return (<li key={i}><MenuLink style={{whiteSpace: 'pre', textDecoration: 'none'}} onClick={() => {this.getOneReceivedMessage(message._id)}}>{" "}<b>From: {message.sender}<br/>{"     "}Subject: {message.subject}</b></MenuLink></li>)
                       }
                     }))//end second ter
                     :
