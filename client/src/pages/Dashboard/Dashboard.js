@@ -204,7 +204,7 @@ class Dashboard extends Component {
     var attending = this.state.userAttending;
     axios.post("/api/event/" + e.target.value, this.state.user._id).then(result=>{
       console.log("attending update result: ", result)
-      this.getEvents();
+      this.getEvents(false);
       attending.push(id)
       console.log(attending);
       this.setState({userAttending: attending, activeEventModal: false})
@@ -386,7 +386,7 @@ class Dashboard extends Component {
         <Modal isActive={this.state.activeMessageModal? true: false} >
           <ModalBackground />
           <ModalContent style={{padding: '20px'}}>
-            <Delete onClick={this.closeEventModal} />
+            <Delete onClick={this.closeMessageModal} />
             <ModalCardTitle className="has-text-centered">Send a Message to: {this.state.messageRecipient}!</ModalCardTitle>
             <Field>
               <Label className="has-text-left">Subject:</Label>
