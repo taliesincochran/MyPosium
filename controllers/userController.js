@@ -17,6 +17,7 @@ module.exports = {
     return db.User
       .findOneAndUpdate(query, { $set: {
         interests: data.interests,
+        zipcode: data.zipcode,
         age: data.age,
         img: data.img,
         aboutMe: data.aboutMe

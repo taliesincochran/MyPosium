@@ -63,7 +63,7 @@ router.get('/getOneReceived/:id', function (req,res){
 //route to check for new messages
 router.get('/checkForNewMessage', function(req,res){
   db.Message
-    .find({read: false})
+    .find({recipient: req.user.username, read: false})
     .then(results => {
       console.log(results)
       res.json(results)

@@ -16,6 +16,7 @@ class Profile extends Component {
       age: this.props.location.state.age,
       img: this.props.location.state.img,
       aboutMe: this.props.location.state.aboutMe,
+      zipcode: this.props.location.state.zipcode,
       finishedProfile: false,
       user: this.props.location.state,
       logout: false,
@@ -60,12 +61,13 @@ class Profile extends Component {
   }
 
   handleSubmit = () => {
-    let { interests, age, img, aboutMe } = this.state;
+    let { interests, age, img, aboutMe, zipcode } = this.state;
     let data = {
       interests,
       age,
       img,
       aboutMe,
+      zipcode,
       username: this.props.location.state.username,
 
     }
@@ -139,6 +141,12 @@ class Profile extends Component {
                     <Label className="has-text-left">Age:</Label>
                     <Control>
                       <Input type="text" name="age" value={this.state.age} onChange={this.handleInput} />
+                    </Control>
+                  </Field>
+                  <Field>
+                    <Label className="has-text-left">Zipcode:</Label>
+                    <Control>
+                      <Input type="text" name="zipcode" value={this.state.zipcode} onChange={this.handleInput} />
                     </Control>
                   </Field>
                   <Field>
