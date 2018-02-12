@@ -18,7 +18,7 @@ mongoose.connect(
     useMongoClient: true
   }
 );
-//setting up cookie parser middleware
+//setting up cookie parser middleware  
 app.use(cookieParser());
 
 // Configure body parser for AJAX requests
@@ -42,7 +42,6 @@ store
   });
 
 //Configuring express session
-
 app.use(session({
     secret: '52e0d0v5h5t5r2e0s0s2cvb1j1j2k25u', // session secret
     cookie: { maxAge: 24 * 60 * 60 * 1000 },

@@ -35,7 +35,7 @@ const EventCard = props => {
             <CardImage style={{marginBottom: '20px'}}>
               <Image isRatio='4:3' src={props.event.imgUrl || 'https://images.pexels.com/photos/6227/hands-technology-photo-phone.jpg?w=1260&h=750&auto=compress&cs=tinysrgb'} alt={props.event.title} />
             </CardImage>
-              <Title isSize={6}>Event Date: {moment(props.event.date).format("dddd, MMMM Do YYYY")} {'   '}{moment(props.event.time).format("h:mm a")}</Title>
+              <Title isSize={6}>Event Date: {moment(props.event.date).format("dddd, MMMM Do YYYY")} {'   '}{moment(props.event.time, "HH:mm").format("h:mm a")}</Title>
               <Title isSize={6}>Event Cost: {props.event.cost}</Title>
 
           </Column>
@@ -68,7 +68,7 @@ const EventCard = props => {
               <Content>
                 <small>{moment(props.event.date).format("dddd, MMMM Do YYYY")}</small>
                 {'  '}
-                <small>{moment(props.event.time).format("h:mm a")}</small>
+                <small>{moment(props.event.time, "HH:mm").format("h:mm a")}</small>
               </Content>
             </CardContent>
           </Column>
