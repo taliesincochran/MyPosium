@@ -24,7 +24,7 @@ export default class App extends Component{
             <Route exact path="/profile" component={ Profile } />
             <Route exact path='/dashboard' component={ Dashboard }/>
             <Route path='/messages' component={ Messages } />
-            <Route exact path="/event/create" component={ CreateEvent } />
+            <Route exact path="/eventCreate" component={ CreateEvent } />
             <Route exact path="/updateProfile" component={ UpdateUser } />
             <Route component={ NoMatch } />
           </Switch>

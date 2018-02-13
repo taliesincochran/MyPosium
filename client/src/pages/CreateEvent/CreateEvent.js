@@ -65,7 +65,7 @@ export default class CreateEvent extends Component {
   render(){
     return (
       // <div style={{width: '100%', background: 'linear-gradient(to right, rgb(200,245,240), MintCream, MintCream, white, white, MintCream, MintCream, rgb(200,245,240))', backgroundAttachment: 'fixed', backgroundSize: '100% 100%'}}>
-      <div style={{height: '100vh', backgroundImage: 'url("img/coloredLines.jpg")', backgroundAttachment: 'fixed', backgroundSize: '100% 100%'}}>
+      <div style={{minHeight: '100vh', backgroundImage: 'url("img/coloredLines.jpg")', backgroundAttachment: 'fixed', backgroundSize: '100% 100%'}}>
         <Navbar
           hasBrand={true}
           brandText="MyPosium Dashboard"
@@ -144,7 +144,7 @@ export default class CreateEvent extends Component {
           		  </Control>
       		    </Field>
               <Field>
-              	<Label className="has-text-left">Date of Event:</Label>
+              	<Label className="has-text-left">Date and Time of Event:</Label>
               	<Control>
               		<Input
               			type="date"
