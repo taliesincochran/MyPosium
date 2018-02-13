@@ -127,7 +127,7 @@ class Dashboard extends Component {
       //returned to select correct events to include from the local   ==
       //event array                                                   ==
       //================================================================
-      if(remote === false && userLocation.toString().length === 5) {
+      if(remote) {
         const queryUrl = `https://maps.googleapis.com/maps/api/distancematrix/json?origins=${userLocation}&destinations=${destinations}&key=AIzaSyDpwnTjzyOwCRmPRQhpu0eREKplFV0TCDI`
         console.log('query url', queryUrl)
         axios.get(queryUrl).then(result=> {
