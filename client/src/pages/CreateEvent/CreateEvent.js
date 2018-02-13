@@ -32,6 +32,9 @@ export default class CreateEvent extends Component {
 
   componentDidMount(){
     categories.sort();
+    console.log(this.state.currentDate)
+    this.setState({category:categories[0]});
+
   }
 
   handleChange = e => {
@@ -144,7 +147,7 @@ export default class CreateEvent extends Component {
           		  </Control>
       		    </Field>
               <Field>
-              	<Label className="has-text-left">Date and Time of Event:</Label>
+              	<Label className="has-text-left">{this.state.dateText}</Label>
               	<Control>
               		<Input
               			type="date"
