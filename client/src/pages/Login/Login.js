@@ -13,17 +13,21 @@ export default class Login extends Component {
       password: '',
       isLoggedIn: false,
       isActive: false,
-      user: {}
+      user: {},
+      usernamePlaceholder: "Enter Username",
+      passwordPlaceholder: "Enter Password"
     }
     this.onClickNav = this.onClickNav.bind(this);
   }
+
+//All this awesome functionality is to make sure the styling sticks and prevents cookies issues
 
   componentDidMount() {
     let body = document.querySelector('body');
     body.style.backgroundImage = "url('img/coloredLines.jpg')"
     body.style.backgroundSize = '100% 100%';
     body.style.backgroundAttachment = 'fixed';
-    // axios.get("api/users/logout")
+    axios.get("api/users/logout")
   }
 
   onClickNav = () => {
@@ -34,6 +38,7 @@ export default class Login extends Component {
     this.setState({ [name]: value });
   }
 
+//Submi
   handleSubmit = e => {
     let { username, password } = this.state;
     let user = { username, password };
@@ -48,17 +53,28 @@ export default class Login extends Component {
         authObj
           .authenticate()
           .then(response => {
+            console.log(response.data)
             authObj.isAuthenticated = response.data.isAuth;
             this.setState({user: response.data.user, isLoggedIn: true});
           })
-          .catch(err => console.log(err));
+          .catch(err => {
+            this.setState({usernamePlaceholder: "There was a problem with your username or password.", passwordPlaceholder: "Please try again.", username: '', password: ''})
+            console.log(err)
+          });
       })
-      .catch(err => console.log(err));
+      .catch(err => {
+        this.setState({usernamePlaceholder: "There was a problem with your username or password.", passwordPlaceholder: "Please try again.", username: '', password: ''})
+        console.log(err)});
   }
 
   render() {
     return(
       <Container>
+
+{/*======================================================================================================================================*/}
+        {/*NAVBAR STUFF Probably not to be edited except if navbar is updated*/}
+{/*======================================================================================================================================*/}
+
         <NavbarHeader
           hasEnd={true}
           hasBrand={true}
@@ -87,17 +103,25 @@ export default class Login extends Component {
             ]
           }
         />
+
+{/*======================================================================================================================================*/}
+      {/*END OF NAVBAR STUFF*/}
+{/*======================================================================================================================================*/}
+
         <div style={{height: '100px'}} />
         <Columns>
           <Column isSize={8} isOffset={2}>
             <Box style={{marginTop: '15%', position: 'relative'}}>
               <Title className="has-text-grey-light" isSize={1} style={{position: 'absolute', top: '-15%', right: '5%', background: 'white'}}>Login</Title>
+              
+              {/*The login fields*/}
+
               <Field>
                   <Label className="has-text-left">User Name:</Label>
                   <Control>
                       <Input
                         type="text"
-                        placeholder='Enter User Name'
+                        placeholder={this.state.usernamePlaceholder}
                         name='username'
                         value={this.state.username}
                         onChange={this.handleChange}
@@ -109,7 +133,7 @@ export default class Login extends Component {
                   <Control>
                     <Input
                       type="password"
-                      placeholder='Enter Password'
+                      placeholder={this.state.passwordPlaceholder}
                       name='password'
                       value={this.state.password}
                       onChange={this.handleChange}
@@ -122,6 +146,7 @@ export default class Login extends Component {
             </Box>
           </Column>
         </Columns>
+      {/*The Redirect to dashboard on submission*/}
         {this.state.isLoggedIn? (<Redirect to={{
           pathname: "/dashboard",
           state: this.state.user}}/>): null}
