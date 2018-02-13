@@ -91,21 +91,26 @@ export default class SentMessages extends Component {
         .catch(err => console.log(err))
   }
 
-  mapMessages = (array, clickFunction) => {
-    array = array.reverse();
-    // console.log('firing inside mapMessages', array)
-    let asdf = array.map((message, i) => {
+  mapMessages = (type, array, clickFunction) => {
+    let tempArr = JSON.parse(JSON.stringify(array));
+    if (type === 'sent'){
+      if (tempArr[0]._id===this.state.sentMessages[0]._id){
+        tempArr = tempArr.reverse();
+      }
+    }
+    else {
+      if (tempArr[0]._id===this.state.receivedMessages[0]._id){
+        tempArr = tempArr.reverse();
+      }
+    }
+    let mappedArr = tempArr.map((message, i) => {
       if (message.read) {
-        // console.log('firing inside map', message, i)
-        // this.mapMessages(this.state.receivedMessages, this.getOneReceivedMessage)
         return (<li key={i}><MenuLink style={{whiteSpace: 'pre', textDecoration: 'none'}} onClick={() => {clickFunction(message._id)}}>&#9993;{" "}From: {message.sender} <br/>{"     "}Subject: {message.subject}</MenuLink></li>)
       } else {
-        // this.mapMessages(this.state.receivedMessages, this.getOneReceivedMessage)
-        return (<li key={i}><MenuLink style={{whiteSpace: 'pre', textDecoration: 'none'}} onClick={() => {clickFunction(message._id)}}>&#128232;{" "}From: {message.sender} <br/>{"     "}Subject: {message.subject}</MenuLink></li>)
+        return (<li key={i}><MenuLink style={{whiteSpace: 'pre', textDecoration: 'none'}} onClick={() => {clickFunction(message._id)}}><b>&#128232;{" "}From: {message.sender} <br/>{"     "}Subject: {message.subject}</b></MenuLink></li>)
       }
     })
-    console.log(asdf)
-    return asdf;
+    return mappedArr;
   }
 
 
@@ -194,7 +199,7 @@ export default class SentMessages extends Component {
                 <MenuList>
                   {
                     this.state.sentMessages.length > 0 ?
-                    this.mapMessages(this.state.sentMessages, this.getOneSentMessage)
+                    this.mapMessages('sent', this.state.sentMessages, this.getOneSentMessage)
                     :
                     <p>No Sent Messages</p>
                   }
@@ -232,7 +237,7 @@ export default class SentMessages extends Component {
                 <MenuList>
                   {
                     this.state.receivedMessages.length >0 ?
-                    this.mapMessages(this.state.receivedMessages, this.getOneReceivedMessage)
+                    this.mapMessages('received', this.state.receivedMessages, this.getOneReceivedMessage)
                     :
                     (<p>No Received Messages</p>)
                   }
