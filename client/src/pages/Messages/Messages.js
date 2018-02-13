@@ -10,8 +10,8 @@ import Navbar from '../../components/Nav/Navbar';
 export default class SentMessages extends Component {
 
   state = {
-    sentMessages: this.props.location.state.sentMessages,
-    receivedMessages: this.props.location.state.receivedMessages,
+    sentMessages: [],
+    receivedMessages: [],
     logout: false,
     createEvent: false,
     dashboard: false,
@@ -24,49 +24,105 @@ export default class SentMessages extends Component {
     updateProfile: false
   }
   componentDidMount() {
-    this.getMessages();
+    this.getMessages()
+        .then(response => {
+          this.setState({ sentMessages: response.data.sentMessages, receivedMessages: response.data.receivedMessages });
+        })
+        .catch(err  => console.log(err));
   }
 
   getMessages = () => {
-    axios
-      .get('/api/message/populate')
-      .then(response => {
-        this.setState({ sentMessages: response.data.sentMessages, receivedMessages: response.data.receivedMessages });
-      })
-      .catch(err  => console.log(err));
+    return axios.get('/api/message/populate')
   }
 
   activateSent = () => {
-    this.setState({toggle: true, sentActive: true, receivedActive: false, currentMessage: ''});
+    this.getMessages()
+        .then(response => {
+          this.setState({
+            toggle: true,
+            sentActive: true,
+            receivedActive: false,
+            currentMessage: '',
+            sentMessages: response.data.sentMessages,
+            receivedMessages: response.data.receivedMessages
+          });
+        })
+        .catch(err => console.log(err))
+
   }
 
   activateReceived = () => {
-    this.setState({toggle: false, sentActive: false, receivedActive: true, currentMessage: ''});
+    this.getMessages()
+        .then(response => {
+          this.setState({
+            toggle: false,
+            sentActive: false,
+            receivedActive: true,
+            currentMessage: '',
+            sentMessages: response.data.sentMessages,
+            receivedMessages: response.data.receivedMessages
+          });
+        })
+        .catch(err => console.log(err))
   }
 
   getOneSentMessage = id => {
-    axios
-      .get('/api/message/getOneSent/' + id)
-      .then(result => {
-        this.setState({currentMessage: result.data});
-      })
+    this.getOneMessage('/api/message/getOneSent/', id);
   }
 
   getOneReceivedMessage = id => {
-    axios
-      .get('/api/message/getOneReceived/' + id)
-      .then(result => {
-        this.setState({currentMessage: result.data});
-      })
+    this.getOneMessage('/api/message/getOneReceived/', id);
   }
+
+  getOneMessage = (path, id) => {
+    this.getMessages()
+        .then(response => {
+          this.setState({
+            sentMessages: response.data.sentMessages,
+            receivedMessages: response.data.receivedMessages
+          }, function () {
+            axios
+              .get(path + id)
+              .then(result => {
+                this.setState({currentMessage: result.data});
+              })
+          });
+        })
+        .catch(err => console.log(err))
+  }
+
+  mapMessages = (type, array, clickFunction) => {
+    let tempArr = JSON.parse(JSON.stringify(array));
+    if (type === 'sent'){
+      if (tempArr[0]._id===this.state.sentMessages[0]._id){
+        tempArr = tempArr.reverse();
+      }
+    }
+    else {
+      if (tempArr[0]._id===this.state.receivedMessages[0]._id){
+        tempArr = tempArr.reverse();
+      }
+    }
+    let mappedArr = tempArr.map((message, i) => {
+      if (message.read) {
+        return (<li key={i}><MenuLink style={{whiteSpace: 'pre', textDecoration: 'none'}} onClick={() => {clickFunction(message._id)}}>&#9993;{" "}From: {message.sender} <br/>{"     "}Subject: {message.subject}</MenuLink></li>)
+      } else {
+        return (<li key={i}><MenuLink style={{whiteSpace: 'pre', textDecoration: 'none'}} onClick={() => {clickFunction(message._id)}}><b>&#128232;{" "}From: {message.sender} <br/>{"     "}Subject: {message.subject}</b></MenuLink></li>)
+      }
+    })
+    return mappedArr;
+  }
+
 
   burgerOnClick = () =>this.setState((state) => ({isActive:!this.state.isActive}))
 
 
   render() {
+    // this.state.sentMessages.reverse();
+    // this.state.receivedMessages.reverse()
     return(
       // <div style={{width: '100%', height: '100%', background: 'linear-gradient(to right, rgb(200,245,240), MintCream, MintCream, white, white, MintCream, MintCream, rgb(200,245,240))'}}>
-      <div style={{height: '100vh', backgroundImage: 'url("img/coloredLines.jpg")', backgroundAttachment: 'fixed', backgroundSize: '100% 100%'}}>
+      <div style={{minHeight: '100vh', backgroundImage: 'url("img/coloredLines.jpg")', backgroundAttachment: 'fixed', backgroundSize: '100% 100%'}}>
         <div style={{height: '100px'}}></div>
         <Navbar
           hasBrand={true}
@@ -142,10 +198,10 @@ export default class SentMessages extends Component {
                 <MenuLabel>Messages</MenuLabel>
                 <MenuList>
                   {
-                    this.state.sentMessages.length >0?
-                    (this.state.sentMessages.map((message,i) => {
-                      return (<li key={i}><MenuLink onClick={() => {this.getOneSentMessage(message._id)}}>From: {message.sender} <br/> Subject: {message.subject}</MenuLink></li>)
-                    })) : <p>No Sent Messages</p>
+                    this.state.sentMessages.length > 0 ?
+                    this.mapMessages('sent', this.state.sentMessages, this.getOneSentMessage)
+                    :
+                    <p>No Sent Messages</p>
                   }
                 </MenuList>
               </Menu>
@@ -180,18 +236,10 @@ export default class SentMessages extends Component {
                 <MenuLabel>Messages</MenuLabel>
                 <MenuList>
                   {
-                    this.state.receivedMessages.length >0 ?//start first ternary
-
-                    (this.state.receivedMessages.map((message,i) => {//first ternary first condition
-                      // console.log(message.read)
-                      if (message.read) {
-                        return (<li key={i}><MenuLink style={{whiteSpace: 'pre', textDecoration: 'none'}} onClick={() => {this.getOneReceivedMessage(message._id)}}>{" "}From: {message.sender}<br/>{"     "}Subject: {message.subject}</MenuLink></li>)
-                      } else {
-                        return (<li key={i}><MenuLink style={{whiteSpace: 'pre', textDecoration: 'none'}} onClick={() => {this.getOneReceivedMessage(message._id)}}>{" "}<b>From: {message.sender}<br/>{"     "}Subject: {message.subject}</b></MenuLink></li>)
-                      }
-                    }))//end second ter
+                    this.state.receivedMessages.length >0 ?
+                    this.mapMessages('received', this.state.receivedMessages, this.getOneReceivedMessage)
                     :
-                    (<p>No Received Messages</p>)//first ternary second condition
+                    (<p>No Received Messages</p>)
                   }
                 </MenuList>
               </Menu>
