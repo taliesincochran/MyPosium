@@ -17,12 +17,14 @@ class Profile extends Component {
       img: this.props.location.state.img,
       aboutMe: this.props.location.state.aboutMe,
       zipcode: this.props.location.state.zipcode,
+      initialZipcode: this.props.location.state.zipcode,
       finishedProfile: false,
       user: this.props.location.state,
       logout: false,
       dashboard: false,
       checkMessages: false,
       createEvent: false,
+      zipcodePlaceholder: 'Enter Zipcode'
     }
   }
 
@@ -68,16 +70,26 @@ class Profile extends Component {
       img,
       aboutMe,
       zipcode,
-      username: this.props.location.state.username,
-
+      username: this.props.location.state.username
     }
-
-    axios.post("/api/users/updateprofile", data).then(result =>{
-      this.setState({user: result.data})
-    }).then(()=> {
-        this.setState({finishedProfile:true})
-    }).catch(err => console.error(err));
-
+    axios.get(`https://maps.googleapis.com/maps/api/distancematrix/json?origins=${this.state.zipcode || 5000}&destinations=27510&key=AIzaSyDpwnTjzyOwCRmPRQhpu0eREKplFV0TCDI`).then(result=>{
+      console.log(result.data.rows[0].elements[0].status)
+      if(result.data.rows[0].elements[0].status==="OK") {
+        return true
+      } else{
+        return false
+      }
+    }).then(result => {
+      if(result){
+        axios.post("/api/users/updateprofile", data).then(result =>{
+          this.setState({user: result.data})
+        }).then(()=> {
+          this.setState({finishedProfile:true})
+        }).catch(err => console.error(err));
+      } else{
+        this.setState({zipcodePlaceholder: 'Google can not find your zipcode.  Please try again.', zipcode: this.state.initialZipcode})
+      }
+    })
   }
 
   render() {
@@ -146,7 +158,7 @@ class Profile extends Component {
                   <Field>
                     <Label className="has-text-left">Zipcode:</Label>
                     <Control>
-                      <Input type="text" name="zipcode" value={this.state.zipcode} onChange={this.handleInput} />
+                      <Input type="text" name="zipcode" value={this.state.zipcode} placeholder= '' onChange={this.handleInput} />
                     </Control>
                   </Field>
                   <Field>
