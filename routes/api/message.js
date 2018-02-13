@@ -44,8 +44,8 @@ router.post('/create', function (req,res){
 router.get('/populate', function (req,res){
   db.User
     .findOne({username: req.user.username})
-    .populate({path: 'sentMessages', options: { sort: {createdAt: -1}}})
-    .populate({path: 'receivedMessages', options: { sort: {createdAt: -1}}})
+    .populate('sentMessages')
+    .populate('receivedMessages')
     .then(result => {
       res.json(result)
     })
