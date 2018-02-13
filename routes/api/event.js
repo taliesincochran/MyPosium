@@ -13,6 +13,15 @@ const eventController = require("../../controllers/");
     db.Event.create(newEvent).then(result => res.json(result))
   });
 
+  router.get('/attendees/:id', function(req, res){
+    console.log("0---------------------------0");
+    db.Event.findOne({_id: req.params.id})
+    .populate('attendees', 'username')
+    .then(result=>{
+      console.log(result);
+      res.json(result);
+    })
+  })
   router.post('/distances', (req,res) => {
     var query = req.params.query;
     console.log('query', req)

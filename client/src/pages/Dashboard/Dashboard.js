@@ -142,8 +142,8 @@ class Dashboard extends Component {
    })
   }
 
-  openMessageModal = (organizer) => {
-    this.setState({activeMessageModal: true, messageRecipient: organizer});
+  openMessageModal = (recipient) => {
+    this.setState({activeMessageModal: true, messageRecipient: recipient});
   }
 
   closeModal = () => {
@@ -180,7 +180,16 @@ class Dashboard extends Component {
       .catch(err => console.log(err));
   }
   sendToAllAttendees= () => {
-    console.log("I'm a placeholder.")
+    axios.get('api/event/attendees/' + this.state.modalEvent._id)
+      .then(response=> {
+        let attendeeArr = [];
+        response.data.attendees.forEach((username)=>{
+          attendeeArr.push(username.username);
+        })
+        console.log(attendeeArr);
+        this.openMessageModal(attendeeArr);
+      })
+    this.closeEventModal();
   }
   sendMessageToOrganizer = () => {
     this.openMessageModal(this.state.modalEvent.username);
