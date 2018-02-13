@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
-import { Redirect } from 'react-router-dom';
+import { Redirect, Link } from 'react-router-dom';
 import Navbar from '../../components/Nav/Navbar'
 import axios from 'axios';
 import { authObj } from '../../authenticate';
 import EventCard from '../../components/EventCard/EventCard';
-// import Media from '../../components/Media/Media';
 import { Container,
         Button,
         Columns,
@@ -50,17 +49,29 @@ class Dashboard extends Component {
       activeMessageModal: false,
       activeEventModal: false,
       modalEvent: {attendees: [], username: null},
+      usernameForEventCancellation: '',
       messageRecipient: '',
       subject: '',
       message: '',
+      subjects: [],
+      cancelEventMessage: '',
+      cancelEventModal: false,
       eventsWithin: 5,
-      eventsWithinDistance: []
+      eventsWithinDistance: [],
+      unread: 0
     }
     this.burgerOnClick = this.burgerOnClick.bind(this)
     this.setState = this.setState.bind(this)
+    this.handleInput = this.handleInput.bind(this)
   }
   componentDidMount =() => {
-    console.log('state on did mount', this.state)
+    axios
+      .get('api/message/checkForNewMessage')
+      .then(response => {
+        let unread = 0;
+        response.data.map(message => message.read===false? unread++: message)
+        this.setState({unread});
+      })
       axios.get("/api/users/" + this.state.user.username).then(result=>{
         console.log("user get", result);
         this.setState({user: result.data})
@@ -116,7 +127,7 @@ class Dashboard extends Component {
       //returned to select correct events to include from the local   ==
       //event array                                                   ==
       //================================================================
-      if(remote === false && userLocation.toString().length === 5) {
+      if(remote) {
         const queryUrl = `https://maps.googleapis.com/maps/api/distancematrix/json?origins=${userLocation}&destinations=${destinations}&key=AIzaSyDpwnTjzyOwCRmPRQhpu0eREKplFV0TCDI`
         console.log('query url', queryUrl)
         axios.get(queryUrl).then(result=> {
@@ -154,6 +165,8 @@ class Dashboard extends Component {
   }
   handleInput = e => {
     let { name, value } = e.target;
+    console.log('target', e.target.name, e.target.value)
+    console.log("from state", e.target.name, this.state[e.target.name])
     this.setState({ [name]: value });
   }
   setDistance = (x) => {
@@ -208,7 +221,7 @@ class Dashboard extends Component {
       .catch(err => console.log(err));
   }
   attend = (e) => {
-     console.log("attend called", e.target.value);
+    console.log("attend called", e.target.value);
     var id = e.target.value
     var attending = this.state.userAttending;
     axios.post("/api/event/" + e.target.value, this.state.user._id).then(result=>{
@@ -226,8 +239,21 @@ class Dashboard extends Component {
       this.setState({modalEvent: event, activeEventModal: !this.state.activeEventModal})
     }
   }
+  cancelEvent = () => {
+    if(this.state.usernameForEventCancellation === this.state.modalEvent.username) {
+      axios.get("api/event/cancelEvent/" + this.state.modalEvent._id).then(result =>{
+        //Code for sending message
+        this.setState({cancelEventModal: false}, ()=> {
+          this.getEvents(false);
+        })
+      })
+    }
+  }
+  toggleCancelEventModal = () => {
+    console.log('toggel cancel event modal firing')
+    this.setState({cancelEventModal: !this.state.cancelEventModal, activeEventModal: !this.state.activeEventModal})
+  }
   render() {
-    console.log(this.state.modalEvent.attendees.length)
     // var checkMessages= this.checkMessages;
     // var createEvent = this.createEvent;
     // var handleLogout = this.handleLogout;
@@ -237,7 +263,7 @@ class Dashboard extends Component {
     //console.log(this.checkMessages)
     return(
       hasGotEvents?(
-        <div style={{width: '100%', background: 'linear-gradient(to right, rgb(200,245,240), MintCream, MintCream, white, white, MintCream, MintCream, rgb(200,245,240))'}}>
+        <div style={{width: '100%', minHeight: '100vh', background: 'linear-gradient(to right, rgb(200,245,240), MintCream, MintCream, white, white, MintCream, MintCream, rgb(200,245,240))'}}>
       <Container>
         <Navbar
           hasBrand={true}
@@ -335,18 +361,33 @@ class Dashboard extends Component {
           ]}
         />
         <div style={{height: '100px'}}/>
-        <Columns isCentered>
-          <Column isSize="1/3">
-            <Box>
-              <Image isSize="128x128" src={this.props.location.state.img || "https://upload.wikimedia.org/wikipedia/commons/thumb/4/42/Simpleicons_Interface_user-black-close-up-shape.svg/1024px-Simpleicons_Interface_user-black-close-up-shape.svg.png"} />
-              <p>Hi, {this.props.location.state.username}</p>
-            </Box>
-            <div style={{height: '20px'}} />
-            <Box>
-              <h3>Events you've organized</h3>
-              <div style={{height: '15px'}} />
-              {this.state.events.length<0?(<p>You have organized no events</p>):
-                (this.state.userCreated.map(event=>{
+          <Columns isCentered>
+            <Column isSize="1/3">
+              <Box>
+                <Columns>
+                  <Column>
+                    <Image isSize="128x128" src={this.props.location.state.img || 'img/defaultUser.jpg'} />
+                  </Column>
+                  <Column>
+                    <Title isSize={5}>Hi, {this.props.location.state.username}, welcome back!</Title>
+                    {/* nested ternary checks if there are new messages, and outputs the message according to the number of new messages.  */}
+                    {console.log('+++++++++++++++++++++++++',this.state.unread)}
+                    <p>You have {this.state.unread===0 ?
+                      'No new messages.'
+                      :
+                      (this.state.unread === 1 ?
+                        (<Link to={{pathname: '/messages', state: this.state.user}}>{this.state.unread + ' new message!'}</Link>)
+                        :
+                        (<Link to={{pathname: '/messages', state: this.state.user}}>{this.state.unread + ' new messages!'}</Link>))}</p>
+                  </Column>
+                </Columns>
+              </Box>
+              <div style={{height: '20px'}} />
+              <Box>
+                <h3>Events you've organized</h3>
+                <div style={{height: '15px'}} />
+                {this.state.events.length<0?(<p>You have organized no events</p>):
+                  (this.state.userCreated.map(event=>{
                     return(
                       <div>
                         <EventCard event={event} isSmall={true} eventModal={this.eventModal} />
@@ -373,7 +414,7 @@ class Dashboard extends Component {
             </Column>
             <Column isSize='2/3'>
               <Box>
-                <h2>Events you may be interested in.</h2>
+                <Title isSize={5}>Events you may be interested in.</Title>
                 <div style={{height: '50px'}} />
                 {this.state.eventsWithinDistance.map(event=>{
                     return(
@@ -426,14 +467,14 @@ class Dashboard extends Component {
                   <Column isSize='1/3'>
                     <Image src={this.state.modalEvent.imgUrl} />
                     <Title>{moment(this.state.modalEvent.date).format("dddd, MMMM Do YYYY")}</Title>
-                    <Subtitle>{moment(this.state.modalEvent.time).format("h:hh a")}</Subtitle>
+                    <Subtitle>{moment(this.state.modalEvent.time, 'HH:mm').format("h:mm a")}</Subtitle>
                     {this.state.modalEvent.isRemote?(<Subtitle>Remote</Subtitle>):(
                       <Subtitle>Located in: {this.state.modalEvent.zipcode}</Subtitle>
                     )}
                   </Column>
                   <Column>
                     <Title>Organized By: {this.state.modalEvent.username} </Title>
-                  
+
                     {this.state.modalEvent.cost?(<Subtitle>Cost: {this.state.modalEvent.cost}</Subtitle>):(<Subtitle>Free Event</Subtitle>)}
                     <Subtitle>Because you are interested in {this.state.modalEvent.category}</Subtitle>
                     <Subtitle>{this.state.modalEvent.description}</Subtitle>
@@ -442,10 +483,39 @@ class Dashboard extends Component {
                 </Columns>
                 {this.state.user.attending.includes(this.state.modalEvent._id)?(<Button isColor='primary' onClick={this.sendMessageToOrganizer} className="is-fullWidth">Send Message To Organizer</Button>):null}
                 {(this.state.user.username !== this.state.modalEvent.username && !this.state.user.attending.includes(this.state.modalEvent._id))?(<Button isColor="primary" onClick={this.attend} className="is-fullwidth">Attend</Button>):null}
-                {(this.state.modalEvent.username === this.state.user.username)?(<Button isColor="primary" onClick={this.sendToAllAttendees} className='is-fullwidth'>Send Message To All Attending</Button>):null}
+                {(this.state.modalEvent.username === this.state.user.username)?(
+                  <div>
+                    <Button isColor="primary" onClick={this.sendToAllAttendees} className='is-fullwidth'>Send Message To All Attending</Button>
+                    <Button isColor="danger" onClick={this.toggleCancelEventModal} className='is-fullwidth'>Cancel Event</Button>
+                  </div>
+                  ):null}
               </ModalCardBody>
             </ModalCard>
           <ModalClose isSize='large'/>
+        </Modal>
+        <Modal isActive={this.state.cancelEventModal? true: false} >
+          <ModalBackground />
+          <ModalContent style={{padding: '20px'}}>
+            <Delete onClick={this.toggleCancelEventModal} />
+            <ModalCardTitle className="has-text-centered">"Are you sure you want to cancel this event? This cannot be undone!"</ModalCardTitle>
+            <Field>
+              <Label className="has-text-left">"Enter your username to confirm event cancelation."</Label>
+              <Control>
+                <Input name='usernameForEventCancellation' type="text" placeholder="Type your username here." onChange={this.handleInput} value={this.state.usernameForEventCancellation}/>
+              </Control>
+            </Field>
+            <Field>
+              <Label className="has-text-left">"Send A Message To All Attending"</Label>
+              <Control>
+                <TextArea name='cancelEventMessage' placeholder="Type Message Here" onChange={this.handleInput} value={this.state.cancelEventMessage}/>
+              </Control>
+            </Field>
+            <Control>
+              <Button isColor="primary" onClick={this.toggleCancelEventModal} className="is-fullwidth">Close Window</Button>
+              <Button isColor="danger" onClick={this.cancelEvent} className="is-fullwidth">Cancel Event</Button>)
+            </Control>
+          </ModalContent>
+          <ModalClose />
         </Modal>
         {this.state.createEvent? (<Redirect to= {{pathname:"/event/create", state:this.state.user}} />) : null}
         {this.state.checkMessages? (<Redirect to={{pathname:"/messages", state:this.state.user}}/>) : null}

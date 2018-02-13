@@ -23,10 +23,11 @@ import moment from 'moment';
 
 const EventCard = props => {
   if(!props.isSmall) {
+    //Fullsize card render
     return(
       <Card>
         <CardHeader>
-          <CardHeaderTitle>
+          <CardHeaderTitle style={{width: '100%', background: 'MintCream'}}>
             <Title isSize={4}>{props.event.title}</Title>
           </CardHeaderTitle>
         </CardHeader>
@@ -35,13 +36,20 @@ const EventCard = props => {
             <CardImage style={{marginBottom: '20px'}}>
               <Image isRatio='4:3' src={props.event.imgUrl || 'https://images.pexels.com/photos/6227/hands-technology-photo-phone.jpg?w=1260&h=750&auto=compress&cs=tinysrgb'} alt={props.event.title} />
             </CardImage>
-              <Title isSize={6}>Event Date: {moment(props.event.date).format("dddd, MMMM Do YYYY")} {'   '}{moment(props.event.time).format("h:mm a")}</Title>
+              <Title isSize={6}>Event Date: {moment(props.event.date).format("dddd, MMMM Do YYYY")} {'   '}{moment(props.event.time, "HH:mm").format("h:mm a")}</Title>
               <Title isSize={6}>Event Cost: {props.event.cost}</Title>
-
           </Column>
           <Column isSize='1/2'>
             <Title isSize={4}>{props.event.title}</Title>
             <p style={{marginBottom: '20px'}}>{props.event.description}</p>
+          </Column>
+        </Columns>
+        <Columns style={{margin: '20px'}}>
+          <Column>
+            <Title isSize={6}>Event Date: {moment(props.event.date).format("dddd, MMMM Do YYYY")} {'   '}{moment(props.event.time).format("h:mm a")}</Title>
+            <Title isSize={6}>Event Cost: {props.event.cost}</Title>
+          </Column>
+          <Column>
             <Button value={props.event._id} onClick={props.onClick} style={{width: '50%'}} className="is-success">Attend</Button>
             <Button onClick={()=> props.eventModal(props.event)} className="is-info" style={{width: '50%'}}>View More</Button>
           </Column>
@@ -53,7 +61,7 @@ const EventCard = props => {
     return(
       <Card>
         <CardHeader>
-          <CardHeaderTitle>
+          <CardHeaderTitle style={{width: '100%', background: 'Mintcream'}}>
             {props.event.title}
           </CardHeaderTitle>
         </CardHeader>
@@ -68,7 +76,7 @@ const EventCard = props => {
               <Content>
                 <small>{moment(props.event.date).format("dddd, MMMM Do YYYY")}</small>
                 {'  '}
-                <small>{moment(props.event.time).format("h:mm a")}</small>
+                <small>{moment(props.event.time, "HH:mm").format("h:mm a")}</small>
               </Content>
             </CardContent>
           </Column>
