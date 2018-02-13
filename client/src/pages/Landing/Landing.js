@@ -20,18 +20,7 @@ export default class Landing extends Component {
     };
     this.onClickNav = this.onClickNav.bind(this);
   }
-
-
-
-	componentDidMount() {
-		// let body = document.querySelector('body');
-		// body.style.backgroundImage = "url('img/woodBackground.jpg')"
-		// body.style.backgroundSize = '100% 100%';
-		// body.style.backgroundAttachment = 'fixed';
-		// body.style.backgroundColor = 'green';
-	}
-
-
+  
   onClickNav = () => {
       this.setState((state) => ({ isActive: !state.isActive }));
   }
