@@ -19,7 +19,6 @@ const axios = require('axios')
     let authObj = {user: req.user, isAuth: req.isAuthenticated()};
     return res.json(authObj);
   });
-
   // process the logout request
   router.get('/logout', function(req, res) {
     req.logout();
@@ -41,7 +40,12 @@ const axios = require('axios')
     authObj.isAuth = req.isAuthenticated();
     res.json(authObj);
   })
-
+  router.get('/checkUsername/:username', function(req,res) {
+    db.User.findOne({username: req.params.username}).then(result => {
+      console.log("Check Username", req.params.username, result)
+      res.json(result)
+    })
+  })
   //Route to updayte profile, post because multiple points can be edited
   router.post('/updateprofile', function(req, res) {
     UC.updateUser(req.body).then(result=> {
