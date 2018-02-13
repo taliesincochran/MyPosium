@@ -1,21 +1,21 @@
 import React from "react";
-import { Col, Row, Container } from "../../components/Grid";
-import Jumbotron from "../../components/Jumbotron";
+import { Container, Columns, Column, Title, Subtitle, Box } from 'bloomer'
+import { Link } from 'react-router-dom'
 
 const NoMatch = () =>
-  <Container fluid>
-    <Row>
-      <Col size="md-12">
-        <Jumbotron>
-          <h1>404 Page Not Found</h1>
-          <h1>
-            <span role="img" aria-label="Face With Rolling Eyes Emoji">
-              🙄
-            </span>
-          </h1>
-        </Jumbotron>
-      </Col>
-    </Row>
-  </Container>;
+  <div style={{minHeight: '100vh', backgroundImage: 'url("/img/coloredLines.jpg")', backgroundAttachment: 'fixed', backgroundSize: '100% 100%'}}>
+    <Container>
+      <Columns>
+        <Column className='has-text-centered' isSize={6} isOffset={3}>
+          <Box style={{marginTop: '200px'}} hasTextAlign="center">
+            <Title isSize={1}>404 Not found</Title>
+            <Title>🙄</Title>
+            <Link to="/login"><p>Try Signing In?</p></Link>
+            <Link to="/signup"><p>Or Create An Account!</p></Link>
+          </Box>
+        </Column>
+      </Columns>
+    </Container>;
+  </div>
 
 export default NoMatch;
