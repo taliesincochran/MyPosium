@@ -6,6 +6,13 @@ const db = require("../../models/")
 router.post('/create', function (req,res){
   console.log(req.body);
   let { sender, recipient, subject, message } = req.body;
+  let receiver = [];
+  if (typeof recipient == 'string'){
+    receiver.push(recipient);
+  }
+  else{
+    receiver = recipient;
+  }
   let newMessage = { sender: sender.username, recipient, subject, message };
   db.Message
     //Message formatted sending to database
@@ -15,10 +22,12 @@ router.post('/create', function (req,res){
       db.User
       .findOneAndUpdate({_id: sender._id}, {$push:{sentMessages: messageResult._id}})
       .then(result => {
-        recipient.forEach(receiver=>{
+        console.log(recipient + "$$$$$$$$$$$$$$$$$$$$$$$");
+
+        receiver.forEach(user=>{
           //push reference into recipient's received messages
           db.User
-          .findOneAndUpdate({username: receiver}, {$push:{receivedMessages: messageResult._id}})
+          .findOneAndUpdate({username: user}, {$push:{receivedMessages: messageResult._id}})
           .then(asdf => {
           })
         });
