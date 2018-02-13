@@ -92,7 +92,7 @@ export default class Landing extends Component {
 
 						</Container>
 			    </Section>
-					<div isFullWidth={true} style={{ width: '100%', position: 'relative', 'z-index': '100', marginTop: '100vh', background: 'linear-gradient(to right, rgb(200,245,240), MintCream, MintCream, white, white, MintCream, MintCream, rgb(200,245,240)  )'}} >
+					<div isFullWidth={true} style={{ width: '100%', position: 'relative', 'zIndex': '100', marginTop: '100vh', background: 'linear-gradient(to right, rgb(200,245,240), MintCream, MintCream, white, white, MintCream, MintCream, rgb(200,245,240)  )'}} >
 						<a id="create" style={{marginTop: "20px"}}> </a>
 						<Container>
 						<Section className='is-vertical-center'>
