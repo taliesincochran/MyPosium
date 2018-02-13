@@ -6,7 +6,7 @@ import axios from 'axios';
 import categories from "../../categories";
 import { authObj } from '../../authenticate';
 import Navbar from '../../components/Nav/Navbar';
-
+import moment from 'moment';
 export default class CreateEvent extends Component {
   state = {
   	title:'',
@@ -26,13 +26,28 @@ export default class CreateEvent extends Component {
     dashboard: false,
     logout: false,
     updateProfile: false,
-    user: this.props.location.state
+    user: this.props.location.state,
+    currentDate: new Date,
+    zipcodeVerified: false,
+    timeVerified: false,
+    costVerified: false,
+    dateVerified: false,
+    imageVerified: false,
+    zipcodePlaceholder: '',
+    eventTitlePlaceholder: "Enter Event Title",
+    dateText: 'Date of Event:',
+
+
   }
 
 //Just to make the categories pretty on load. And give a default category
   componentDidMount(){
     categories.sort();
+<<<<<<< HEAD
+    console.log(this.state.currentDate)
+=======
     this.setState({category:categories[0]});
+>>>>>>> d98b5bb82f379170569c608ec661410ed78d5260
   }
 
   handleChange = e => {
@@ -43,26 +58,47 @@ export default class CreateEvent extends Component {
 
 //Setting a new event to the state.
   handleSubmit = e=> {
-  	e.preventDefault();
-  	console.log("Submit button clicked");
-  	let {title, zipcode, username, date, time, isRemote, cost, category, imgURL, description, minAttending, maxAttending} = this.state;
-  	let newEvent = {title, zipcode, username, date, time, isRemote, cost, category, imgURL, description, minAttending, maxAttending};
-  	console.log(newEvent);
-  	this.submitEvent(newEvent);
-	}
+    var validateImage = new RegExp('(?:(?:https?:\/\/))[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,4}\b(?:[-a-zA-Z0-9@:%_\+.~#?&\/=]*(\.gif\.jpg|\.png|\.jpeg))')
+    e.preventDefault();
+    console.log("Submit button clicked");
+    let {title, zipcode, username, date, time, isRemote, cost, category, imgURL, description, minAttending, maxAttending} = this.state;
+    let newEvent = {title, zipcode, username, date, time, isRemote, cost, category, imgURL, description, minAttending, maxAttending};
+    console.log(newEvent);
+    axios.get(`https://maps.googleapis.com/maps/api/distancematrix/json?origins=${newEvent.zipcode || 5000}&destinations=27510&key=AIzaSyDpwnTjzyOwCRmPRQhpu0eREKplFV0TCDI`).then(result=>{
+      console.log(result.data.rows[0].elements[0].status)
+      // if(validateImage.test(newEvent.imgURL)) {
+      //   this.setState({imageVerified: true})
+      // }
+      // if(!Number.isNaN(cost) || cost.toLowerCase()="free" || cost=''){
+      //   this.setState({costVerified: true})
+      // } else{ 
+
+      // }
+      // if(result.data.rows[0].elements[0].status==="OK") {
+      //   this.setState({zipcodeVerified: true})
+      // } else{
+      //   return false
+      // }
+    }).then(result => {
+      if(result){
+  	    this.submitEvent(newEvent);
+	    }
+    })
+  }
 
 
 //The call to the database api submitting the event.
   submitEvent = event=>{
   	console.log("event being submitted:");
   	console.log(event);
+
       axios
       .post("/api/event/create", event)
       .then(result =>{
       	   this.setState({isSubmitted: true});
         })
       .catch(err=> console.log(err));
-}
+  }
 
 
   render(){
@@ -162,7 +198,7 @@ export default class CreateEvent extends Component {
           		  </Control>
       		    </Field>
               <Field>
-              	<Label className="has-text-left">Date of Event:</Label>
+              	<Label className="has-text-left">{this.state.dateText}</Label>
               	<Control>
               		<Input
               			type="date"
