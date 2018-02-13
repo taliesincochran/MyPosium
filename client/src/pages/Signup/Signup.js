@@ -13,17 +13,26 @@ export default class Signup extends Component {
       password2: '',
       zipcode: '',
       isLoggedIn: false,
-      isActive: false
+      isActive: false,
+      usernamePlaceholder: "Enter Username",
+      passwordPlaceholder: "Enter Password",
+      password2Placeholder: "Re-Enter Password",
+      zipcodePlaceholder: "Enter 5 digit Zipcode",
+      usernameUnique: false,
+      zipcodeValidated: false,
+      usernameMinLength: 1,
+      passwordMinLength: 1
     }
     this.onClickNav = this.onClickNav.bind(this);
   }
 
   componentDidMount() {
+    console.log(this.props)
     let body = document.querySelector('body');
     body.style.backgroundImage = "url('img/coloredLines.jpg')"
     body.style.backgroundSize = '100% 100%';
     body.style.backgroundAttachment = 'fixed';
-    axios.get("api/users/logout")
+    // axios.get("api/users/logout")
   }
 
   onClickNav = () => {
@@ -42,19 +51,63 @@ export default class Signup extends Component {
   }
 
   submitUser = user => {
-    axios
-      .post('api/users/signup', user)
-      .then(result => {
-        authObj
-          .authenticate()
-          .then(response => {
-            authObj.isAuthenticated = response.data.isAuth;
-            this.setState({isLoggedIn: true});
+    axios.get(`https://maps.googleapis.com/maps/api/distancematrix/json?origins=${this.state.zipcode || 5000}&destinations=27510&key=AIzaSyDpwnTjzyOwCRmPRQhpu0eREKplFV0TCDI`).then(result=>{
+      console.log(result.data.rows[0].elements[0].status)
+      if(result.data.rows[0].elements[0].status==="OK") {
+        this.setState({zipcodeValidated: true})
+      }
+    })
+    axios.get('/api/users/checkUsername/' + this.state.username).then(result=> {
+      if(result.data === null) {
+        this.setState({usernameUnique: true})
+        console.log('username is unique', result.data)
+      } else {
+        this.setState({usernamePlaceholder: 'That username already exists.  Please try another.'})
+        console.log('username is taken ', result.data)
+      }
+      if(this.state.username.length < this.state.usernameMinLength) {
+        this.setState({username: '', usernamePlaceholder: "Please enter a username with at least " + this.state.usernameMinLength + " characters."})
+      } else{
+        console.log("Username is minimum length")
+      }
+      if(this.state.password < this.state.passwordMinLength) {
+        this.setState({passwordPlaceholder: 'Your password needs to be ' + this.state.passwordMinLength + ' characters long.', password2Placeholder: 'Re-Enter Password'})
+      } else {
+        console.log("Password is minimum length")
+      }
+      if(this.state.password !== this.state.password2) {
+        this.setState({password: '', password2: '', passwordPlaceholder: 'Your passwords did not match.', password2Placeholder: 'Please Try Again.'})
+      } else {
+        console.log('Passwords match')
+      }
+    }).then(result => {
+      if(this.state.username.length >= this.state.usernameMinLength 
+        && this.state.usernameUnique
+        && this.state.zipcodeValidated
+        && this.state.password.length >= this.state.passwordMinLength
+        && this.state.password === this.state.password2
+        ) {
+        console.log('User data validated')
+        axios
+          .post('api/users/signup', user)
+          .then(result => {
+            authObj
+              .authenticate()
+              .then(response => {
+                authObj.isAuthenticated = response.data.isAuth;
+                this.setState({isLoggedIn: true});
+              })
+              .catch(err => console.log(err));
           })
           .catch(err => console.log(err));
-      })
-      .catch(err => console.log(err));
+      }
+      else{ 
+        console.log("Validation failed ", this.state)
+      }
+      
+    })
   }
+  
 
   render() {
     return(
@@ -97,7 +150,7 @@ export default class Signup extends Component {
                     <Control>
                         <Input
                           type="text"
-                          placeholder='Enter User Name'
+                          placeholder={this.state.usernamePlaceholder}
                           name="username"
                           value={this.state.username}
                           onChange={this.handleChange}
@@ -109,7 +162,7 @@ export default class Signup extends Component {
                     <Control>
                         <Input
                           type="password"
-                          placeholder='Enter Password'
+                          placeholder={this.state.passwordPlaceholder}
                           name="password"
                           value={this.state.password}
                           onChange={this.handleChange}
@@ -121,7 +174,7 @@ export default class Signup extends Component {
                     <Control>
                         <Input
                           type="password"
-                          placeholder='Re-Enter Password'
+                          placeholder={this.state.password2Placeholder}
                           name="password2"
                           value={this.state.password2}
                           onChange={this.handleChange}
@@ -133,7 +186,7 @@ export default class Signup extends Component {
                     <Control>
                         <Input
                           type="text"
-                          placeholder='Enter Zipcode'
+                          placeholder={this.state.zipcodePlaceholder}
                           name="zipcode"
                           value={this.state.zipcode}
                           onChange={this.handleChange}

@@ -20,18 +20,7 @@ export default class Landing extends Component {
     };
     this.onClickNav = this.onClickNav.bind(this);
   }
-
-
-
-	componentDidMount() {
-		// let body = document.querySelector('body');
-		// body.style.backgroundImage = "url('img/woodBackground.jpg')"
-		// body.style.backgroundSize = '100% 100%';
-		// body.style.backgroundAttachment = 'fixed';
-		// body.style.backgroundColor = 'green';
-	}
-
-
+  
   onClickNav = () => {
       this.setState((state) => ({ isActive: !state.isActive }));
   }
@@ -92,7 +81,7 @@ export default class Landing extends Component {
 
 						</Container>
 			    </Section>
-					<div isFullWidth={true} style={{ width: '100%', position: 'relative', 'zIndex': '100', marginTop: '100vh', background: 'linear-gradient(to right, rgb(200,245,240), MintCream, MintCream, white, white, MintCream, MintCream, rgb(200,245,240)  )'}} >
+					<div className={'is-fullWidth'} style={{ width: '100%', position: 'relative', 'zIndex': '100', marginTop: '100vh', background: 'linear-gradient(to right, rgb(200,245,240), MintCream, MintCream, white, white, MintCream, MintCream, rgb(200,245,240)  )'}} >
 						<a id="create" style={{marginTop: "20px"}}> </a>
 						<Container>
 						<Section className='is-vertical-center'>
