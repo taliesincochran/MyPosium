@@ -17,7 +17,24 @@ const eventController = require("../../controllers/");
     db.Event.create(newEvent).then(result => res.json(result))
   });
 
-  //Attending Route
+  router.get('/attendees/:id', function(req, res){
+    console.log("0---------------------------0");
+    db.Event.findOne({_id: req.params.id})
+    .populate('attendees', 'username')
+    .then(result=>{
+      console.log(result);
+      res.json(result);
+    })
+  })
+  router.post('/distances', (req,res) => {
+    var query = req.params.query;
+    console.log('query', req)
+    axios.get(query).then(result=> {
+      console.log("query result", result)
+      res.send(result)
+    })
+  })
+
   router.post('/:id', (req,res) => {
     console.log("id", req.params.id)
     console.log("user", req.user._id)

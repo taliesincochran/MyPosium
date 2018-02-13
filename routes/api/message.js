@@ -15,12 +15,15 @@ router.post('/create', function (req,res){
       db.User
       .findOneAndUpdate({_id: sender._id}, {$push:{sentMessages: messageResult._id}})
       .then(result => {
-        //push reference into recipient's received messages
-        db.User
-        .findOneAndUpdate({username: recipient}, {$push:{receivedMessages: messageResult._id}})
-        .then(asdf => {
-        })
-        res.json(messageResult);
+        recipient.forEach(receiver=>{
+          //push reference into recipient's received messages
+          db.User
+          .findOneAndUpdate({username: receiver}, {$push:{receivedMessages: messageResult._id}})
+          .then(asdf => {
+          })
+        });
+          res.json(messageResult);
+
       })
       .catch(err => console.log(err));
 
