@@ -32,7 +32,7 @@ export default class Signup extends Component {
     body.style.backgroundImage = "url('img/coloredLines.jpg')"
     body.style.backgroundSize = '100% 100%';
     body.style.backgroundAttachment = 'fixed';
-    // axios.get("api/users/logout")
+    axios.get("api/users/logout")
   }
 
   onClickNav = () => {
