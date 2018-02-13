@@ -21,16 +21,18 @@ const axios = require('axios')
   });
   // process the logout request
   router.get('/logout', function(req, res) {
-    req.logout();
-    console.log("User routes are working");
-    req.session.destroy(function (err) {
-      if (!err) {
-        res.clearCookie('connect.sid', {path: '/'}).sendStatus(200);
-        console.log('no error')
-      } else {
-        console.log('Error from session destroy:', err)
-      }
-    });
+    // if(req.sessions !== undefined) {
+      req.logout();
+      console.log("User routes are working");
+      req.session.destroy(function (err) {
+        if (!err) {
+          res.clearCookie('connect.sid', {path: '/'}).sendStatus(200);
+          console.log('no error')
+        } else {
+          console.log('Error from session destroy:', err)
+        }
+      });
+    // }
   });
 
 //Authentication route to check for passport requirements satisfied

@@ -13,7 +13,9 @@ export default class Login extends Component {
       password: '',
       isLoggedIn: false,
       isActive: false,
-      user: {}
+      user: {},
+      usernamePlaceholder: "Enter Username",
+      passwordPlaceholder: "Enter Password"
     }
     this.onClickNav = this.onClickNav.bind(this);
   }
@@ -23,7 +25,7 @@ export default class Login extends Component {
     body.style.backgroundImage = "url('img/coloredLines.jpg')"
     body.style.backgroundSize = '100% 100%';
     body.style.backgroundAttachment = 'fixed';
-    // axios.get("api/users/logout")
+    axios.get("api/users/logout")
   }
 
   onClickNav = () => {
@@ -48,12 +50,18 @@ export default class Login extends Component {
         authObj
           .authenticate()
           .then(response => {
+            console.log(response.data)
             authObj.isAuthenticated = response.data.isAuth;
             this.setState({user: response.data.user, isLoggedIn: true});
           })
-          .catch(err => console.log(err));
+          .catch(err => {
+            this.setState({usernamePlaceholder: "There was a problem with your username or password.", passwordPlaceholder: "Please try again.", username: '', password: ''})
+            console.log(err)
+          });
       })
-      .catch(err => console.log(err));
+      .catch(err => {
+        this.setState({usernamePlaceholder: "There was a problem with your username or password.", passwordPlaceholder: "Please try again.", username: '', password: ''})
+        console.log(err)});
   }
 
   render() {
@@ -97,7 +105,7 @@ export default class Login extends Component {
                   <Control>
                       <Input
                         type="text"
-                        placeholder='Enter User Name'
+                        placeholder={this.state.usernamePlaceholder}
                         name='username'
                         value={this.state.username}
                         onChange={this.handleChange}
@@ -109,7 +117,7 @@ export default class Login extends Component {
                   <Control>
                     <Input
                       type="password"
-                      placeholder='Enter Password'
+                      placeholder={this.state.passwordPlaceholder}
                       name='password'
                       value={this.state.password}
                       onChange={this.handleChange}
