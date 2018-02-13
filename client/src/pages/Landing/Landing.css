@@ -29,7 +29,6 @@ section {
 .navbar-start a:hover {
   background: transparent;
   text-decoration: none;
-  /* transform: scale(1.1); */
   color: rgb(0, 209, 178);
 }
 

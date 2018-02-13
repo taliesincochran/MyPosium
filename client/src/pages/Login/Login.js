@@ -20,6 +20,8 @@ export default class Login extends Component {
     this.onClickNav = this.onClickNav.bind(this);
   }
 
+//All this awesome functionality is to make sure the styling sticks and prevents cookies issues
+
   componentDidMount() {
     let body = document.querySelector('body');
     body.style.backgroundImage = "url('img/coloredLines.jpg')"
@@ -36,6 +38,7 @@ export default class Login extends Component {
     this.setState({ [name]: value });
   }
 
+//Submi
   handleSubmit = e => {
     let { username, password } = this.state;
     let user = { username, password };
@@ -67,6 +70,11 @@ export default class Login extends Component {
   render() {
     return(
       <Container>
+
+{/*======================================================================================================================================*/}
+        {/*NAVBAR STUFF Probably not to be edited except if navbar is updated*/}
+{/*======================================================================================================================================*/}
+
         <NavbarHeader
           hasEnd={true}
           hasBrand={true}
@@ -95,11 +103,19 @@ export default class Login extends Component {
             ]
           }
         />
+
+{/*======================================================================================================================================*/}
+      {/*END OF NAVBAR STUFF*/}
+{/*======================================================================================================================================*/}
+
         <div style={{height: '100px'}} />
         <Columns>
           <Column isSize={8} isOffset={2}>
             <Box style={{marginTop: '15%', position: 'relative'}}>
               <Title className="has-text-grey-light" isSize={1} style={{position: 'absolute', top: '-15%', right: '5%', background: 'white'}}>Login</Title>
+              
+              {/*The login fields*/}
+
               <Field>
                   <Label className="has-text-left">User Name:</Label>
                   <Control>
@@ -130,6 +146,7 @@ export default class Login extends Component {
             </Box>
           </Column>
         </Columns>
+      {/*The Redirect to dashboard on submission*/}
         {this.state.isLoggedIn? (<Redirect to={{
           pathname: "/dashboard",
           state: this.state.user}}/>): null}
