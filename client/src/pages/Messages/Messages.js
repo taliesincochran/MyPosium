@@ -23,6 +23,8 @@ export default class SentMessages extends Component {
     currentMessage: '',
     updateProfile: false
   }
+
+  //gets messages, stores in state
   componentDidMount() {
     this.getMessages()
         .then(response => {
@@ -31,10 +33,12 @@ export default class SentMessages extends Component {
         .catch(err  => console.log(err));
   }
 
+//The actual axios call to get the messages operation in routes folder
   getMessages = () => {
     return axios.get('/api/message/populate')
   }
 
+//Repopulates when clicking on sent messages
   activateSent = () => {
     this.getMessages()
         .then(response => {
@@ -51,6 +55,7 @@ export default class SentMessages extends Component {
 
   }
 
+//Repopulates messages received when clicking on received messages
   activateReceived = () => {
     this.getMessages()
         .then(response => {
@@ -66,14 +71,17 @@ export default class SentMessages extends Component {
         .catch(err => console.log(err))
   }
 
+//Setting the path for sent message
   getOneSentMessage = id => {
     this.getOneMessage('/api/message/getOneSent/', id);
   }
 
+//Setting the path for received message
   getOneReceivedMessage = id => {
     this.getOneMessage('/api/message/getOneReceived/', id);
   }
 
+//Actually getting the message
   getOneMessage = (path, id) => {
     this.getMessages()
         .then(response => {
@@ -95,12 +103,15 @@ export default class SentMessages extends Component {
 
 
   render() {
-    // this.state.sentMessages.reverse();
-    // this.state.receivedMessages.reverse()
     return(
       // <div style={{width: '100%', height: '100%', background: 'linear-gradient(to right, rgb(200,245,240), MintCream, MintCream, white, white, MintCream, MintCream, rgb(200,245,240))'}}>
       <div style={{minHeight: '100vh', backgroundImage: 'url("img/coloredLines.jpg")', backgroundAttachment: 'fixed', backgroundSize: '100% 100%'}}>
         <div style={{height: '100px'}}></div>
+
+{/*======================================================================================================================================*/}
+        {/*NAVBAR STUFF Probably not to be edited except if navbar is updated*/}
+{/*======================================================================================================================================*/}
+
         <Navbar
           hasBrand={true}
           brandText="MyPosium Messages"
@@ -148,8 +159,16 @@ export default class SentMessages extends Component {
             }
           ]}
         />
+
+{/*======================================================================================================================================*/}
+      {/*END OF NAVBAR STUFF*/}
+{/*======================================================================================================================================*/}
+
         <Container >
           <Box style={{minHeight: '80vh'}}>
+
+        {/*-------------------------------*/}
+        {/*The tabs for messages*/}
           <Tabs isBoxed={true}>
             <TabList>
               <Tab isActive={this.state.sentActive? true : false}>
@@ -167,13 +186,18 @@ export default class SentMessages extends Component {
 
             </TabList>
           </Tabs>
+        {/*End of the tabs for messages*/}
+        {/*-------------------------------*/}
 
+        {/*-------------------------------*/}
+        {/*The biggest ternary Ever. Starts with display sent messages*/}
           { this.state.toggle?
           (<Columns>
             <Column isSize={3}>
               <Menu>
                 <MenuLabel>Messages</MenuLabel>
                 <MenuList>
+                  {/*Checks if there are any sent messages*/}
                   {
                     this.state.sentMessages.length >0?
                     (this.state.sentMessages.map((message,i) => {
@@ -206,12 +230,16 @@ export default class SentMessages extends Component {
               }
             </Column>
           </Columns>)
+        {/*End of the sent messages column*/}
+        
+        {/*The Else part of the biggest ternary ever*/}
             :
           (<Columns>
             <Column isSize={3}>
               <Menu>
                 <MenuLabel>Messages</MenuLabel>
                 <MenuList>
+                {/*Checks if there are any received messages*/}
                   {
                     this.state.receivedMessages.length >0 ?
                     (this.state.receivedMessages.map((message,i) => {
@@ -251,8 +279,13 @@ export default class SentMessages extends Component {
             </Column>
           </Columns>)
         }
+        {/*End of the ternary all others are afraid of. Congratulations*/}
+        {/*-------------------------------*/}
+
         </Box>
         </Container>
+
+        {/*Redirects operating from state changes*/}
         {this.state.updateProfile? (<Redirect to={{pathname:"/updateProfile", state:this.state.user}}/>) : null}
         {this.state.createEvent? (<Redirect to= {{pathname:"/event/create", state:this.state.user}} />) : null}
         {this.state.dashboard? (<Redirect to={{pathname:"/dashboard", state:this.state.user}}/>) : null}
