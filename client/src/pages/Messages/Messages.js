@@ -122,7 +122,7 @@ export default class SentMessages extends Component {
     // this.state.receivedMessages.reverse()
     return(
       // <div style={{width: '100%', height: '100%', background: 'linear-gradient(to right, rgb(200,245,240), MintCream, MintCream, white, white, MintCream, MintCream, rgb(200,245,240))'}}>
-      <div style={{minHeight: '100vh', backgroundImage: 'url("img/coloredLines.jpg")', backgroundAttachment: 'fixed', backgroundSize: '100% 100%'}}>
+      <div style={{minHeight: '100vh', backgroundImage: 'url("/img/coloredLines.jpg")', backgroundAttachment: 'fixed', backgroundSize: '100% 100%'}}>
         <div style={{height: '100px'}}></div>
         <Navbar
           hasBrand={true}
@@ -271,7 +271,7 @@ export default class SentMessages extends Component {
         </Box>
         </Container>
         {this.state.updateProfile? (<Redirect to={{pathname:"/updateProfile", state:this.state.user}}/>) : null}
-        {this.state.createEvent? (<Redirect to= {{pathname:"/event/create", state:this.state.user}} />) : null}
+        {this.state.createEvent? (<Redirect to= {{pathname:"/eventCreate", state:this.state.user}} />) : null}
         {this.state.dashboard? (<Redirect to={{pathname:"/dashboard", state:this.state.user}}/>) : null}
         {this.state.logout? (<Redirect to="/" />) : null}
       </div>

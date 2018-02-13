@@ -43,11 +43,9 @@ export default class CreateEvent extends Component {
 //Just to make the categories pretty on load. And give a default category
   componentDidMount(){
     categories.sort();
-<<<<<<< HEAD
     console.log(this.state.currentDate)
-=======
     this.setState({category:categories[0]});
->>>>>>> d98b5bb82f379170569c608ec661410ed78d5260
+
   }
 
   handleChange = e => {
@@ -103,12 +101,8 @@ export default class CreateEvent extends Component {
 
   render(){
     return (
-      // <div style={{width: '100%', background: 'linear-gradient(to right, rgb(200,245,240), MintCream, MintCream, white, white, MintCream, MintCream, rgb(200,245,240))', backgroundAttachment: 'fixed', backgroundSize: '100% 100%'}}>
-      <div style={{height: '100vh', backgroundImage: 'url("img/coloredLines.jpg")', backgroundAttachment: 'fixed', backgroundSize: '100% 100%'}}>
+        <div style={{minHeight: '100vh', backgroundImage: 'url("img/coloredLines.jpg")', backgroundAttachment: 'fixed', backgroundSize: '100% 100%'}}>
 
-{/*======================================================================================================================================*/}
-        {/*NAVBAR STUFF Probably not to be edited except if navbar is updated*/}
-{/*======================================================================================================================================*/}
 
         <Navbar
           hasBrand={true}
@@ -157,7 +151,7 @@ export default class CreateEvent extends Component {
             }
           ]}
         />
-        
+
 {/*======================================================================================================================================*/}
       {/*END OF NAVBAR STUFF*/}
 {/*======================================================================================================================================*/}

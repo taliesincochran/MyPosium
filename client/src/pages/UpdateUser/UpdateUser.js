@@ -144,10 +144,10 @@ class Profile extends Component {
               }
             ]}
           />
-          <div style={{height: '100px'}}></div>
+          <div style={{height: '150px'}}></div>
             <Columns isCentered>
-              <Column isSize="1/2">
-                <Box style={{marginTop: '5%', position: 'relative'}}>
+              <Column isSize={5}>
+                <Box style={{ position: 'relative'}}>
                   <Title className="has-text-grey-light" isSize={1} style={{position: 'absolute', top: '-9%', right: '5%', background: 'white'}}>Profile</Title>
                   <Field>
                     <Label className="has-text-left">Age:</Label>
@@ -178,8 +178,8 @@ class Profile extends Component {
                   </Control>
                 </Box>
               </Column>
-              <Column isSize="1/2">
-                <Box style={{marginTop: '5%', position: 'relative'}} className="has-text-centered">
+              <Column isSize={8}>
+                <Box style={{ position: 'relative', display: 'grid', gridTemplateColumns: '19% 19% 19% 19% 19%', gridGap:'10px'}} className="has-text-centered">
                   <Title className="has-text-grey-light" isSize={1} style={{position: 'absolute', top: '-37px', right: '5%', background: 'white'}}>Interests</Title>
                   {
 
@@ -193,6 +193,7 @@ class Profile extends Component {
                           className="is-medium"
                           isColor="info"
                           name={category}
+                          style={{fontSize: '1.8vh'}}
                           onClick={this.handleInterestClick}>
                           {category}
                         </Button>)
@@ -203,6 +204,7 @@ class Profile extends Component {
                           isColor=""
                           isOutlined
                           name={category}
+                          style={{fontSize: '1.8vh'}}
                           onClick={this.handleInterestClick}>
                           {category}
                         </Button>)
@@ -213,7 +215,7 @@ class Profile extends Component {
               </Column>
             </Columns>
             {this.state.checkMessages? (<Redirect to= {{pathname:"/messages", state:this.state.user}} />) : null}
-            {this.state.createEvent? (<Redirect to= {{pathname:"/event/create", state:this.state.user}} />) : null}
+            {this.state.createEvent? (<Redirect to= {{pathname:"/eventCreate``", state:this.state.user}} />) : null}
             {this.state.dashboard? (<Redirect to={{pathname:"/dashboard", state:this.state.user}}/>) : null}
             {this.state.logout? (<Redirect to="/" />) : null}
             {
