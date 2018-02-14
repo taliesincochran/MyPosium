@@ -13,8 +13,6 @@ import { Container,
         Modal,
         ModalContent,
         ModalClose,
-        ModalCardBody,
-        ModalCard,
         Title,
         Subtitle,
         Delete,
@@ -72,11 +70,8 @@ class Dashboard extends Component {
         this.setState({unread});
       })
       axios.get("/api/users/" + this.state.user.username).then(result=>{
-        console.log("user get", result);
         this.setState({user: result.data})
       }).then(res=>this.getEvents(false))
-      // console.log("user", this.props.location.state)
-      // console.log("state, user", this.state.user)
       document.querySelector('body').style.backgroundImage = 'none';
   }
   getEvents =(remote) => {
@@ -112,7 +107,6 @@ class Dashboard extends Component {
       //================================================================
       var eventsToShow =[];
       eventsMatchArray.map(event=> {
-        console.log(event)
         if(event.isRemote === remote) {
           destinations = destinations + event.zipcode + "|"
           eventsToShow.push(event);
@@ -128,16 +122,14 @@ class Dashboard extends Component {
       //================================================================
       if(remote) {
         const queryUrl = `https://maps.googleapis.com/maps/api/distancematrix/json?origins=${userLocation}&destinations=${destinations}&key=AIzaSyDpwnTjzyOwCRmPRQhpu0eREKplFV0TCDI`
-        console.log('query url', queryUrl)
         axios.get(queryUrl).then(result=> {
-          console.log("api result", result);
           var eventsWithinDistance = [];
           result.data.status==="OK"?(
           result.data.rows[0].elements.map((destination, i)=> {
             if(destination.distance.value < travelMeters) {
               eventsWithinDistance.push(eventsToShow[i])
             }
-          })):console.log("queryURL", queryUrl)
+          })): ''
           //=============================================================
           //To insure the axios call is done before setting the state, ==
           //return query results and arrays and set up a .then         ==
@@ -164,8 +156,6 @@ class Dashboard extends Component {
   }
   handleInput = e => {
     let { name, value } = e.target;
-    console.log('target', e.target.name, e.target.value)
-    console.log("from state", e.target.name, this.state[e.target.name])
     this.setState({ [name]: value });
   }
   setDistance = (x) => {
@@ -187,7 +177,6 @@ class Dashboard extends Component {
     axios
       .post('api/message/create', newMessage)
       .then(response => {
-        // console.log('response from creating new message',response)
       })
       .catch(err => console.log(err));
   }
@@ -198,7 +187,6 @@ class Dashboard extends Component {
         response.data.attendees.forEach((username)=>{
           attendeeArr.push(username.username);
         })
-        console.log(attendeeArr);
         this.openMessageModal(attendeeArr);
       })
     this.closeEventModal();
@@ -219,14 +207,11 @@ class Dashboard extends Component {
       .catch(err => console.log(err));
   }
   attend = (e) => {
-    console.log("attend called", e.target.value);
     var id = e.target.value
     var attending = this.state.userAttending;
     axios.post("/api/event/" + e.target.value, this.state.user._id).then(result=>{
-      console.log("attending update result: ", result)
       this.getEvents(false);
       attending.push(id)
-      console.log(attending);
       this.setState({userAttending: attending, activeEventModal: false})
     })
   }
@@ -248,17 +233,11 @@ class Dashboard extends Component {
     }
   }
   toggleCancelEventModal = () => {
-    console.log('toggel cancel event modal firing')
     this.setState({cancelEventModal: !this.state.cancelEventModal, activeEventModal: !this.state.activeEventModal})
   }
   render() {
-    // var checkMessages= this.checkMessages;
-    // var createEvent = this.createEvent;
-    // var handleLogout = this.handleLogout;
     var events = this.state.events;
     var hasGotEvents = this.state.hasGotEvents;
-    // var setState = this.state.setState;
-    //console.log(this.checkMessages)
     return(
       hasGotEvents?(
         <div style={{width: '100%', minHeight: '100vh', background: 'linear-gradient(to right, rgb(200,245,240), MintCream, MintCream, white, white, MintCream, MintCream, rgb(200,245,240))'}}>

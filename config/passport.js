@@ -12,47 +12,38 @@ module.exports = function(passport) {
 
   // used to serialize the user for the session
   passport.serializeUser(function(user, done) {
-      done(null, user.id);
+    done(null, user.id);
   });
 
   // used to deserialize the user for the session
   passport.deserializeUser(function(id, done) {
-      db.User.findById(id, function(err, user) {
-          done(err, user);
-      });
+    db.User.findById(id, function(err, user) {
+        done(err, user);
+    });
   });
 
   // =========================================================================
   // LOCAL LOGIN =============================================================
   // =========================================================================
   passport.use('local-login', new LocalStrategy({
-      passReqToCallback : true // allows us to pass in the req from our route (lets us check if a user is logged in or not)
+    passReqToCallback : true // allows us to pass in the req from our route (lets us check if a user is logged in or not)
   },
   function(req, username, password, done) {
     db.User
       .findOne({ 'username' :  req.body.username }, function(err,user) {
         if(err) {return done(err, false);}
         else if(!user) {return done(null,false);}
+        //"validPassword" is a method of the User schema using bcrypt
         else if(!user.validPassword(password)) {return done(null, false);}
         else {return done(null, user);}
       })
-      // .then(user => {
-      //   if (!user){
-      //     return done(null, false, req.flash('loginMessage', 'No user found.'));
-      //   } else if (!user.validPassword(password)) {
-      //       return done(null, false, req.flash('loginMessage', 'Oops! Wrong password.'));
-      //   } else {
-      //     return done(null,user)
-      //   }
-      // })
-      // .catch(err=>done(err));
   }));
 
   // =========================================================================
   // LOCAL SIGNUP ============================================================
   // =========================================================================
   passport.use('local-signup', new LocalStrategy({
-      passReqToCallback : true // allows us to pass in the req from our route (lets us check if a user is logged in or not)
+    passReqToCallback : true // allows us to pass in the req from our route (lets us check if a user is logged in or not)
   },
   function(req, username, password, done) {
     if (!req.user) {
@@ -63,6 +54,7 @@ module.exports = function(passport) {
               return done(null, false, {message: 'That email is already taken.'});
           } else {
             let newUser = new db.User(req.body);
+            //"generateHash" is a method of the User schema using bcrypt
             newUser.password = newUser.generateHash(req.body.password);
 
             db.User

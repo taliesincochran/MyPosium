@@ -1,14 +1,13 @@
 import React, { Component } from 'react';
 import NavbarHeader from '../../components/Nav/Navbar';
 import './Landing.css';
-// import { injectGlobal } from 'emotion';
+import $ from 'jquery';
 import { Image,
 	Container,
 	Content,
 	Column,
 	Section,
 	Title,
-	Tile,
 	Columns
 } from 'bloomer';
 
@@ -20,7 +19,22 @@ export default class Landing extends Component {
     };
     this.onClickNav = this.onClickNav.bind(this);
   }
-  
+
+	componentDidMount() {
+		//soft scroll function for create, discover, connect links
+		$("a").click(function (event) {
+	    if (this.hash!=="") {
+	      event.preventDefault();
+	      var hash = this.hash;
+	      $('html').animate({
+	        scrollTop: $(hash).offset().top
+	      },1000,  function () {
+	        window.location.hash = hash;
+	      });
+	    }
+	  });//end soft scroll function
+	}
+
   onClickNav = () => {
       this.setState((state) => ({ isActive: !state.isActive }));
   }
@@ -28,7 +42,7 @@ export default class Landing extends Component {
   render() {
     return(
       <div style={{backgroundImage: 'url("img/woodBackground.jpg")', backgroundSize: '100% 100%', backgroundAttachment: 'fixed'}}>
-        
+
 {/*======================================================================================================================================*/}
         {/*NAVBAR STUFF Probably not to be edited except if navbar is updated*/}
 {/*======================================================================================================================================*/}
@@ -83,12 +97,12 @@ export default class Landing extends Component {
 			<div style={{height:'1px'}}/>
 
 		{/*Top of the landing page. First impression*/}
-					<a id="myposium" ></a>
-					<Section className='is-vertical-center' style={{position: 'fixed', zIndex: '0' }}>
+					<a id="myposium" >''</a>
+					<Section className='is-vertical-center' style={{ position: 'fixed', zIndex: '0' }}>
 						<Container className="is-clearfix">
-							<Title isSize={1}  style={{marginLeft: '150px'}}>...MyPosium</Title>
+							<Title isSize={1}  style={{marginLeft: '150px'}} className="titleOne">...MyPosium</Title>
 							<br/>
-								<Title isSize={3} className="is-pulled-right">A New Way to Create, Discover, and Connect!</Title>
+								<Title isSize={3} className="is-pulled-right" >A New Way to Create, Discover, and Connect!</Title>
 
 						</Container>
 			    </Section>
@@ -100,7 +114,7 @@ export default class Landing extends Component {
 						<Section className='is-vertical-center'>
 					    <Columns>
 					    	<Column isSize={4}>
-					    		<Image src = "/img/gearBrain.jpg" />
+					    		<Image src = "/img/gearBrain.jpg" className="createImg" />
 					    	</Column>
 					    	<Column isSize={6} isOffset={2}>
 					            <Title className='text-center' style={{marginTop: '10%'}}>Create</Title>
@@ -117,7 +131,7 @@ export default class Landing extends Component {
 											<Content className="is-size-4">The world is brimming with people who have spent a lifetime gathering knowledge.  Search through our expansive list of events and <span className="highlight">DISCOVER</span> new content creators, new ideas, and new friends!  </Content>
 					      </Column>
 					    	<Column isSize={4} isOffset={2}>
-					    		<Image src = "/img/lightBulb.jpg" className='is-vertical-center' style={{transform: 'rotate(20deg)', width: '70%'}}/>
+					    		<Image src = "/img/lightBulb.jpg" className='is-vertical-center discoverImg' style={{transform: 'rotate(20deg)', width: '70%'}}/>
 					    	</Column>
 					    </Columns>
 						</Section>
@@ -125,7 +139,7 @@ export default class Landing extends Component {
 						<Section className='is-vertical-center'>
 					    <Columns>
 					    	<Column isSize={4}>
-					    		<Image src = "/img/connect.jpg"/>
+					    		<Image src = "/img/connect.jpg" className="createImg"/>
 					    	</Column>
 					    	<Column isSize={6} isOffset={2}>
 					            <Title className='text-center' style={{marginTop: '15%'}}>Connect</Title>
