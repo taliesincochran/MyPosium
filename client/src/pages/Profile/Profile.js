@@ -22,6 +22,7 @@ class Profile extends Component {
     }
   }
 
+//Sorts the categories for pretty reasons
   componentWillMount() {
     categories.sort()
   }
@@ -55,6 +56,8 @@ class Profile extends Component {
     this.setState({[name]: value})
   }
 
+
+//On submission sends the info to the db via axios
   handleSubmit = () => {
     let { interests, age, img, aboutMe } = this.state;
     let data = {
@@ -77,8 +80,15 @@ class Profile extends Component {
   render() {
     var user= this.state.user
     return (
+
       <div style={{height: '100vh', backgroundImage: 'url("img/coloredLines.jpg")', backgroundAttachment: 'fixed', backgroundSize: '100% 100%'}}>
+
         <Container>
+
+{/*======================================================================================================================================*/}
+        {/*NAVBAR STUFF Probably not to be edited except if navbar is updated*/}
+{/*======================================================================================================================================*/}
+
           <Navbar
             hasBrand={true}
             brandText="MyPosium Dashboard"

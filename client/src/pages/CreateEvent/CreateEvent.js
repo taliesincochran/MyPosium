@@ -44,18 +44,14 @@ export default class CreateEvent extends Component {
 
   handleSubmit = e=> {
   	e.preventDefault();
-  	console.log("Submit button clicked");
   	let {title, zipcode, username, date, time, isRemote, cost, category, imgURL, description, minAttending, maxAttending} = this.state;
   	let newEvent = {title, zipcode, username, date, time, isRemote, cost, category, imgURL, description, minAttending, maxAttending};
-  	console.log(newEvent);
   	this.submitEvent(newEvent);
 	}
 
 
 
   submitEvent = event=>{
-  	console.log("event being submitted:");
-  	console.log(event);
       axios
       .post("/api/event/create", event)
       .then(result =>{
