@@ -13,6 +13,8 @@ import PrivateRoute from "./components/PrivateRoute";
 
 export default class App extends Component{
 
+
+//Routes, to hit private routes, a user needs to be logged in
   render() {
     return(
       <Router>

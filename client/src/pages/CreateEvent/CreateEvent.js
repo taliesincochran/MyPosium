@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { Column, Columns, Title, Box, Checkbox, Container, Button, Select, Input, option, Label, Control, Field, TextArea} from 'bloomer';
 import { Link, Redirect } from "react-router-dom";
 import axios from 'axios';
-// import {API} from "../../utils/API";
 import categories from "../../categories";
 import { authObj } from '../../authenticate';
 import Navbar from '../../components/Nav/Navbar';
