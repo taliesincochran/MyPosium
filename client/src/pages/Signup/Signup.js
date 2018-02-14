@@ -4,6 +4,7 @@ import { Redirect } from "react-router-dom";
 import axios from 'axios';
 import {authObj} from '../../authenticate'
 import NavbarHeader from '../../components/Nav/Navbar'
+
 export default class Signup extends Component {
   constructor(props) {
     super(props);
