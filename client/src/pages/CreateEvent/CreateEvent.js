@@ -1,8 +1,20 @@
 import React, { Component } from 'react';
-import { Column, Columns, Title, Box, Checkbox, Container, Button, Select, Input, option, Label, Control, Field, TextArea} from 'bloomer';
-import { Link, Redirect } from "react-router-dom";
+import {
+  Column,
+  Columns,
+  Title,
+  Box,
+  Checkbox,
+  Button,
+  Select,
+  Input,
+  option,
+  Label,
+  Control,
+  Field,
+  TextArea} from 'bloomer';
+import { Redirect } from "react-router-dom";
 import axios from 'axios';
-// import {API} from "../../utils/API";
 import categories from "../../categories";
 import { authObj } from '../../authenticate';
 import Navbar from '../../components/Nav/Navbar';
@@ -32,9 +44,7 @@ export default class CreateEvent extends Component {
 
   componentDidMount(){
     categories.sort();
-    console.log(this.state.currentDate)
     this.setState({category:categories[0]});
-
   }
 
   handleChange = e => {
@@ -44,25 +54,21 @@ export default class CreateEvent extends Component {
 
   handleSubmit = e=> {
   	e.preventDefault();
-  	console.log("Submit button clicked");
   	let {title, zipcode, username, date, time, isRemote, cost, category, imgURL, description, minAttending, maxAttending} = this.state;
   	let newEvent = {title, zipcode, username, date, time, isRemote, cost, category, imgURL, description, minAttending, maxAttending};
-  	console.log(newEvent);
   	this.submitEvent(newEvent);
 	}
 
 
 
   submitEvent = event=>{
-  	console.log("event being submitted:");
-  	console.log(event);
       axios
       .post("/api/event/create", event)
       .then(result =>{
       	   this.setState({isSubmitted: true});
         })
       .catch(err=> console.log(err));
-}
+  }
 
 
   render(){

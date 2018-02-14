@@ -1,6 +1,16 @@
 import React, { Component } from 'react';
-import { Box, Title, Container, Columns, Column, Field, Label, Input, Control, TextArea, Button } from 'bloomer';
-// import {API} from '../../utils/API';
+import {
+  Box,
+  Title,
+  Container,
+  Columns,
+  Column,
+  Field,
+  Label,
+  Input,
+  Control,
+  TextArea,
+  Button } from 'bloomer';
 import Navbar from '../../components/Nav/Navbar';
 import { authObj } from '../../authenticate';
 import axios from 'axios';
@@ -51,9 +61,6 @@ class Profile extends Component {
       let arr =[...this.state.interests, name];
       this.setState({interests: arr},()=>{
     });
-    }
-    if (e.target.isColor === 'success') {
-
     }
   }
 
@@ -148,7 +155,7 @@ class Profile extends Component {
             <Columns isCentered>
               <Column isSize={5}>
                 <Box style={{ position: 'relative'}}>
-                  <Title className="has-text-grey-light" isSize={1} style={{position: 'absolute', top: '-9%', right: '5%', background: 'white'}}>Profile</Title>
+                  <Title className="has-text-grey-light" isSize={1} style={{position: 'absolute', top: '-8%', right: '5%', background: 'white'}}>Profile</Title>
                   <Field>
                     <Label className="has-text-left">Age:</Label>
                     <Control>
@@ -215,7 +222,7 @@ class Profile extends Component {
               </Column>
             </Columns>
             {this.state.checkMessages? (<Redirect to= {{pathname:"/messages", state:this.state.user}} />) : null}
-            {this.state.createEvent? (<Redirect to= {{pathname:"/eventCreate``", state:this.state.user}} />) : null}
+            {this.state.createEvent? (<Redirect to= {{pathname:"/eventCreate", state:this.state.user}} />) : null}
             {this.state.dashboard? (<Redirect to={{pathname:"/dashboard", state:this.state.user}}/>) : null}
             {this.state.logout? (<Redirect to="/" />) : null}
             {

@@ -6,7 +6,7 @@ const flash        = require('connect-flash');
 const cookieParser = require('cookie-parser');
 const session      = require('express-session');
 const passport     = require('passport');
-const routes   = require("./routes/");
+const routes       = require("./routes/");
 
 // Set up promises with mongoose.
 mongoose.Promise = global.Promise;
@@ -18,7 +18,7 @@ mongoose.connect(
     useMongoClient: true
   }
 );
-//setting up cookie parser middleware  
+//setting up cookie parser middleware
 app.use(cookieParser());
 
 // Configure body parser for AJAX requests

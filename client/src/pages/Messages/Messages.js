@@ -1,10 +1,24 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import { Redirect } from "react-router-dom";
-import { Tile, Box, Columns, Column, Container, Tabs, Tab, TabList, TabLink, Icon, Menu, MenuLabel, MenuList, MenuLink } from 'bloomer';
+import {
+  Tile,
+  Box,
+  Columns,
+  Column,
+  Container,
+  Tabs,
+  Tab,
+  TabList,
+  TabLink,
+  Icon,
+  Menu,
+  MenuLabel,
+  MenuList, 
+  MenuLink
+} from 'bloomer';
 import { authObj } from '../../authenticate';
 import Navbar from '../../components/Nav/Navbar';
-
 
 
 export default class SentMessages extends Component {
@@ -118,10 +132,7 @@ export default class SentMessages extends Component {
 
 
   render() {
-    // this.state.sentMessages.reverse();
-    // this.state.receivedMessages.reverse()
     return(
-      // <div style={{width: '100%', height: '100%', background: 'linear-gradient(to right, rgb(200,245,240), MintCream, MintCream, white, white, MintCream, MintCream, rgb(200,245,240))'}}>
       <div style={{minHeight: '100vh', backgroundImage: 'url("/img/coloredLines.jpg")', backgroundAttachment: 'fixed', backgroundSize: '100% 100%'}}>
         <div style={{height: '100px'}}></div>
         <Navbar

@@ -1,21 +1,14 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import {
   CardHeaderTitle,
-  CardHeaderIcon,
   Image,
   Columns,
   Column,
   Card,
   CardHeader,
-  Icon,
   Button,
   CardImage,
-  Media,
-  MediaLeft,
-  MediaContent,
   Title,
-  Subtitle,
   Content,
   CardContent,
 } from 'bloomer';
