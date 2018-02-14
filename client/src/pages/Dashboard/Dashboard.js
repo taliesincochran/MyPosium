@@ -136,7 +136,7 @@ class Dashboard extends Component {
             if(destination.status !== "NOT_FOUND") {
               if(destination.distance.value < travelMeters) {
                 eventsWithinDistance.push(eventsToShow[i])
-              }              
+              }
             }
           })): ''
           //=============================================================
@@ -156,7 +156,7 @@ class Dashboard extends Component {
     this.setState({activeMessageModal: true, messageRecipient: recipient});
   }
 
-  closeModal = () => {
+  closeMessageModal = () => {
     this.setState({activeMessageModal: false})
   }
   closeEventModal = () => {
