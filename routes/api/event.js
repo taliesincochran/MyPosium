@@ -3,9 +3,8 @@ const db = require("../../models/")
 const eventController = require("../../controllers/");
 
 // Matches with "/api/event"
- //process the event creation
+ //Cancels event, deletes from database
   router.get("/cancelEvent/:id", (req,res) => {
-    console.log("cancel event fired", req.params.id);
     db.Event.findOneAndRemove({_id: req.params.id}).then(result=> {
       res.json(result)
     })
@@ -17,24 +16,25 @@ const eventController = require("../../controllers/");
     db.Event.create(newEvent).then(result => res.json(result))
   });
 
+//Pulls down all attendees from an event. Primarily used for messages
   router.get('/attendees/:id', function(req, res){
-    console.log("0---------------------------0");
     db.Event.findOne({_id: req.params.id})
     .populate('attendees', 'username')
     .then(result=>{
-      console.log(result);
       res.json(result);
     })
   })
+
+  //Used to filter events by distance, I think--VR
   router.post('/distances', (req,res) => {
     var query = req.params.query;
     console.log('query', req)
     axios.get(query).then(result=> {
-      console.log("query result", result)
       res.send(result)
     })
   })
 
+//Route to add attendees 
   router.post('/:id', (req,res) => {
     console.log("id", req.params.id)
     console.log("user", req.user._id)

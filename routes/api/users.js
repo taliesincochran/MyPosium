@@ -42,20 +42,23 @@ const axios = require('axios')
     authObj.isAuth = req.isAuthenticated();
     res.json(authObj);
   })
+
+//Route to check if username is unique
   router.get('/checkUsername/:username', function(req,res) {
     db.User.findOne({username: req.params.username}).then(result => {
-      console.log("Check Username", req.params.username, result)
       res.json(result)
     })
   })
-  //Route to updayte profile, post because multiple points can be edited
+
+
+  //Route to update profile, post because multiple points can be edited
   router.post('/updateprofile', function(req, res) {
     UC.updateUser(req.body).then(result=> {
       res.send(req.body)
       })
   });
 
-
+//The route used to populate the events I believe
   router.get('/:username', function(req,res) {
     db.User.findOne({username: req.params.username}).then(result=> {
       res.json(result)
