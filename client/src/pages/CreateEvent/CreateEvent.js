@@ -10,7 +10,8 @@ import moment from 'moment';
 export default class CreateEvent extends Component {
   state = {
   	title:'',
-  	zipcode: '',
+  	zipcode: this.props.location.state.zipcode,
+    initialZipcode: this.props.location.state.zipcode,
   	username: this.props.location.state.username,
   	date:'',
   	time:'',
@@ -19,7 +20,7 @@ export default class CreateEvent extends Component {
   	category: '',
   	imgURL:'',
   	description:'',
-  	minAttending:'',
+  	// minAttending:'',
   	maxAttending:'',
     isSubmitted: false,
     checkMessages: false,
@@ -27,27 +28,27 @@ export default class CreateEvent extends Component {
     logout: false,
     updateProfile: false,
     user: this.props.location.state,
-    currentDate: new Date,
+    //Validation variables
     zipcodeVerified: false,
     timeVerified: false,
-    costVerified: false,
     dateVerified: false,
     imageVerified: false,
-    zipcodePlaceholder: '',
+    maxAttendingVerified: false,
+    descriptionVerified: false,
+    costPlaceholder: '0',
+    descriptionPlaceholder: 'Please Describe Your Event.',
+    maxAttendingPlaceholder: 'Maximum number to attend.',
+    zipcodePlaceholder: 'Zipcode',
     eventTitlePlaceholder: "Enter Event Title",
-    dateText: 'Date of Event:',
-
-
+    imagePlaceholder: 'Image Url',
+    dateText: 'Date of Event:'
   }
 
 //Just to make the categories pretty on load. And give a default category
   componentDidMount(){
     categories.sort();
-<<<<<<< HEAD
     console.log(this.state.currentDate)
-=======
     this.setState({category:categories[0]});
->>>>>>> d98b5bb82f379170569c608ec661410ed78d5260
   }
 
   handleChange = e => {
@@ -58,29 +59,57 @@ export default class CreateEvent extends Component {
 
 //Setting a new event to the state.
   handleSubmit = e=> {
-    var validateImage = new RegExp('(?:(?:https?:\/\/))[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,4}\b(?:[-a-zA-Z0-9@:%_\+.~#?&\/=]*(\.gif\.jpg|\.png|\.jpeg))')
     e.preventDefault();
     console.log("Submit button clicked");
     let {title, zipcode, username, date, time, isRemote, cost, category, imgURL, description, minAttending, maxAttending} = this.state;
     let newEvent = {title, zipcode, username, date, time, isRemote, cost, category, imgURL, description, minAttending, maxAttending};
-    console.log(newEvent);
+    console.log(newEvent);    
+    //===================================================================================================================
+    //Validate before the post, start with async call for location validation, then after this resolves, everything else
+    //===================================================================================================================
     axios.get(`https://maps.googleapis.com/maps/api/distancematrix/json?origins=${newEvent.zipcode || 5000}&destinations=27510&key=AIzaSyDpwnTjzyOwCRmPRQhpu0eREKplFV0TCDI`).then(result=>{
       console.log(result.data.rows[0].elements[0].status)
-      // if(validateImage.test(newEvent.imgURL)) {
-      //   this.setState({imageVerified: true})
-      // }
-      // if(!Number.isNaN(cost) || cost.toLowerCase()="free" || cost=''){
-      //   this.setState({costVerified: true})
-      // } else{ 
-
-      // }
-      // if(result.data.rows[0].elements[0].status==="OK") {
-      //   this.setState({zipcodeVerified: true})
-      // } else{
-      //   return false
-      // }
+      //Check if google found the zipcode
+      if(result.data.rows[0].elements[0].status==="OK") {
+        this.setState({zipcodeVerified: true})
+      } else{
+        this.setState({zipcodePlaceholder: "Google couldn't find your zipcode.", zipcode: this.state.initialZipcode})
+      }
+      //Check if image url is in the proper form
+      var validateImage = new RegExp('(?:(?:https?:\/\/))[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,4}\b(?:[-a-zA-Z0-9@:%_\+.~#?&\/=]*(\.gif\.jpg|\.png|\.jpeg))')
+      if(validateImage.test(newEvent.imgURL)) {
+        this.setState({imageVerified: true})
+      } else {
+        this.setState({imagePlaceholder: "Please use a Url in starting with http:// or https:// and ending with the ending of .jpg, .png, or .gif", imgURL: ''})
+      }
+      //Check if maxAttending is over 0
+      if(newEvent.maxAttending >0) {
+        this.setState({maxAttendingVerified: true})
+      } else {
+        this.setState({maxAttendingPlaceholder: 'Please Enter a Number Greater Than Zero.', maxAttending: ''})
+      }
+      //Check if there is a description that is not too big or too small.
+      if(newEvent.description.length > 10 && newEvent.description.length<255) {
+        this.setState({descriptionVerified: true})
+      } else {
+        this.setState({descriptionPlaceholder: "Needs to be between 10 and 255 characters."})
+      }
+      var now = moment()
+      console.log('moment date', moment(moment()).isBefore(newEvent.date, 'year'))
+      console.log('now', moment())
+      console.log('then', newEvent.date)
+      if(moment().isBefore(newEvent.date)){
+        this.setState({datePlaceholder: "The event can not be in the past."})
+      } else{
+        this.setState({dateVerified: true})
+      }
     }).then(result => {
-      if(result){
+      if(this.state.zipcodeVerified 
+        && this.imageVerified
+        && this.maxAttendingVerified
+        && this.descriptionVerified
+        && this.state.dateVerified
+        ){
   	    this.submitEvent(newEvent);
 	    }
     })
@@ -91,7 +120,6 @@ export default class CreateEvent extends Component {
   submitEvent = event=>{
   	console.log("event being submitted:");
   	console.log(event);
-
       axios
       .post("/api/event/create", event)
       .then(result =>{
@@ -177,7 +205,7 @@ export default class CreateEvent extends Component {
             		<Control>
             			<Input
             				type="text"
-            				placeholder="Enter Event Title"
+            				placeholder={this.state.eventTitlePlaceholder}
             				name="title"
             				value={this.state.title}
             				onChange={this.handleChange}
@@ -198,7 +226,8 @@ export default class CreateEvent extends Component {
           		  </Control>
       		    </Field>
               <Field>
-              	<Label className="has-text-left">{this.state.dateText}</Label>
+              	<Label className="has-text-left">Event Date</Label>
+                <p>{this.eventDatePlaceholder}</p>
               	<Control>
               		<Input
               			type="date"
@@ -207,6 +236,7 @@ export default class CreateEvent extends Component {
               			onChange={this.handleChange}
               		/>
               	</Control>
+                <p>{this.eventTimePlaceholder}</p>
               	<Control>
               		<Input
               			type="time"
@@ -239,7 +269,7 @@ export default class CreateEvent extends Component {
             		</Control>
               </Field>
               <Field>
-            		<Label className="has-text-left">Minimum Attending:</Label>
+            	{/*	<Label className="has-text-left">Minimum Attending:</Label>
             		<Control>
             			<Input
             				type="text"
@@ -247,23 +277,25 @@ export default class CreateEvent extends Component {
             				value={this.state.minAttending}
             				onChange={this.handleChange}
             			/>
-            		</Control>
+            		</Control> */}
             		<Label className="has-text-left">Maximum Attending:</Label>
             		<Control>
             			<Input
-            				type="text"
+            				type="number"
             				name="maxAttending"
+                    placeholder='Maximum number to attend event.'
             				value={this.state.maxAttending}
             				onChange={this.handleChange}
-            			/>
+            			/> 
             		</Control>
-              </Field>
+              </Field> 
               <Field>
               	<Label className="has-text-left">Event Description:</Label>
               	<Control>
               		<TextArea
               			type="text"
               			name="description"
+                    placeholder={this.state.eventPlaceholder}
               			value={this.state.description}
               			onChange={this.handleChange}
               		/>
@@ -273,8 +305,9 @@ export default class CreateEvent extends Component {
               	<Label className="has-text-left">Cost To Attend:</Label>
               	<Control>
               		<Input
-              			type="text"
+              			type="number"
               			name="cost"
+                    placeholder='0'
               			value={this.state.cost}
               			onChange={this.handleChange}
               		/>
@@ -285,8 +318,8 @@ export default class CreateEvent extends Component {
             		<Control>
             			<Input
             				type="text"
-            				placeholder="Image URL"
-            				name="imgURL"
+            				placeholder={this.imagePlaceholder}
+            				name="imgUrl"
             				value={this.state.imgURL}
             				onChange={this.handleChange}
             			/>

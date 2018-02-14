@@ -56,54 +56,56 @@ export default class Signup extends Component {
       if(result.data.rows[0].elements[0].status==="OK") {
         this.setState({zipcodeValidated: true})
       }
-    })
-    axios.get('/api/users/checkUsername/' + this.state.username).then(result=> {
-      if(result.data === null) {
-        this.setState({usernameUnique: true})
-        console.log('username is unique', result.data)
-      } else {
-        this.setState({usernamePlaceholder: 'That username already exists.  Please try another.'})
-        console.log('username is taken ', result.data)
-      }
-      if(this.state.username.length < this.state.usernameMinLength) {
-        this.setState({username: '', usernamePlaceholder: "Please enter a username with at least " + this.state.usernameMinLength + " characters."})
-      } else{
-        console.log("Username is minimum length")
-      }
-      if(this.state.password < this.state.passwordMinLength) {
-        this.setState({passwordPlaceholder: 'Your password needs to be ' + this.state.passwordMinLength + ' characters long.', password2Placeholder: 'Re-Enter Password'})
-      } else {
-        console.log("Password is minimum length")
-      }
-      if(this.state.password !== this.state.password2) {
-        this.setState({password: '', password2: '', passwordPlaceholder: 'Your passwords did not match.', password2Placeholder: 'Please Try Again.'})
-      } else {
-        console.log('Passwords match')
-      }
-    }).then(result => {
-      if(this.state.username.length >= this.state.usernameMinLength 
-        && this.state.usernameUnique
-        && this.state.zipcodeValidated
-        && this.state.password.length >= this.state.passwordMinLength
-        && this.state.password === this.state.password2
-        ) {
-        console.log('User data validated')
-        axios
-          .post('api/users/signup', user)
-          .then(result => {
-            authObj
-              .authenticate()
-              .then(response => {
-                authObj.isAuthenticated = response.data.isAuth;
-                this.setState({isLoggedIn: true});
-              })
-              .catch(err => console.log(err));
-          })
-          .catch(err => console.log(err));
-      }
-      else{ 
-        console.log("Validation failed ", this.state)
-      }
+    }).then(result=>{
+      axios.get('/api/users/checkUsername/' + this.state.username).then(result=> {
+        if(result.data === null) {
+          this.setState({usernameUnique: true})
+          console.log('username is unique', result.data)
+        } else {
+          this.setState({usernamePlaceholder: 'That username already exists.  Please try another.'})
+          console.log('username is taken ', result.data)
+        }
+        if(this.state.username.length < this.state.usernameMinLength) {
+          this.setState({username: '', usernamePlaceholder: "Please enter a username with at least " + this.state.usernameMinLength + " characters."})
+        } else{
+          console.log("Username is minimum length")
+        }
+        if(this.state.password < this.state.passwordMinLength) {
+          this.setState({passwordPlaceholder: 'Your password needs to be ' + this.state.passwordMinLength + ' characters long.', password2Placeholder: 'Re-Enter Password'})
+        } else {
+          console.log("Password is minimum length")
+        }
+        if(this.state.password !== this.state.password2) {
+          this.setState({password: '', password2: '', passwordPlaceholder: 'Your passwords did not match.', password2Placeholder: 'Please Try Again.'})
+        } else {
+          console.log('Passwords match')
+        }
+      }).then(result => {
+        if(this.state.username.length >= this.state.usernameMinLength 
+          && this.state.usernameUnique
+          && this.state.zipcodeValidated
+          && this.state.password.length >= this.state.passwordMinLength
+          && this.state.password === this.state.password2
+          ) {
+          console.log('User data validated')
+          axios
+            .post('api/users/signup', user)
+            .then(result => {
+              authObj
+                .authenticate()
+                .then(response => {
+                  authObj.isAuthenticated = response.data.isAuth;
+                  this.setState({isLoggedIn: true});
+                })
+                .catch(err => console.log(err));
+            })
+            .catch(err => console.log(err));
+        }
+        else{ 
+          console.log("Validation failed ", this.state)
+        }
+        
+      })
       
     })
   }
