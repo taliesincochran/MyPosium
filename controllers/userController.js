@@ -30,13 +30,13 @@ module.exports = {
         .then(user=> res.json(user))
         .catch(err=> res.status(422).res.json(err));
   },
-  login: (req, username, password, done) => {
-    //passport config?
-  },
-  signup: (req, username, password, done) => {
-    //passport config?
-  },
-  logout: (req,res) => {
-    //passport config?
-  }
+  // login: (req, username, password, done) => {
+  //   //passport config?
+  // },
+  // signup: (req, username, password, done) => {
+  //   //passport config?
+  // },
+  // logout: (req,res) => {
+  //   //passport config?
+  // }
 }
