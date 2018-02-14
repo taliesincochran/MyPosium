@@ -62,7 +62,7 @@ class Dashboard extends Component {
     this.handleInput = this.handleInput.bind(this)
   }
 
-  //On load page checks for, in order, Messages then events. Also removes background image 
+  //On load page checks for, in order, Messages then events. Also removes background image
   componentDidMount =() => {
     axios
       .get('api/message/checkForNewMessage')
@@ -104,7 +104,7 @@ class Dashboard extends Component {
         if(this.state.user.username === event.username) {
           userCreatedArray.push(event)
         }
-        if (this.state.user.interests.indexOf(category) > -1 && event.attendees.indexOf(user._id) === -1 && this.state.user.attending.indexOf(user._id) === -1){
+        else if (this.state.user.interests.indexOf(category) > -1 && event.attendees.indexOf(user._id) === -1 && this.state.user.attending.indexOf(user._id) === -1){
           eventsMatchArray.push(event)
         }
       })
@@ -299,7 +299,7 @@ class Dashboard extends Component {
           hasEndButtons={true}
           hasDropdown={true}
           dropdownText={`Events Within ${this.state.eventsWithin} miles`}
-          
+
 //-----------------------------------
 //Dropdown for setting the distance tolerance
             navbarDropdown={[
@@ -400,7 +400,7 @@ class Dashboard extends Component {
           <Columns isCentered>
             <Column isSize="1/3">
               <Box>
-              
+
               {/*Message notifications, user image and greeting*/}
 
                 <Columns>
