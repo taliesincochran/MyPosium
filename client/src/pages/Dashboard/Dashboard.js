@@ -163,10 +163,7 @@ class Dashboard extends Component {
   openMessageModal = (recipient) => {
     this.setState({activeMessageModal: true, messageRecipient: recipient});
   }
-
-
   closeMessageModal = () => {
-
     this.setState({activeMessageModal: false})
   }
 
@@ -266,6 +263,7 @@ class Dashboard extends Component {
         //Code for sending message
         this.setState({cancelEventModal: false}, ()=> {
           this.getEvents(false);
+          this.sendToAllAttendees();
         })
       })
     }
@@ -508,6 +506,7 @@ class Dashboard extends Component {
 
 {/*==================================================*/}
 {/*Here's the Event modal. Pretty much just styling and formatting in here */}
+
         <Modal isActive={this.state.activeEventModal ? true : false} >
           <ModalBackground />
           <ModalContent style={{padding: '20px'}}>
@@ -535,7 +534,7 @@ class Dashboard extends Component {
                 </Column>
               </Columns>
               {this.state.user.attending.includes(this.state.modalEvent._id)?(<Button isColor='primary' onClick={this.sendMessageToOrganizer} className="is-fullWidth">Send Message To Organizer</Button>):null}
-              {(this.state.user.username !== this.state.modalEvent.username && !this.state.user.attending.includes(this.state.modalEvent._id))?(<Button isColor="primary" onClick={this.attend} className="is-fullwidth">Attend</Button>):null}
+              {(this.state.user.username !== this.state.modalEvent.username && !this.state.user.attending.includes(this.state.modalEvent._id))?(<Button isColor="primary" onClick={this.attend} value={this.state.modalEvent._id} className="is-fullwidth">Attend</Button>):null}
               {(this.state.modalEvent.username === this.state.user.username)?(
                 <div>
                   <Button isColor="primary" onClick={this.sendToAllAttendees} className='is-fullwidth'>Send Message To All Attending</Button>
@@ -562,9 +561,15 @@ class Dashboard extends Component {
               </Control>
             </Field>
             <Field>
-              <Label className="has-text-left">Send A Message To All Attending</Label>
+              <Label className="has-text-left">"Subject"</Label>
               <Control>
-                <TextArea name='cancelEventMessage' placeholder="Type Message Here" onChange={this.handleInput} value={this.state.cancelEventMessage}/>
+                <Input name='subject' type="text" placeholder="Type your username here." onChange={this.handleInput} value={this.state.subject}/>
+              </Control>
+            </Field>
+            <Field>
+              <Label className="has-text-left">"Send A Message To All Attending"</Label>
+              <Control>
+                <TextArea name='message' placeholder="Type Message Here" onChange={this.handleInput} value={this.state.message}/>
               </Control>
             </Field>
             <Control>
