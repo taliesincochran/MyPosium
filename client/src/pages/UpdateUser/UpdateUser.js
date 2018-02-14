@@ -1,6 +1,16 @@
 import React, { Component } from 'react';
-import { Box, Title, Container, Columns, Column, Field, Label, Input, Control, TextArea, Button } from 'bloomer';
-// import {API} from '../../utils/API';
+import {
+  Box,
+  Title,
+  Container,
+  Columns,
+  Column,
+  Field,
+  Label,
+  Input,
+  Control,
+  TextArea,
+  Button } from 'bloomer';
 import Navbar from '../../components/Nav/Navbar';
 import { authObj } from '../../authenticate';
 import axios from 'axios';
@@ -28,9 +38,11 @@ class Profile extends Component {
     }
   }
 
+//Sorts the categories for pretty reasons
   componentWillMount() {
     categories.sort()
   }
+
 
   handleInterestClick = (e) => {
     //store name interest clicked, and it's index (if any)
@@ -52,9 +64,6 @@ class Profile extends Component {
       this.setState({interests: arr},()=>{
     });
     }
-    if (e.target.isColor === 'success') {
-
-    }
   }
 
   handleInput = (e) => {
@@ -62,6 +71,7 @@ class Profile extends Component {
     this.setState({[name]: value})
   }
 
+//On submission sends the info to the db via axios
   handleSubmit = () => {
     let { interests, age, img, aboutMe, zipcode } = this.state;
     let data = {
@@ -72,8 +82,8 @@ class Profile extends Component {
       zipcode,
       username: this.props.location.state.username
     }
+    //validate zip code
     axios.get(`https://maps.googleapis.com/maps/api/distancematrix/json?origins=${this.state.zipcode || 5000}&destinations=27510&key=AIzaSyDpwnTjzyOwCRmPRQhpu0eREKplFV0TCDI`).then(result=>{
-      console.log(result.data.rows[0].elements[0].status)
       if(result.data.rows[0].elements[0].status==="OK") {
         return true
       } else{
@@ -98,6 +108,11 @@ class Profile extends Component {
     return (
       <div style={{height: '100vh', backgroundImage: 'url("img/coloredLines.jpg")', backgroundAttachment: 'fixed', backgroundSize: '100% 100%'}}>
         <Container>
+
+{/*======================================================================================================================================*/}
+        {/*NAVBAR STUFF Probably not to be edited except if navbar is updated*/}
+{/*======================================================================================================================================*/}
+
           <Navbar
             hasBrand={true}
             brandText="MyPosium Dashboard"
@@ -145,11 +160,17 @@ class Profile extends Component {
               }
             ]}
           />
-          <div style={{height: '100px'}}></div>
+
+{/*======================================================================================================================================*/}
+      {/*END OF NAVBAR STUFF*/}
+{/*======================================================================================================================================*/}
+
+          <div style={{height: '150px'}}></div>
             <Columns isCentered>
-              <Column isSize="1/2">
-                <Box style={{marginTop: '5%', position: 'relative'}}>
-                  <Title className="has-text-grey-light" isSize={1} style={{position: 'absolute', top: '-9%', right: '5%', background: 'white'}}>Profile</Title>
+              <Column isSize={5}>
+      {/*Text Fields for profile updates*/}
+                <Box style={{ position: 'relative'}}>
+                  <Title className="has-text-grey-light" isSize={1} style={{position: 'absolute', top: '-8%', right: '5%', background: 'white'}}>Profile</Title>
                   <Field>
                     <Label className="has-text-left">Age:</Label>
                     <Control>
@@ -179,8 +200,9 @@ class Profile extends Component {
                   </Control>
                 </Box>
               </Column>
-              <Column isSize="1/2">
-                <Box style={{marginTop: '5%', position: 'relative'}} className="has-text-centered">
+              <Column isSize={8}>
+          {/*Area for interests update*/}
+                <Box style={{ position: 'relative', display: 'grid', gridTemplateColumns: '19% 19% 19% 19% 19%', gridGap:'10px'}} className="has-text-centered">
                   <Title className="has-text-grey-light" isSize={1} style={{position: 'absolute', top: '-37px', right: '5%', background: 'white'}}>Interests</Title>
                   {
 
@@ -194,6 +216,7 @@ class Profile extends Component {
                           className="is-medium"
                           isColor="info"
                           name={category}
+                          style={{fontSize: '1.8vh'}}
                           onClick={this.handleInterestClick}>
                           {category}
                         </Button>)
@@ -204,6 +227,7 @@ class Profile extends Component {
                           isColor=""
                           isOutlined
                           name={category}
+                          style={{fontSize: '1.8vh'}}
                           onClick={this.handleInterestClick}>
                           {category}
                         </Button>)
@@ -213,8 +237,9 @@ class Profile extends Component {
                 </Box>
               </Column>
             </Columns>
+          {/*Redirects via state change*/}
             {this.state.checkMessages? (<Redirect to= {{pathname:"/messages", state:this.state.user}} />) : null}
-            {this.state.createEvent? (<Redirect to= {{pathname:"/event/create", state:this.state.user}} />) : null}
+            {this.state.createEvent? (<Redirect to= {{pathname:"/eventCreate", state:this.state.user}} />) : null}
             {this.state.dashboard? (<Redirect to={{pathname:"/dashboard", state:this.state.user}}/>) : null}
             {this.state.logout? (<Redirect to="/" />) : null}
             {

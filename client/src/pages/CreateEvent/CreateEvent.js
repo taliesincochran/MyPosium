@@ -1,12 +1,24 @@
 import React, { Component } from 'react';
-import { Column, Columns, Title, Box, Checkbox, Container, Button, Select, Input, option, Label, Control, Field, TextArea} from 'bloomer';
-import { Link, Redirect } from "react-router-dom";
+import {
+  Column,
+  Columns,
+  Title,
+  Box,
+  Checkbox,
+  Button,
+  Select,
+  Input,
+  option,
+  Label,
+  Control,
+  Field,
+  TextArea} from 'bloomer';
+import { Redirect } from "react-router-dom";
 import axios from 'axios';
-// import {API} from "../../utils/API";
 import categories from "../../categories";
 import { authObj } from '../../authenticate';
 import Navbar from '../../components/Nav/Navbar';
-import moment from 'moment';
+import moment from 'moment'
 export default class CreateEvent extends Component {
   state = {
   	title:'',
@@ -20,7 +32,6 @@ export default class CreateEvent extends Component {
   	category: '',
   	imgURL:'',
   	description:'',
-  	// minAttending:'',
   	maxAttending:'',
     isSubmitted: false,
     checkMessages: false,
@@ -44,10 +55,10 @@ export default class CreateEvent extends Component {
     dateText: 'Date of Event:'
   }
 
-//Just to make the categories pretty on load. And give a default category
+
+//Sort the categories and set default
   componentDidMount(){
     categories.sort();
-    console.log(this.state.currentDate)
     this.setState({category:categories[0]});
   }
 
@@ -57,7 +68,7 @@ export default class CreateEvent extends Component {
   }
 
 
-//Setting a new event to the state.
+//Set new event information to be passed from state
   handleSubmit = e=> {
     e.preventDefault();
     console.log("Submit button clicked");
@@ -67,59 +78,61 @@ export default class CreateEvent extends Component {
     //===================================================================================================================
     //Validate before the post, start with async call for location validation, then after this resolves, everything else
     //===================================================================================================================
-    axios.get(`https://maps.googleapis.com/maps/api/distancematrix/json?origins=${newEvent.zipcode || 5000}&destinations=27510&key=AIzaSyDpwnTjzyOwCRmPRQhpu0eREKplFV0TCDI`).then(result=>{
-      console.log(result.data.rows[0].elements[0].status)
-      //Check if google found the zipcode
-      if(result.data.rows[0].elements[0].status==="OK") {
-        this.setState({zipcodeVerified: true})
-      } else{
-        this.setState({zipcodePlaceholder: "Google couldn't find your zipcode.", zipcode: this.state.initialZipcode})
-      }
-      //Check if image url is in the proper form
-      var validateImage = new RegExp('(?:(?:https?:\/\/))[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,4}\b(?:[-a-zA-Z0-9@:%_\+.~#?&\/=]*(\.gif\.jpg|\.png|\.jpeg))')
-      if(validateImage.test(newEvent.imgURL)) {
-        this.setState({imageVerified: true})
-      } else {
-        this.setState({imagePlaceholder: "Please use a Url in starting with http:// or https:// and ending with the ending of .jpg, .png, or .gif", imgURL: ''})
-      }
-      //Check if maxAttending is over 0
-      if(newEvent.maxAttending >0) {
-        this.setState({maxAttendingVerified: true})
-      } else {
-        this.setState({maxAttendingPlaceholder: 'Please Enter a Number Greater Than Zero.', maxAttending: ''})
-      }
-      //Check if there is a description that is not too big or too small.
-      if(newEvent.description.length > 10 && newEvent.description.length<255) {
-        this.setState({descriptionVerified: true})
-      } else {
-        this.setState({descriptionPlaceholder: "Needs to be between 10 and 255 characters."})
-      }
-      var now = moment()
-      console.log('moment date', moment(moment()).isBefore(newEvent.date, 'year'))
-      console.log('now', moment())
-      console.log('then', newEvent.date)
-      if(moment().isBefore(newEvent.date)){
-        this.setState({datePlaceholder: "The event can not be in the past."})
-      } else{
-        this.setState({dateVerified: true})
-      }
-    }).then(result => {
-      if(this.state.zipcodeVerified 
-        && this.imageVerified
-        && this.maxAttendingVerified
-        && this.descriptionVerified
-        && this.state.dateVerified
-        ){
+    // axios.get(`https://maps.googleapis.com/maps/api/distancematrix/json?origins=${newEvent.zipcode || 5000}&destinations=27510&key=AIzaSyDpwnTjzyOwCRmPRQhpu0eREKplFV0TCDI`).then(result=>{
+    //   console.log(result.data.rows[0].elements[0].status)
+    //   //Check if google found the zipcode
+    //   if(result.data.rows[0].elements[0].status==="OK") {
+    //     this.setState({zipcodeVerified: true})
+    //     console.log('zipcode verified')
+    //   } else{
+    //     this.setState({zipcodePlaceholder: "Google couldn't find your zipcode.", zipcode: this.state.initialZipcode})
+    //     console.log('zip code not found')
+    //   }
+    //   //Check if image url is in the proper form
+    //   var validateImage = new RegExp('(?:(?:https?:\/\/))[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,4}\b(?:[-a-zA-Z0-9@:%_\+.~#?&\/=]*(\.gif\.jpg|\.png|\.jpeg))')
+    //   if(validateImage.test(newEvent.imgURL)) {
+    //     this.setState({imageVerified: true})
+    //     console.log('image verified')
+    //   } else {
+    //     this.setState({imagePlaceholder: "Please use a Url in starting with http:// or https:// and ending with the ending of .jpg, .png, or .gif", imgURL: ''})
+    //     console.log('image not verified')
+    //   }
+    //   //Check if maxAttending is over 0
+    //   if(newEvent.maxAttending >0) {
+    //     this.setState({maxAttendingVerified: true})
+    //   } else {
+    //     this.setState({maxAttendingPlaceholder: 'Please Enter a Number Greater Than Zero.', maxAttending: ''})
+    //   }
+    //   //Check if there is a description that is not too big or too small.
+    //   if(newEvent.description.length > 10 && newEvent.description.length<255) {
+    //     this.setState({descriptionVerified: true})
+    //   } else {
+    //     this.setState({descriptionPlaceholder: "Needs to be between 10 and 255 characters."})
+    //   }
+    //   var now = moment()
+    //   console.log('moment date', moment(moment()).isBefore(newEvent.date, 'year'))
+    //   console.log('now', moment())
+    //   console.log('then', newEvent.date)
+    //   if(moment().isBefore(newEvent.date)){
+    //     this.setState({datePlaceholder: "The event can not be in the past."})
+    //   } else{
+    //     this.setState({dateVerified: true})
+    //   }
+    // }).then(result => {
+    //   if(this.state.zipcodeVerified 
+    //     && this.imageVerified
+    //     && this.maxAttendingVerified
+    //     && this.descriptionVerified
+    //     && this.state.dateVerified
+    //     ){
   	    this.submitEvent(newEvent);
-	    }
-    })
+	   //  }
+    // })
   }
 
 
-//The call to the database api submitting the event.
+//submit to the backend
   submitEvent = event=>{
-  	console.log("event being submitted:");
-  	console.log(event);
       axios
       .post("/api/event/create", event)
       .then(result =>{
@@ -127,12 +140,10 @@ export default class CreateEvent extends Component {
         })
       .catch(err=> console.log(err));
   }
-
-
   render(){
     return (
-      // <div style={{width: '100%', background: 'linear-gradient(to right, rgb(200,245,240), MintCream, MintCream, white, white, MintCream, MintCream, rgb(200,245,240))', backgroundAttachment: 'fixed', backgroundSize: '100% 100%'}}>
-      <div style={{height: '100vh', backgroundImage: 'url("img/coloredLines.jpg")', backgroundAttachment: 'fixed', backgroundSize: '100% 100%'}}>
+
+      <div style={{minHeight: '100vh', backgroundImage: 'url("img/coloredLines.jpg")', backgroundAttachment: 'fixed', backgroundSize: '100% 100%'}}>
 
 {/*======================================================================================================================================*/}
         {/*NAVBAR STUFF Probably not to be edited except if navbar is updated*/}
@@ -185,7 +196,7 @@ export default class CreateEvent extends Component {
             }
           ]}
         />
-        
+
 {/*======================================================================================================================================*/}
       {/*END OF NAVBAR STUFF*/}
 {/*======================================================================================================================================*/}
@@ -195,11 +206,8 @@ export default class CreateEvent extends Component {
           <Column isSize={8} isOffset={2}>
             <Box style={{marginTop: '5%', position: 'relative'}}>
               <Title className="has-text-grey-light" isSize={1} style={{position: 'absolute', top: '-3.5%', right: '5%', background: 'white'}}>Create Event</Title>
-
-{/*======================================================================================================================================*/}
-            {/*THE INPUT FIELDS FOR EVENT CREATION--Any new fields should also have a change in state and in the model file*/}
-{/*=====================================================================================================================================*/}
-
+              
+{/*ALL THE FIELDS--Be sure any added field gets updated into state and the model gets updated as well*/}
               <Field>
             		<Label className="has-text-left">Event Title:</Label>
             		<Control>
@@ -269,15 +277,6 @@ export default class CreateEvent extends Component {
             		</Control>
               </Field>
               <Field>
-            	{/*	<Label className="has-text-left">Minimum Attending:</Label>
-            		<Control>
-            			<Input
-            				type="text"
-            				name="minAttending"
-            				value={this.state.minAttending}
-            				onChange={this.handleChange}
-            			/>
-            		</Control> */}
             		<Label className="has-text-left">Maximum Attending:</Label>
             		<Control>
             			<Input
@@ -319,7 +318,7 @@ export default class CreateEvent extends Component {
             			<Input
             				type="text"
             				placeholder={this.imagePlaceholder}
-            				name="imgUrl"
+            				name="imgURL"
             				value={this.state.imgURL}
             				onChange={this.handleChange}
             			/>
@@ -328,16 +327,15 @@ export default class CreateEvent extends Component {
               <Control>
               	<Button isColor='primary' onClick={this.handleSubmit}>Create</Button>
               </Control>
-
-{/*=======================================================================*/}
-            {/*END OF THE INPUT FIELDS FOR EVENT CREATION*/}
-{/*=======================================================================*/}
-
             </Box>
-          </Column>
-        </Columns>
 
-{/*Redirects and Routes--Operates by checking state*/}
+        {/*End of the event fields*/}
+
+          </Column>
+        }
+        </Columns>
+        
+      {/*Redirects processed via state change*/}
 
         {this.state.isSubmitted ? (<Redirect to = {{
         	pathname: "/dashboard",

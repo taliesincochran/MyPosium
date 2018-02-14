@@ -1,21 +1,14 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import {
   CardHeaderTitle,
-  CardHeaderIcon,
   Image,
   Columns,
   Column,
   Card,
   CardHeader,
-  Icon,
   Button,
   CardImage,
-  Media,
-  MediaLeft,
-  MediaContent,
   Title,
-  Subtitle,
   Content,
   CardContent,
 } from 'bloomer';
@@ -42,7 +35,7 @@ const EventCard = props => {
             <p style={{marginBottom: '20px'}}>{props.event.description}</p>
           </Column>
         </Columns>
-        <Columns style={{margin: '20px'}}>
+        <Columns style={{margin: '20px', marginTop: '-30px'}}>
           <Column>
             <Title isSize={6}>Event Date: {moment(props.event.date).format("dddd, MMMM Do YYYY")} {'   '}{moment(props.event.time).format("h:mm a")}</Title>
             <Title isSize={6}>Event Cost: {props.event.cost}</Title>
