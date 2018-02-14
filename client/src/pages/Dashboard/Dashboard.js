@@ -554,22 +554,22 @@ class Dashboard extends Component {
           <ModalBackground />
           <ModalContent style={{padding: '20px'}}>
             <Delete onClick={this.toggleCancelEventModal} />
-            <ModalCardTitle className="has-text-centered">"Are you sure you want to cancel this event? This cannot be undone!"</ModalCardTitle>
+            <ModalCardTitle className="has-text-centered">Are you sure you want to cancel this event? This cannot be undone!</ModalCardTitle>
             <Field>
-              <Label className="has-text-left">"Enter your username to confirm event cancelation."</Label>
+              <Label className="has-text-left">Enter your username to confirm event cancelation.</Label>
               <Control>
                 <Input name='usernameForEventCancellation' type="text" placeholder="Type your username here." onChange={this.handleInput} value={this.state.usernameForEventCancellation}/>
               </Control>
             </Field>
             <Field>
-              <Label className="has-text-left">"Send A Message To All Attending"</Label>
+              <Label className="has-text-left">Send A Message To All Attending</Label>
               <Control>
                 <TextArea name='cancelEventMessage' placeholder="Type Message Here" onChange={this.handleInput} value={this.state.cancelEventMessage}/>
               </Control>
             </Field>
             <Control>
               <Button isColor="primary" onClick={this.toggleCancelEventModal} className="is-fullwidth">Close Window</Button>
-              <Button isColor="danger" onClick={this.cancelEvent} className="is-fullwidth">Cancel Event</Button>)
+              <Button isColor="danger" onClick={this.cancelEvent} className="is-fullwidth">Cancel Event</Button>
             </Control>
           </ModalContent>
           <ModalClose />

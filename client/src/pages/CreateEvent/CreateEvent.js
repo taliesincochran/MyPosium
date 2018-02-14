@@ -74,7 +74,7 @@ export default class CreateEvent extends Component {
     console.log("Submit button clicked");
     let {title, zipcode, username, date, time, isRemote, cost, category, imgURL, description, minAttending, maxAttending} = this.state;
     let newEvent = {title, zipcode, username, date, time, isRemote, cost, category, imgURL, description, minAttending, maxAttending};
-    console.log(newEvent);    
+    console.log(newEvent);
     //===================================================================================================================
     //Validate before the post, start with async call for location validation, then after this resolves, everything else
     //===================================================================================================================
@@ -119,7 +119,7 @@ export default class CreateEvent extends Component {
     //     this.setState({dateVerified: true})
     //   }
     // }).then(result => {
-    //   if(this.state.zipcodeVerified 
+    //   if(this.state.zipcodeVerified
     //     && this.imageVerified
     //     && this.maxAttendingVerified
     //     && this.descriptionVerified
@@ -206,7 +206,7 @@ export default class CreateEvent extends Component {
           <Column isSize={8} isOffset={2}>
             <Box style={{marginTop: '5%', position: 'relative'}}>
               <Title className="has-text-grey-light" isSize={1} style={{position: 'absolute', top: '-3.5%', right: '5%', background: 'white'}}>Create Event</Title>
-              
+
 {/*ALL THE FIELDS--Be sure any added field gets updated into state and the model gets updated as well*/}
               <Field>
             		<Label className="has-text-left">Event Title:</Label>
@@ -285,9 +285,9 @@ export default class CreateEvent extends Component {
                     placeholder='Maximum number to attend event.'
             				value={this.state.maxAttending}
             				onChange={this.handleChange}
-            			/> 
+            			/>
             		</Control>
-              </Field> 
+              </Field>
               <Field>
               	<Label className="has-text-left">Event Description:</Label>
               	<Control>
@@ -334,7 +334,7 @@ export default class CreateEvent extends Component {
           </Column>
         }
         </Columns>
-        
+
       {/*Redirects processed via state change*/}
 
         {this.state.isSubmitted ? (<Redirect to = {{
