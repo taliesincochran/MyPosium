@@ -100,7 +100,7 @@ class Dashboard extends Component {
         if(this.state.user.username === event.username) {
           userCreatedArray.push(event)
         }
-        if (this.state.user.interests.indexOf(category) > -1 && event.attendees.indexOf(user._id) === -1 && this.state.user.attending.indexOf(user._id) === -1){
+        else if (this.state.user.interests.indexOf(category) > -1 && event.attendees.indexOf(user._id) === -1 && this.state.user.attending.indexOf(user._id) === -1){
           eventsMatchArray.push(event)
         }
       })
@@ -155,7 +155,6 @@ class Dashboard extends Component {
   openMessageModal = (recipient) => {
     this.setState({activeMessageModal: true, messageRecipient: recipient});
   }
-
   closeModal = () => {
     this.setState({activeMessageModal: false})
   }
@@ -236,6 +235,7 @@ class Dashboard extends Component {
         //Code for sending message
         this.setState({cancelEventModal: false}, ()=> {
           this.getEvents(false);
+          this.sendToAllAttendees();
         })
       })
     }
@@ -440,7 +440,6 @@ class Dashboard extends Component {
           </ModalContent>
           <ModalClose />
         </Modal>
-
         <Modal isActive={this.state.activeEventModal ? true : false} >
           <ModalBackground />
           <ModalContent style={{padding: '20px'}}>
@@ -468,7 +467,7 @@ class Dashboard extends Component {
                 </Column>
               </Columns>
               {this.state.user.attending.includes(this.state.modalEvent._id)?(<Button isColor='primary' onClick={this.sendMessageToOrganizer} className="is-fullWidth">Send Message To Organizer</Button>):null}
-              {(this.state.user.username !== this.state.modalEvent.username && !this.state.user.attending.includes(this.state.modalEvent._id))?(<Button isColor="primary" onClick={this.attend} className="is-fullwidth">Attend</Button>):null}
+              {(this.state.user.username !== this.state.modalEvent.username && !this.state.user.attending.includes(this.state.modalEvent._id))?(<Button isColor="primary" onClick={this.attend} value={this.state.modalEvent._id} className="is-fullwidth">Attend</Button>):null}
               {(this.state.modalEvent.username === this.state.user.username)?(
                 <div>
                   <Button isColor="primary" onClick={this.sendToAllAttendees} className='is-fullwidth'>Send Message To All Attending</Button>
@@ -478,8 +477,6 @@ class Dashboard extends Component {
             </ModalContent>
           <ModalClose isSize='large'/>
         </Modal>
-
-
         <Modal isActive={this.state.cancelEventModal? true: false} >
           <ModalBackground />
           <ModalContent style={{padding: '20px'}}>
@@ -492,9 +489,15 @@ class Dashboard extends Component {
               </Control>
             </Field>
             <Field>
+              <Label className="has-text-left">"Subject"</Label>
+              <Control>
+                <Input name='subject' type="text" placeholder="Type your username here." onChange={this.handleInput} value={this.state.subject}/>
+              </Control>
+            </Field>
+            <Field>
               <Label className="has-text-left">"Send A Message To All Attending"</Label>
               <Control>
-                <TextArea name='cancelEventMessage' placeholder="Type Message Here" onChange={this.handleInput} value={this.state.cancelEventMessage}/>
+                <TextArea name='message' placeholder="Type Message Here" onChange={this.handleInput} value={this.state.message}/>
               </Control>
             </Field>
             <Control>
@@ -504,8 +507,6 @@ class Dashboard extends Component {
           </ModalContent>
           <ModalClose />
         </Modal>
-
-
         {this.state.createEvent? (<Redirect to= {{pathname:"/eventCreate", state:this.state.user}} />) : null}
         {this.state.checkMessages? (<Redirect to={{pathname:"/messages", state:this.state.user}}/>) : null}
         {this.state.updateProfile? (<Redirect to={{pathname:"/updateProfile", state:this.state.user}}/>) : null}
