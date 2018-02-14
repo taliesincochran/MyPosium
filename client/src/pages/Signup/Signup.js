@@ -69,16 +69,13 @@ export default class Signup extends Component {
         }
         if(this.state.username.length < this.state.usernameMinLength) {
           this.setState({username: '', usernamePlaceholder: "Please enter a username with at least " + this.state.usernameMinLength + " characters."})
-        } else{
-        }
+        } 
         if(this.state.password < this.state.passwordMinLength) {
           this.setState({passwordPlaceholder: 'Your password needs to be ' + this.state.passwordMinLength + ' characters long.', password2Placeholder: 'Re-Enter Password'})
-        } else {
-        }
+        } 
         if(this.state.password !== this.state.password2) {
           this.setState({password: '', password2: '', passwordPlaceholder: 'Your passwords did not match.', password2Placeholder: 'Please Try Again.'})
-        } else {
-        }
+        } 
       }).then(result => {
         //Submits data to the backend or fails
         if(this.state.username.length >= this.state.usernameMinLength
