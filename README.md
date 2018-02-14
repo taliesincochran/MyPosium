@@ -3,8 +3,8 @@
 [Click here](https://myposium.herokuapp.com) to view the deployed version.
 
 ## If you would like to demo the app, please use this login info:
-### username:
-### password:
+### username: Demo
+### password: password
 
 ## Technologies used:
 * ReactJS
