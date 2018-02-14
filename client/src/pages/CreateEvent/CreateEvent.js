@@ -32,6 +32,9 @@ export default class CreateEvent extends Component {
 
   componentDidMount(){
     categories.sort();
+    console.log(this.state.currentDate)
+    this.setState({category:categories[0]});
+
   }
 
   handleChange = e => {
@@ -41,18 +44,14 @@ export default class CreateEvent extends Component {
 
   handleSubmit = e=> {
   	e.preventDefault();
-  	console.log("Submit button clicked");
   	let {title, zipcode, username, date, time, isRemote, cost, category, imgURL, description, minAttending, maxAttending} = this.state;
   	let newEvent = {title, zipcode, username, date, time, isRemote, cost, category, imgURL, description, minAttending, maxAttending};
-  	console.log(newEvent);
   	this.submitEvent(newEvent);
 	}
 
 
 
   submitEvent = event=>{
-  	console.log("event being submitted:");
-  	console.log(event);
       axios
       .post("/api/event/create", event)
       .then(result =>{
@@ -64,8 +63,8 @@ export default class CreateEvent extends Component {
 
   render(){
     return (
-      // <div style={{width: '100%', background: 'linear-gradient(to right, rgb(200,245,240), MintCream, MintCream, white, white, MintCream, MintCream, rgb(200,245,240))', backgroundAttachment: 'fixed', backgroundSize: '100% 100%'}}>
-      <div style={{height: '100vh', backgroundImage: 'url("img/coloredLines.jpg")', backgroundAttachment: 'fixed', backgroundSize: '100% 100%'}}>
+
+      <div style={{minHeight: '100vh', backgroundImage: 'url("img/coloredLines.jpg")', backgroundAttachment: 'fixed', backgroundSize: '100% 100%'}}>
         <Navbar
           hasBrand={true}
           brandText="MyPosium Dashboard"
@@ -144,7 +143,7 @@ export default class CreateEvent extends Component {
           		  </Control>
       		    </Field>
               <Field>
-              	<Label className="has-text-left">Date of Event:</Label>
+              	<Label className="has-text-left">{this.state.dateText}</Label>
               	<Control>
               		<Input
               			type="date"

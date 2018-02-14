@@ -42,7 +42,6 @@ class Dashboard extends Component {
       events:[],
       userCreated: [],
       userAttending: [],
-      // eventsMatchInterests:[],
       user: this.props.location.state,
       isActive: false,
       hasGotEvents: false,
@@ -209,7 +208,6 @@ class Dashboard extends Component {
     this.closeEventModal();
   }
   handleLogout = () => {
-    // console.log("api/users/logout called")
     axios
       .get('api/users/logout')
       .then(response => {
@@ -371,7 +369,6 @@ class Dashboard extends Component {
                   <Column>
                     <Title isSize={5}>Hi, {this.props.location.state.username}, welcome back!</Title>
                     {/* nested ternary checks if there are new messages, and outputs the message according to the number of new messages.  */}
-                    {console.log('+++++++++++++++++++++++++',this.state.unread)}
                     <p>You have {this.state.unread===0 ?
                       'No new messages.'
                       :
@@ -433,7 +430,7 @@ class Dashboard extends Component {
             </Column>
           </Columns>
 
-        <Modal isActive={this.state.activeMessageModal? true: false} >
+        <Modal isActive={this.state.activeMessageModal ? true : false} >
           <ModalBackground />
           <ModalContent style={{padding: '20px'}}>
             <Delete onClick={this.closeMessageModal} />
@@ -457,42 +454,45 @@ class Dashboard extends Component {
           <ModalClose />
         </Modal>
 
-        <Modal isActive={this.state.activeEventModal? true: false} >
+        <Modal isActive={this.state.activeEventModal ? true : false} >
           <ModalBackground />
-          <ModalCard>
-            <ModalCardTitle className="has-text-centered">{}{this.state.modalEvent.title}!</ModalCardTitle>
-            <ModalCardBody style={{padding: '20px'}}>
-              <Delete onClick={this.closeEventModal} style={{margin: '20px 0'}}/>
-                <Columns>
-                  <Column isSize='1/3'>
-                    <Image src={this.state.modalEvent.imgUrl} />
-                    <Title>{moment(this.state.modalEvent.date).format("dddd, MMMM Do YYYY")}</Title>
-                    <Subtitle>{moment(this.state.modalEvent.time, 'HH:mm').format("h:mm a")}</Subtitle>
-                    {this.state.modalEvent.isRemote?(<Subtitle>Remote</Subtitle>):(
-                      <Subtitle>Located in: {this.state.modalEvent.zipcode}</Subtitle>
-                    )}
-                  </Column>
-                  <Column>
-                    <Title>Organized By: {this.state.modalEvent.username} </Title>
-
-                    {this.state.modalEvent.cost?(<Subtitle>Cost: {this.state.modalEvent.cost}</Subtitle>):(<Subtitle>Free Event</Subtitle>)}
-                    <Subtitle>Because you are interested in {this.state.modalEvent.category}</Subtitle>
-                    <Subtitle>{this.state.modalEvent.description}</Subtitle>
-                    <Subtitle>{this.state.modalEvent.attendees.length}/{this.state.modalEvent.maxAttending} of attendees signed up</Subtitle>
-                  </Column>
-                </Columns>
-                {this.state.user.attending.includes(this.state.modalEvent._id)?(<Button isColor='primary' onClick={this.sendMessageToOrganizer} className="is-fullWidth">Send Message To Organizer</Button>):null}
-                {(this.state.user.username !== this.state.modalEvent.username && !this.state.user.attending.includes(this.state.modalEvent._id))?(<Button isColor="primary" onClick={this.attend} className="is-fullwidth">Attend</Button>):null}
-                {(this.state.modalEvent.username === this.state.user.username)?(
-                  <div>
-                    <Button isColor="primary" onClick={this.sendToAllAttendees} className='is-fullwidth'>Send Message To All Attending</Button>
-                    <Button isColor="danger" onClick={this.toggleCancelEventModal} className='is-fullwidth'>Cancel Event</Button>
-                  </div>
-                  ):null}
-              </ModalCardBody>
-            </ModalCard>
+          <ModalContent style={{padding: '20px'}}>
+            <Columns>
+            <Delete onClick={this.closeEventModal} style={{margin: '20px 0'}}/>
+            <ModalCardTitle  className="has-text-centered">
+              <Title isSize={3}>{this.state.modalEvent.title}!</Title>
+            </ModalCardTitle>
+              </Columns>
+              <Columns>
+                <Column isSize='1/3'>
+                  <Image src={this.state.modalEvent.imgUrl || 'https://images.pexels.com/photos/6227/hands-technology-photo-phone.jpg?w=1260&h=750&auto=compress&cs=tinysrgb'} />
+                  <Title>{moment(this.state.modalEvent.date).format("dddd, MMMM Do YYYY")}</Title>
+                  <Subtitle>{moment(this.state.modalEvent.time, 'HH:mm').format("h:mm a")}</Subtitle>
+                  {this.state.modalEvent.isRemote?(<Subtitle>Remote</Subtitle>):(
+                    <Subtitle>Located in: {this.state.modalEvent.zipcode}</Subtitle>
+                  )}
+                </Column>
+                <Column>
+                  <Title isSize={4}>Organized By: {this.state.modalEvent.username} </Title>
+                  {this.state.modalEvent.cost?(<Subtitle>Cost: {this.state.modalEvent.cost}</Subtitle>):(<Subtitle>Free Event</Subtitle>)}
+                  <Subtitle>Because you are interested in {this.state.modalEvent.category}</Subtitle>
+                  <Subtitle>{this.state.modalEvent.description}</Subtitle>
+                  <Subtitle>{this.state.modalEvent.attendees.length}/{this.state.modalEvent.maxAttending} of attendees signed up</Subtitle>
+                </Column>
+              </Columns>
+              {this.state.user.attending.includes(this.state.modalEvent._id)?(<Button isColor='primary' onClick={this.sendMessageToOrganizer} className="is-fullWidth">Send Message To Organizer</Button>):null}
+              {(this.state.user.username !== this.state.modalEvent.username && !this.state.user.attending.includes(this.state.modalEvent._id))?(<Button isColor="primary" onClick={this.attend} className="is-fullwidth">Attend</Button>):null}
+              {(this.state.modalEvent.username === this.state.user.username)?(
+                <div>
+                  <Button isColor="primary" onClick={this.sendToAllAttendees} className='is-fullwidth'>Send Message To All Attending</Button>
+                  <Button isColor="danger" onClick={this.toggleCancelEventModal} className='is-fullwidth'>Cancel Event</Button>
+                </div>
+                ):null}
+            </ModalContent>
           <ModalClose isSize='large'/>
         </Modal>
+
+
         <Modal isActive={this.state.cancelEventModal? true: false} >
           <ModalBackground />
           <ModalContent style={{padding: '20px'}}>
@@ -517,7 +517,9 @@ class Dashboard extends Component {
           </ModalContent>
           <ModalClose />
         </Modal>
-        {this.state.createEvent? (<Redirect to= {{pathname:"/event/create", state:this.state.user}} />) : null}
+
+
+        {this.state.createEvent? (<Redirect to= {{pathname:"/eventCreate", state:this.state.user}} />) : null}
         {this.state.checkMessages? (<Redirect to={{pathname:"/messages", state:this.state.user}}/>) : null}
         {this.state.updateProfile? (<Redirect to={{pathname:"/updateProfile", state:this.state.user}}/>) : null}
         {this.state.logout? (<Redirect to="/" />) : null}

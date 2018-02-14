@@ -28,6 +28,11 @@ export default class Landing extends Component {
   render() {
     return(
       <div style={{backgroundImage: 'url("img/woodBackground.jpg")', backgroundSize: '100% 100%', backgroundAttachment: 'fixed'}}>
+        
+{/*======================================================================================================================================*/}
+        {/*NAVBAR STUFF Probably not to be edited except if navbar is updated*/}
+{/*======================================================================================================================================*/}
+
         <NavbarHeader
         	hasStart={true}
         	brandStyle={{marginRight:'-50px'}}
@@ -71,7 +76,13 @@ export default class Landing extends Component {
 		          }]}
 		    />
 
+{/*======================================================================================================================================*/}
+      {/*END OF NAVBAR STUFF*/}
+{/*======================================================================================================================================*/}
+
 			<div style={{height:'1px'}}/>
+
+		{/*Top of the landing page. First impression*/}
 					<a id="myposium" ></a>
 					<Section className='is-vertical-center' style={{position: 'fixed', zIndex: '0' }}>
 						<Container className="is-clearfix">
@@ -81,6 +92,8 @@ export default class Landing extends Component {
 
 						</Container>
 			    </Section>
+
+			    {/*Followup sections---*/}
 					<div className={'is-fullWidth'} style={{ width: '100%', position: 'relative', 'zIndex': '100', marginTop: '100vh', background: 'linear-gradient(to right, rgb(200,245,240), MintCream, MintCream, white, white, MintCream, MintCream, rgb(200,245,240)  )'}} >
 						<a id="create" style={{marginTop: "20px"}}> </a>
 						<Container>

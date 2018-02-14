@@ -17,12 +17,14 @@ class Profile extends Component {
       img: this.props.location.state.img,
       aboutMe: this.props.location.state.aboutMe,
       zipcode: this.props.location.state.zipcode,
+      initialZipcode: this.props.location.state.zipcode,
       finishedProfile: false,
       user: this.props.location.state,
       logout: false,
       dashboard: false,
       checkMessages: false,
       createEvent: false,
+      zipcodePlaceholder: 'Enter Zipcode'
     }
   }
 
@@ -68,16 +70,26 @@ class Profile extends Component {
       img,
       aboutMe,
       zipcode,
-      username: this.props.location.state.username,
-
+      username: this.props.location.state.username
     }
-
-    axios.post("/api/users/updateprofile", data).then(result =>{
-      this.setState({user: result.data})
-    }).then(()=> {
-        this.setState({finishedProfile:true})
-    }).catch(err => console.error(err));
-
+    axios.get(`https://maps.googleapis.com/maps/api/distancematrix/json?origins=${this.state.zipcode || 5000}&destinations=27510&key=AIzaSyDpwnTjzyOwCRmPRQhpu0eREKplFV0TCDI`).then(result=>{
+      console.log(result.data.rows[0].elements[0].status)
+      if(result.data.rows[0].elements[0].status==="OK") {
+        return true
+      } else{
+        return false
+      }
+    }).then(result => {
+      if(result){
+        axios.post("/api/users/updateprofile", data).then(result =>{
+          this.setState({user: result.data})
+        }).then(()=> {
+          this.setState({finishedProfile:true})
+        }).catch(err => console.error(err));
+      } else{
+        this.setState({zipcodePlaceholder: 'Google can not find your zipcode.  Please try again.', zipcode: this.state.initialZipcode})
+      }
+    })
   }
 
   render() {
@@ -132,10 +144,10 @@ class Profile extends Component {
               }
             ]}
           />
-          <div style={{height: '100px'}}></div>
+          <div style={{height: '150px'}}></div>
             <Columns isCentered>
-              <Column isSize="1/2">
-                <Box style={{marginTop: '5%', position: 'relative'}}>
+              <Column isSize={5}>
+                <Box style={{ position: 'relative'}}>
                   <Title className="has-text-grey-light" isSize={1} style={{position: 'absolute', top: '-9%', right: '5%', background: 'white'}}>Profile</Title>
                   <Field>
                     <Label className="has-text-left">Age:</Label>
@@ -146,7 +158,7 @@ class Profile extends Component {
                   <Field>
                     <Label className="has-text-left">Zipcode:</Label>
                     <Control>
-                      <Input type="text" name="zipcode" value={this.state.zipcode} onChange={this.handleInput} />
+                      <Input type="text" name="zipcode" value={this.state.zipcode} placeholder= '' onChange={this.handleInput} />
                     </Control>
                   </Field>
                   <Field>
@@ -166,8 +178,8 @@ class Profile extends Component {
                   </Control>
                 </Box>
               </Column>
-              <Column isSize="1/2">
-                <Box style={{marginTop: '5%', position: 'relative'}} className="has-text-centered">
+              <Column isSize={8}>
+                <Box style={{ position: 'relative', display: 'grid', gridTemplateColumns: '19% 19% 19% 19% 19%', gridGap:'10px'}} className="has-text-centered">
                   <Title className="has-text-grey-light" isSize={1} style={{position: 'absolute', top: '-37px', right: '5%', background: 'white'}}>Interests</Title>
                   {
 
@@ -181,6 +193,7 @@ class Profile extends Component {
                           className="is-medium"
                           isColor="info"
                           name={category}
+                          style={{fontSize: '1.8vh'}}
                           onClick={this.handleInterestClick}>
                           {category}
                         </Button>)
@@ -191,6 +204,7 @@ class Profile extends Component {
                           isColor=""
                           isOutlined
                           name={category}
+                          style={{fontSize: '1.8vh'}}
                           onClick={this.handleInterestClick}>
                           {category}
                         </Button>)
@@ -201,7 +215,7 @@ class Profile extends Component {
               </Column>
             </Columns>
             {this.state.checkMessages? (<Redirect to= {{pathname:"/messages", state:this.state.user}} />) : null}
-            {this.state.createEvent? (<Redirect to= {{pathname:"/event/create", state:this.state.user}} />) : null}
+            {this.state.createEvent? (<Redirect to= {{pathname:"/eventCreate``", state:this.state.user}} />) : null}
             {this.state.dashboard? (<Redirect to={{pathname:"/dashboard", state:this.state.user}}/>) : null}
             {this.state.logout? (<Redirect to="/" />) : null}
             {
