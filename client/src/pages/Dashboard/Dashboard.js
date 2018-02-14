@@ -13,8 +13,6 @@ import { Container,
         Modal,
         ModalContent,
         ModalClose,
-        ModalCardBody,
-        ModalCard,
         Title,
         Subtitle,
         Delete,
@@ -76,8 +74,6 @@ class Dashboard extends Component {
       axios.get("/api/users/" + this.state.user.username).then(result=>{
         this.setState({user: result.data})
       }).then(res=>this.getEvents(false))
-      // console.log("user", this.props.location.state)
-      // console.log("state, user", this.state.user)
       document.querySelector('body').style.backgroundImage = 'none';
   }
 
@@ -137,7 +133,8 @@ class Dashboard extends Component {
             if(destination.distance.value < travelMeters) {
               eventsWithinDistance.push(eventsToShow[i])
             }
-          })):
+          })): ''
+
           //=============================================================
           //To insure the axios call is done before setting the state, ==
           //return query results and arrays and set up a .then         ==
@@ -195,7 +192,6 @@ class Dashboard extends Component {
     axios
       .post('api/message/create', newMessage)
       .then(response => {
-        // console.log('response from creating new message',response)
       })
       .catch(err => console.log(err));
   }
