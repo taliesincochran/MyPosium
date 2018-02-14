@@ -61,6 +61,8 @@ class Dashboard extends Component {
     this.setState = this.setState.bind(this)
     this.handleInput = this.handleInput.bind(this)
   }
+
+  //On load page checks for, in order, Messages then events. Also removes background image 
   componentDidMount =() => {
     axios
       .get('api/message/checkForNewMessage')
@@ -74,6 +76,8 @@ class Dashboard extends Component {
       }).then(res=>this.getEvents(false))
       document.querySelector('body').style.backgroundImage = 'none';
   }
+
+  //Function to get the local events
   getEvents =(remote) => {
     var setState = this.setState;
     var state = this.state;
@@ -139,6 +143,7 @@ class Dashboard extends Component {
               }              
             }
           })): ''
+
           //=============================================================
           //To insure the axios call is done before setting the state, ==
           //return query results and arrays and set up a .then         ==
@@ -152,20 +157,30 @@ class Dashboard extends Component {
       }
    })
   }
+
+//Sets the recipient for messages before opening the message modal, necessary in case of multiple recipients
+
   openMessageModal = (recipient) => {
     this.setState({activeMessageModal: true, messageRecipient: recipient});
   }
 
+//Close the Message Modal
   closeModal = () => {
     this.setState({activeMessageModal: false})
   }
+
+  //Close the Event Modal
   closeEventModal = () => {
     this.setState({activeEventModal: false})
   }
+
+
   handleInput = e => {
     let { name, value } = e.target;
     this.setState({ [name]: value });
   }
+
+ // Sets distance preferred and gets events
   setDistance = (x) => {
     if(isNaN(x)) {
       this.getEvents(true)
@@ -174,6 +189,8 @@ class Dashboard extends Component {
       this.setState({eventsWithin: x}, () => this.getEvents(false))
     }
   }
+
+  //Message submission on click
   submitMessage = e => {
     this.setState({activeMessageModal: false})
     let newMessage = {
@@ -188,6 +205,8 @@ class Dashboard extends Component {
       })
       .catch(err => console.log(err));
   }
+
+  //This is hit before message modal opens to make sure multiple recipients is an option
   sendToAllAttendees= () => {
     axios.get('api/event/attendees/' + this.state.modalEvent._id)
       .then(response=> {
@@ -199,10 +218,14 @@ class Dashboard extends Component {
       })
     this.closeEventModal();
   }
+
+  //This is hit to set recipient for messages to host before opening the message modal
   sendMessageToOrganizer = () => {
     this.openMessageModal(this.state.modalEvent.username);
     this.closeEventModal();
   }
+
+  //Logout, clear cookies.
   handleLogout = () => {
     axios
       .get('api/users/logout')
@@ -214,6 +237,8 @@ class Dashboard extends Component {
       })
       .catch(err => console.log(err));
   }
+
+  //Function to add user to attending for event and add event to attending for user
   attend = (e) => {
     var id = e.target.value
     var attending = this.state.userAttending;
@@ -223,13 +248,17 @@ class Dashboard extends Component {
       this.setState({userAttending: attending, activeEventModal: false})
     })
   }
+
   burgerOnClick = () =>this.setState((state) => ({isActive:!this.state.isActive}))
 
+//Sets the event information in state upon click
   eventModal = (event) => {
     if(event._id !== '0'){
       this.setState({modalEvent: event, activeEventModal: !this.state.activeEventModal})
     }
   }
+
+//Sets event to be cancelled
   cancelEvent = () => {
     if(this.state.usernameForEventCancellation === this.state.modalEvent.username) {
       axios.get("api/event/cancelEvent/" + this.state.modalEvent._id).then(result =>{
@@ -240,9 +269,13 @@ class Dashboard extends Component {
       })
     }
   }
+
+  //Opens cancel event modal
   toggleCancelEventModal = () => {
     this.setState({cancelEventModal: !this.state.cancelEventModal, activeEventModal: !this.state.activeEventModal})
   }
+
+
   render() {
     var events = this.state.events;
     var hasGotEvents = this.state.hasGotEvents;
@@ -250,6 +283,12 @@ class Dashboard extends Component {
       hasGotEvents?(
         <div style={{width: '100%', minHeight: '100vh', background: 'linear-gradient(to right, rgb(200,245,240), MintCream, MintCream, white, white, MintCream, MintCream, rgb(200,245,240))'}}>
       <Container>
+
+
+{/*======================================================================================================================================*/}
+        {/*NAVBAR STUFF Probably not to be edited except if navbar is updated*/}
+{/*======================================================================================================================================*/}
+
         <Navbar
           hasBrand={true}
           brandText="MyPosium Dashboard"
@@ -259,7 +298,10 @@ class Dashboard extends Component {
           hasEndButtons={true}
           hasDropdown={true}
           dropdownText={`Events Within ${this.state.eventsWithin} miles`}
-          navbarDropdown={[
+          
+//-----------------------------------
+//Dropdown for setting the distance tolerance
+            navbarDropdown={[
             {
               value: 5,
               text: '5 miles',
@@ -305,6 +347,9 @@ class Dashboard extends Component {
               onClick: () => this.setDistance('remote')
             }
           ]}
+//End of drop down for distance tolerance
+//---------------------------------------------------
+
           navbarStyle={{boxShadow: '2px 2px 5px', position:"fixed", top:"0", left:"0", zIndex: '998', width: '100%'}}
           navbarEnd={[
             {
@@ -345,10 +390,18 @@ class Dashboard extends Component {
             }
           ]}
         />
+
+{/*======================================================================================================================================*/}
+      {/*END OF NAVBAR STUFF*/}
+{/*======================================================================================================================================*/}
+
         <div style={{height: '100px'}}/>
           <Columns isCentered>
             <Column isSize="1/3">
               <Box>
+              
+              {/*Message notifications, user image and greeting*/}
+
                 <Columns>
                   <Column>
                     <Image isSize="128x128" src={this.props.location.state.img || 'img/defaultUser.jpg'} />
@@ -365,9 +418,13 @@ class Dashboard extends Component {
                         (<Link to={{pathname: '/messages', state: this.state.user}}>{this.state.unread + ' new messages!'}</Link>))}</p>
                   </Column>
                 </Columns>
+
+
               </Box>
               <div style={{height: '20px'}} />
               <Box>
+
+            {/*Events Area, first for organized then for attending*/}
                 <h3>Events you've organized</h3>
                 <div style={{height: '15px'}} />
                 {this.state.events.length<0?(<p>You have organized no events</p>):
@@ -396,6 +453,9 @@ class Dashboard extends Component {
                   )}
               </Box>
             </Column>
+
+          {/*------------------------------------*/}
+          {/*Event area populated*/}
             <Column isSize='2/3'>
               <Box>
                 <Title isSize={5}>Events you may be interested in.</Title>
@@ -417,6 +477,8 @@ class Dashboard extends Component {
             </Column>
           </Columns>
 
+{/*==================================================*/}
+{/*Here's the message modal There's virtually no functionality in this. Mostly styling*/}
         <Modal isActive={this.state.activeMessageModal ? true : false} >
           <ModalBackground />
           <ModalContent style={{padding: '20px'}}>
@@ -440,7 +502,11 @@ class Dashboard extends Component {
           </ModalContent>
           <ModalClose />
         </Modal>
+      {/*End of the message modal */}
+{/*==================================================*/}
 
+{/*==================================================*/}
+{/*Here's the Event modal. Pretty much just styling and formatting in here */}
         <Modal isActive={this.state.activeEventModal ? true : false} >
           <ModalBackground />
           <ModalContent style={{padding: '20px'}}>
@@ -478,8 +544,11 @@ class Dashboard extends Component {
             </ModalContent>
           <ModalClose isSize='large'/>
         </Modal>
+      {/*End of the Event modal */}
+{/*==================================================*/}
 
-
+{/*==================================================*/}
+{/*Here's the cancel event modal */}
         <Modal isActive={this.state.cancelEventModal? true: false} >
           <ModalBackground />
           <ModalContent style={{padding: '20px'}}>
@@ -504,8 +573,11 @@ class Dashboard extends Component {
           </ModalContent>
           <ModalClose />
         </Modal>
+      {/*End of the cancel event modal */}
+{/*==================================================*/}
 
 
+{/*Redirects operating through state change*/}
         {this.state.createEvent? (<Redirect to= {{pathname:"/eventCreate", state:this.state.user}} />) : null}
         {this.state.checkMessages? (<Redirect to={{pathname:"/messages", state:this.state.user}}/>) : null}
         {this.state.updateProfile? (<Redirect to={{pathname:"/updateProfile", state:this.state.user}}/>) : null}
