@@ -99,6 +99,7 @@ export default class SentMessages extends Component {
         .catch(err => console.log(err))
   }
 
+//Function that sorts the messages so that most recent is always on top
   mapMessages = (type, array, clickFunction) => {
     let tempArr = JSON.parse(JSON.stringify(array));
     if (type === 'sent'){

@@ -2,6 +2,8 @@ import React from "react";
 import { Container, Columns, Column, Title, Subtitle, Box } from 'bloomer'
 import { Link } from 'react-router-dom'
 
+
+//404 page, nothin' fancy
 const NoMatch = () =>
   <div style={{minHeight: '100vh', backgroundImage: 'url("/img/coloredLines.jpg")', backgroundAttachment: 'fixed', backgroundSize: '100% 100%'}}>
     <Container>

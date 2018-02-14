@@ -26,8 +26,8 @@ export default class Signup extends Component {
     this.onClickNav = this.onClickNav.bind(this);
   }
 
+//Function to let the background image render and clear the cookies
   componentDidMount() {
-    console.log(this.props)
     let body = document.querySelector('body');
     body.style.backgroundImage = "url('img/coloredLines.jpg')"
     body.style.backgroundSize = '100% 100%';
@@ -43,6 +43,7 @@ export default class Signup extends Component {
     this.setState({ [name]: value });
   }
 
+//sets the new user data from the state
   handleSubmit = e => {
     e.preventDefault();
     let { username, password, password2, zipcode } = this.state;
@@ -50,38 +51,36 @@ export default class Signup extends Component {
     this.submitUser(newUser);
   }
 
+//Submits user to the backend first validating the data
   submitUser = user => {
+    //Validate zip code with google
     axios.get(`https://maps.googleapis.com/maps/api/distancematrix/json?origins=${this.state.zipcode || 5000}&destinations=27510&key=AIzaSyDpwnTjzyOwCRmPRQhpu0eREKplFV0TCDI`).then(result=>{
-      console.log(')(((((((((((((((((())))))))))))))))))',result.data.rows[0].elements[0].status)
       if(result.data.rows[0].elements[0].status==="OK") {
         this.setState({zipcodeValidated: true})
       }
     })
     .then(results => {
+      //Validating all the user data
       axios.get('/api/users/checkUsername/' + this.state.username).then(result=> {
         if(result.data === null) {
           this.setState({usernameUnique: true})
-          console.log('username is unique', result.data)
         } else {
           this.setState({usernamePlaceholder: 'That username already exists.  Please try another.'})
-          console.log('username is taken ', result.data)
         }
         if(this.state.username.length < this.state.usernameMinLength) {
           this.setState({username: '', usernamePlaceholder: "Please enter a username with at least " + this.state.usernameMinLength + " characters."})
         } else{
-          console.log("Username is minimum length")
         }
         if(this.state.password < this.state.passwordMinLength) {
           this.setState({passwordPlaceholder: 'Your password needs to be ' + this.state.passwordMinLength + ' characters long.', password2Placeholder: 'Re-Enter Password'})
         } else {
-          console.log("Password is minimum length")
         }
         if(this.state.password !== this.state.password2) {
           this.setState({password: '', password2: '', passwordPlaceholder: 'Your passwords did not match.', password2Placeholder: 'Please Try Again.'})
         } else {
-          console.log('Passwords match')
         }
       }).then(result => {
+        //Submits data to the backend or fails
         if(this.state.username.length >= this.state.usernameMinLength
           && this.state.usernameUnique
           && this.state.zipcodeValidated
@@ -116,6 +115,11 @@ export default class Signup extends Component {
   render() {
     return(
       <Section>
+
+{/*======================================================================================================================================*/}
+        {/*NAVBAR STUFF Probably not to be edited except if navbar is updated*/}
+{/*======================================================================================================================================*/}
+
         <NavbarHeader
           hasEnd={true}
           hasBrand={true}
@@ -143,11 +147,19 @@ export default class Signup extends Component {
             ]
           }
         />
+
+{/*======================================================================================================================================*/}
+      {/*END OF NAVBAR STUFF*/}
+{/*======================================================================================================================================*/}
+
         <div style={{height: '40px'}} />
         <Container>
           <Columns>
             <Column isSize={8} isOffset={2}>
               <Box style={{marginTop: '15%', position: 'relative'}}>
+                
+                {/*----------------------------------*/}
+                {/*Fields for user input*/}
                 <Title className="has-text-grey-light" isSize={1} style={{position: 'absolute', top: '-8%', right: '5%', background: 'white'}}>Sign Up</Title>
                 <Field>
                     <Label className="has-text-left">User Name:</Label>
@@ -201,8 +213,13 @@ export default class Signup extends Component {
                     <Button isFullWidth={true} isColor='primary' onClick={this.handleSubmit}>Submit</Button>
                 </Control>
               </Box>
+            {/*End of Fields for user input*/}
+            {/*-----------------------------------*/}
+
             </Column>
           </Columns>
+
+        {/*Move on to profile settings*/}
           {this.state.isLoggedIn ? (<Redirect to={{
             pathname: "/profile",
             state: this.state

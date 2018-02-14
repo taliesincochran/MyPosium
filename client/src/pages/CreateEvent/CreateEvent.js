@@ -30,9 +30,9 @@ export default class CreateEvent extends Component {
   }
 
 
+//Sort the categories and set default
   componentDidMount(){
     categories.sort();
-    console.log(this.state.currentDate)
     this.setState({category:categories[0]});
 
   }
@@ -42,6 +42,8 @@ export default class CreateEvent extends Component {
     this.setState({ [name]: value });
   }
 
+
+//Set new event information to be passed from state
   handleSubmit = e=> {
   	e.preventDefault();
   	let {title, zipcode, username, date, time, isRemote, cost, category, imgURL, description, minAttending, maxAttending} = this.state;
@@ -50,7 +52,7 @@ export default class CreateEvent extends Component {
 	}
 
 
-
+//submit to the backend
   submitEvent = event=>{
       axios
       .post("/api/event/create", event)
@@ -65,6 +67,11 @@ export default class CreateEvent extends Component {
     return (
 
       <div style={{minHeight: '100vh', backgroundImage: 'url("img/coloredLines.jpg")', backgroundAttachment: 'fixed', backgroundSize: '100% 100%'}}>
+
+{/*======================================================================================================================================*/}
+        {/*NAVBAR STUFF Probably not to be edited except if navbar is updated*/}
+{/*======================================================================================================================================*/}
+
         <Navbar
           hasBrand={true}
           brandText="MyPosium Dashboard"
@@ -112,11 +119,18 @@ export default class CreateEvent extends Component {
             }
           ]}
         />
+
+{/*======================================================================================================================================*/}
+      {/*END OF NAVBAR STUFF*/}
+{/*======================================================================================================================================*/}
+
         <div style={{height: '100px'}}></div>
       	<Columns>
           <Column isSize={8} isOffset={2}>
             <Box style={{marginTop: '5%', position: 'relative'}}>
               <Title className="has-text-grey-light" isSize={1} style={{position: 'absolute', top: '-3.5%', right: '5%', background: 'white'}}>Create Event</Title>
+              
+{/*ALL THE FIELDS--Be sure any added field gets updated into state and the model gets updated as well*/}
               <Field>
             		<Label className="has-text-left">Event Title:</Label>
             		<Control>
@@ -241,8 +255,15 @@ export default class CreateEvent extends Component {
               	<Button isColor='primary' onClick={this.handleSubmit}>Create</Button>
               </Control>
             </Box>
+
+        {/*End of the event fields*/}
+
           </Column>
+        }
         </Columns>
+        
+      {/*Redirects processed via state change*/}
+
         {this.state.isSubmitted ? (<Redirect to = {{
         	pathname: "/dashboard",
         	state:this.state.user
