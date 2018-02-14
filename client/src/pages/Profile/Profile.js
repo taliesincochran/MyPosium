@@ -22,6 +22,7 @@ class Profile extends Component {
     }
   }
 
+//Sorts the categories for pretty reasons
   componentWillMount() {
     categories.sort()
   }
@@ -55,6 +56,8 @@ class Profile extends Component {
     this.setState({[name]: value})
   }
 
+
+//On submission sends the info to the db via axios
   handleSubmit = () => {
     let { interests, age, img, aboutMe } = this.state;
     let data = {
@@ -78,8 +81,12 @@ class Profile extends Component {
     var user= this.state.user
     return (
 
-      // <Container>
         <Container>
+
+{/*======================================================================================================================================*/}
+        {/*NAVBAR STUFF Probably not to be edited except if navbar is updated*/}
+{/*======================================================================================================================================*/}
+
           <Navbar
             hasEnd={true}
             hasBrand={true}

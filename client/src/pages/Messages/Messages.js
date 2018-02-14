@@ -230,9 +230,9 @@ export default class SentMessages extends Component {
               }
             </Column>
           </Columns>)
-        {/*End of the sent messages column*/}
+        //*End of the sent messages column
         
-        {/*The Else part of the biggest ternary ever*/}
+        //The Else part of the biggest ternary ever
             :
           (<Columns>
             <Column isSize={3}>
