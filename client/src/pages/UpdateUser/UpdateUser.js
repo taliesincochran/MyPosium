@@ -93,6 +93,7 @@ class Profile extends Component {
       if(result){
         axios.post("/api/users/updateprofile", data).then(result =>{
           this.setState({user: result.data})
+          console.log(this.state)
         }).then(()=> {
           this.setState({finishedProfile:true})
         }).catch(err => console.error(err));

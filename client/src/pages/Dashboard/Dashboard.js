@@ -79,6 +79,9 @@ class Dashboard extends Component {
 
   //Function to get the local events
   getEvents =(remote) => {
+    var setState = this.setState;
+    var state = this.state;
+    console.log('state', state)
     axios.get("/api/event/").then(events => {
       var userCreatedArray = [];
       var eventsMatchArray = [];
@@ -114,6 +117,8 @@ class Dashboard extends Component {
         if(event.isRemote === remote) {
           destinations = destinations + event.zipcode + "|"
           eventsToShow.push(event);
+        console.log('zipcode', event.zipcode)
+        console.log('destination', destinations)
         }
         return({events: eventsArray, eventsToShow: eventsToShow})
       })
@@ -124,14 +129,18 @@ class Dashboard extends Component {
       //returned to select correct events to include from the local   ==
       //event array                                                   ==
       //================================================================
-      if(remote) {
+      if(remote === false) {
         const queryUrl = `https://maps.googleapis.com/maps/api/distancematrix/json?origins=${userLocation}&destinations=${destinations}&key=AIzaSyDpwnTjzyOwCRmPRQhpu0eREKplFV0TCDI`
         axios.get(queryUrl).then(result=> {
           var eventsWithinDistance = [];
+          console.log(result.data.status)
           result.data.status==="OK"?(
-          result.data.rows[0].elements.map((destination, i)=> {
-            if(destination.distance.value < travelMeters) {
-              eventsWithinDistance.push(eventsToShow[i])
+            result.data.rows[0].elements.map((destination, i)=> {
+            console.log(destination)
+            if(destination.status !== "NOT_FOUND") {
+              if(destination.distance.value < travelMeters) {
+                eventsWithinDistance.push(eventsToShow[i])
+              }              
             }
           })): ''
 
@@ -141,15 +150,16 @@ class Dashboard extends Component {
           //=============================================================
           return({eventsMatch: eventsToShow, userCreated: userCreatedArray, events: eventsArray, eventsWithinDistance: eventsWithinDistance})
         }).then(results =>{
-        this.setState({eventsWithinDistance: results.eventsWithinDistance, events: results.events, eventsMatchInterests: results.eventsMatch, userCreated: results.userCreated, hasGotEvents: true, userAttending: this.state.user.attending}, ()=> console.log('state set', this.state))
+        setState({eventsWithinDistance: results.eventsWithinDistance, events: results.events, eventsMatchInterests: results.eventsMatch, userCreated: results.userCreated, hasGotEvents: true, userAttending: state.user.attending}, ()=> console.log('state set', state))
         })
       } else{
-        this.setState({eventsMatch: eventsToShow, userCreated: userCreatedArray, events: eventsArray, eventsWithinDistance: eventsToShow, userAttending: this.state.user.attending, hasGotEvents: true})
+        setState({eventsMatch: eventsToShow, userCreated: userCreatedArray, events: eventsArray, eventsWithinDistance: eventsToShow, userAttending: state.user.attending, hasGotEvents: true})
       }
    })
   }
 
 //Sets the recipient for messages before opening the message modal, necessary in case of multiple recipients
+
   openMessageModal = (recipient) => {
     this.setState({activeMessageModal: true, messageRecipient: recipient});
   }
@@ -371,7 +381,7 @@ class Dashboard extends Component {
                   .then(response => {
                     authObj.logout();
                     if (response.status === 200){
-                      this.setState({logout:true});
+                         this.setState({logout:true});
                     }
                   })
                   .catch(err => console.log(err));
