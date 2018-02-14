@@ -30,17 +30,22 @@ module.exports = function(passport) {
   },
   function(req, username, password, done) {
     db.User
-      .findOne({ 'username' :  req.body.username })
-      .then(user => {
-        if (!user){
-          return done(null, false, req.flash('loginMessage', 'No user found.'));
-        } else if (!user.validPassword(password)) {
-            return done(null, false, req.flash('loginMessage', 'Oops! Wrong password.'));
-        } else {
-          return done(null,user)
-        }
+      .findOne({ 'username' :  req.body.username }, function(err,user) {
+        if(err) {return done(err, false);}
+        else if(!user) {return done(null,false);}
+        else if(!user.validPassword(password)) {return done(null, false);}
+        else {return done(null, user);}
       })
-      .catch(err=>console.log(err));
+      // .then(user => {
+      //   if (!user){
+      //     return done(null, false, req.flash('loginMessage', 'No user found.'));
+      //   } else if (!user.validPassword(password)) {
+      //       return done(null, false, req.flash('loginMessage', 'Oops! Wrong password.'));
+      //   } else {
+      //     return done(null,user)
+      //   }
+      // })
+      // .catch(err=>done(err));
   }));
 
   // =========================================================================
@@ -55,7 +60,7 @@ module.exports = function(passport) {
         .findOne({ 'username' :  req.body.username })
         .then( result => {
           if (result) {
-              return done(null, false, req.flash('signupMessage', 'That email is already taken.'));
+              return done(null, false, {message: 'That email is already taken.'});
           } else {
             let newUser = new db.User(req.body);
             newUser.password = newUser.generateHash(req.body.password);

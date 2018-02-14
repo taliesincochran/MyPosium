@@ -21,11 +21,11 @@ export default class App extends Component{
             <Route exact path="/" component={ Landing } />
             <Route exact path="/signup" component={ Signup } />
             <Route exact path="/login" component={ Login } />
-            <Route exact path="/profile" component={ Profile } />
-            <Route exact path='/dashboard' component={ Dashboard }/>
-            <Route path='/messages' component={ Messages } />
-            <Route exact path="/event/create" component={ CreateEvent } />
-            <Route exact path="/updateProfile" component={ UpdateUser } />
+            <PrivateRoute exact path="/profile" component={ Profile } />
+            <PrivateRoute exact path='/dashboard' component={ Dashboard }/>
+            <PrivateRoute path='/messages' component={ Messages } />
+            <PrivateRoute exact path="/eventCreate" component={ CreateEvent } />
+            <PrivateRoute exact path="/updateProfile" component={ UpdateUser } />
             <Route component={ NoMatch } />
           </Switch>
         </div>

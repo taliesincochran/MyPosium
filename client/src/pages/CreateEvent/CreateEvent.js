@@ -29,10 +29,12 @@ export default class CreateEvent extends Component {
     user: this.props.location.state
   }
 
-//Just to make the categories pretty on load. And give a default category
+
   componentDidMount(){
     categories.sort();
+    console.log(this.state.currentDate)
     this.setState({category:categories[0]});
+
   }
 
   handleChange = e => {
@@ -40,8 +42,6 @@ export default class CreateEvent extends Component {
     this.setState({ [name]: value });
   }
 
-
-//Setting a new event to the state.
   handleSubmit = e=> {
   	e.preventDefault();
   	let {title, zipcode, username, date, time, isRemote, cost, category, imgURL, description, minAttending, maxAttending} = this.state;
@@ -50,7 +50,7 @@ export default class CreateEvent extends Component {
 	}
 
 
-//The call to the database api submitting the event.
+
   submitEvent = event=>{
       axios
       .post("/api/event/create", event)
@@ -63,13 +63,8 @@ export default class CreateEvent extends Component {
 
   render(){
     return (
-      // <div style={{width: '100%', background: 'linear-gradient(to right, rgb(200,245,240), MintCream, MintCream, white, white, MintCream, MintCream, rgb(200,245,240))', backgroundAttachment: 'fixed', backgroundSize: '100% 100%'}}>
-      <div style={{height: '100vh', backgroundImage: 'url("img/coloredLines.jpg")', backgroundAttachment: 'fixed', backgroundSize: '100% 100%'}}>
 
-{/*======================================================================================================================================*/}
-        {/*NAVBAR STUFF Probably not to be edited except if navbar is updated*/}
-{/*======================================================================================================================================*/}
-
+      <div style={{minHeight: '100vh', backgroundImage: 'url("img/coloredLines.jpg")', backgroundAttachment: 'fixed', backgroundSize: '100% 100%'}}>
         <Navbar
           hasBrand={true}
           brandText="MyPosium Dashboard"
@@ -117,21 +112,11 @@ export default class CreateEvent extends Component {
             }
           ]}
         />
-        
-{/*======================================================================================================================================*/}
-      {/*END OF NAVBAR STUFF*/}
-{/*======================================================================================================================================*/}
-
         <div style={{height: '100px'}}></div>
       	<Columns>
           <Column isSize={8} isOffset={2}>
             <Box style={{marginTop: '5%', position: 'relative'}}>
               <Title className="has-text-grey-light" isSize={1} style={{position: 'absolute', top: '-3.5%', right: '5%', background: 'white'}}>Create Event</Title>
-
-{/*======================================================================================================================================*/}
-            {/*THE INPUT FIELDS FOR EVENT CREATION--Any new fields should also have a change in state and in the model file*/}
-{/*=====================================================================================================================================*/}
-
               <Field>
             		<Label className="has-text-left">Event Title:</Label>
             		<Control>
@@ -158,7 +143,7 @@ export default class CreateEvent extends Component {
           		  </Control>
       		    </Field>
               <Field>
-              	<Label className="has-text-left">Date of Event:</Label>
+              	<Label className="has-text-left">{this.state.dateText}</Label>
               	<Control>
               		<Input
               			type="date"
@@ -255,17 +240,9 @@ export default class CreateEvent extends Component {
               <Control>
               	<Button isColor='primary' onClick={this.handleSubmit}>Create</Button>
               </Control>
-
-{/*=======================================================================*/}
-            {/*END OF THE INPUT FIELDS FOR EVENT CREATION*/}
-{/*=======================================================================*/}
-
             </Box>
           </Column>
         </Columns>
-
-{/*Redirects and Routes--Operates by checking state*/}
-
         {this.state.isSubmitted ? (<Redirect to = {{
         	pathname: "/dashboard",
         	state:this.state.user

@@ -10,8 +10,8 @@ import Navbar from '../../components/Nav/Navbar';
 export default class SentMessages extends Component {
 
   state = {
-    sentMessages: this.props.location.state.sentMessages,
-    receivedMessages: this.props.location.state.receivedMessages,
+    sentMessages: [],
+    receivedMessages: [],
     logout: false,
     createEvent: false,
     dashboard: false,
@@ -99,13 +99,36 @@ export default class SentMessages extends Component {
         .catch(err => console.log(err))
   }
 
+  mapMessages = (type, array, clickFunction) => {
+    let tempArr = JSON.parse(JSON.stringify(array));
+    if (type === 'sent'){
+      if (tempArr[0]._id===this.state.sentMessages[0]._id){
+        tempArr = tempArr.reverse();
+      }
+    }
+    else {
+      if (tempArr[0]._id===this.state.receivedMessages[0]._id){
+        tempArr = tempArr.reverse();
+      }
+    }
+    let mappedArr = tempArr.map((message, i) => {
+      if (message.read) {
+        return (<li key={i}><MenuLink style={{whiteSpace: 'pre', textDecoration: 'none'}} onClick={() => {clickFunction(message._id)}}>&#9993;{" "}From: {message.sender} <br/>{"     "}Subject: {message.subject}</MenuLink></li>)
+      } else {
+        return (<li key={i}><MenuLink style={{whiteSpace: 'pre', textDecoration: 'none'}} onClick={() => {clickFunction(message._id)}}><b>&#128232;{" "}From: {message.sender} <br/>{"     "}Subject: {message.subject}</b></MenuLink></li>)
+      }
+    })
+    return mappedArr;
+  }
+
+
   burgerOnClick = () =>this.setState((state) => ({isActive:!this.state.isActive}))
 
 
   render() {
     return(
       // <div style={{width: '100%', height: '100%', background: 'linear-gradient(to right, rgb(200,245,240), MintCream, MintCream, white, white, MintCream, MintCream, rgb(200,245,240))'}}>
-      <div style={{minHeight: '100vh', backgroundImage: 'url("img/coloredLines.jpg")', backgroundAttachment: 'fixed', backgroundSize: '100% 100%'}}>
+      <div style={{minHeight: '100vh', backgroundImage: 'url("/img/coloredLines.jpg")', backgroundAttachment: 'fixed', backgroundSize: '100% 100%'}}>
         <div style={{height: '100px'}}></div>
 
 {/*======================================================================================================================================*/}
@@ -199,10 +222,10 @@ export default class SentMessages extends Component {
                 <MenuList>
                   {/*Checks if there are any sent messages*/}
                   {
-                    this.state.sentMessages.length >0?
-                    (this.state.sentMessages.map((message,i) => {
-                      return (<li key={i}><MenuLink onClick={() => {this.getOneSentMessage(message._id)}}>From: {message.sender} <br/> Subject: {message.subject}</MenuLink></li>)
-                    })) : <p>No Sent Messages</p>
+                    this.state.sentMessages.length > 0 ?
+                    this.mapMessages('sent', this.state.sentMessages, this.getOneSentMessage)
+                    :
+                    <p>No Sent Messages</p>
                   }
                 </MenuList>
               </Menu>
@@ -242,13 +265,7 @@ export default class SentMessages extends Component {
                 {/*Checks if there are any received messages*/}
                   {
                     this.state.receivedMessages.length >0 ?
-                    (this.state.receivedMessages.map((message,i) => {
-                      if (message.read) {
-                        return (<li key={i}><MenuLink style={{whiteSpace: 'pre', textDecoration: 'none'}} onClick={() => {this.getOneReceivedMessage(message._id)}}>&#9993;{" "}From: {message.sender}<br/>{"     "}Subject: {message.subject}</MenuLink></li>)
-                      } else {
-                        return (<li key={i}><MenuLink style={{whiteSpace: 'pre', textDecoration: 'none'}} onClick={() => {this.getOneReceivedMessage(message._id)}}>&#128232;{" "}<b>From: {message.sender}<br/>{"     "}Subject: {message.subject}</b></MenuLink></li>)
-                      }
-                    }))
+                    this.mapMessages('received', this.state.receivedMessages, this.getOneReceivedMessage)
                     :
                     (<p>No Received Messages</p>)
                   }
@@ -287,7 +304,7 @@ export default class SentMessages extends Component {
 
         {/*Redirects operating from state changes*/}
         {this.state.updateProfile? (<Redirect to={{pathname:"/updateProfile", state:this.state.user}}/>) : null}
-        {this.state.createEvent? (<Redirect to= {{pathname:"/event/create", state:this.state.user}} />) : null}
+        {this.state.createEvent? (<Redirect to= {{pathname:"/eventCreate", state:this.state.user}} />) : null}
         {this.state.dashboard? (<Redirect to={{pathname:"/dashboard", state:this.state.user}}/>) : null}
         {this.state.logout? (<Redirect to="/" />) : null}
       </div>
