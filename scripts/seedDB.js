@@ -1,52 +1,156 @@
 const mongoose = require("mongoose");
 const db = require("../models");
-const categories = require('../models/categories')
+const categories = require('../models/categories');
+const moment = require('moment');
+const axios = require('axios');
+const bcrypt = require('bcrypt-nodejs');
+
 mongoose.Promise = global.Promise;
 
 // This file empties the Books collection and inserts the books below
-
 mongoose.connect(
   process.env.MONGODB_URI || "mongodb://localhost/myposium",
-  {
-    useMongoClient: true
-  }
+  { useMongoClient: true }
 );
-console.log(categories);
 
+const currentDate = new moment().format("M-D-YYYY");
 
-const words = ['whittling', 'ocelot', 'bloviate', 'fistula', 'teratoma', 'diarrhea', 'erudite', 'egregious', 'amiable', 'tertiary', 'frenetic', 'amorphous', 'serendipitous', 'elucidate', 'mostaccioli', 'feral', 'loquatious', 'filibuster', 'zamphir', ]
-
-
-const Seed = [];
-
-for (let i = 0; i<50; i++){
-  ~~(Math.random() * words.length);
-  let newEvent = {
-    title: words[~~(Math.random() * words.length)] + " " + words[~~(Math.random() * words.length)],
-    zipcode: 27713,
-    username: words[~~(Math.random() * words.length)] + " " + 'jones',
-    date: '2-17-2018',
-    time: '9:30 pm',
-    isRemote: ~~(Math.random()*2),
-    cost: '$10',
-    category: categories[~~(Math.random()* categories.length)],
-    imgUrl: '/img/event'+ ~~(Math.random() * 10) + '.jpg',
-    description: "Lorem ipsum dolor amet lomo fingerstache chambray single-origin coffee etsy. Vegan tbh tattooed, blue bottle dreamcatcher pork belly kombucha vaporware man braid you probably haven't heard of them narwhal shabby chic. Flexitarian street art blog leggings vice, stumptown etsy pour-over deep v. Twee gastropub pinterest, umami banh mi beard freegan mlkshk letterpress hell of activated charcoal occupy. Actually hashtag cornhole migas flexitarian.",
-    minAttending: 1,
-    maxAttending: ~~(Math.random()*50),
-    attendees: []
-  }
-  Seed.push(newEvent);
+let newUser1 = {
+  username: "TheEJMorgan",
+  password: bcrypt.hashSync("tallymanbanana", bcrypt.genSaltSync(8), null),
+  zipcode: 27713,
+  age: 34,
+  interests: ["Real Estate", "Self Improvement", "Computers", "Movies", "Medicine", "Coding", "Sports", "Remodelling", "Music"],
+  img: "https://media.licdn.com/mpr/mpr/shrinknp_200_200/AAEAAQAAAAAAAA1jAAAAJGM3MWQ2OTdjLTkwNWMtNDU3ZS04ZmY5LTAyMTA5ODBlNDEzNw.jpg",
+  aboutMe: "Hi my name is EJ and I like to party."
 }
+
+let newUser2 = {
+  username: "VytasForYou",
+  password: bcrypt.hashSync("tallymanbanana", bcrypt.genSaltSync(8), null),
+  zipcode: 27713,
+  age: 34,
+  interests: ["Cooking", "Philosophy", "Social", "Travel", "Medicine", "Coding", "Sports", "Remodelling", "Music"],
+  img: "https://4.bp.blogspot.com/-g4J8lGxRAAU/Wk74n8hybpI/AAAAAAAAC9k/w4gWkp4j6zUHkz6W14Iw1hgrRA33_4KSQCLcBGAs/s1600/REILY%2BJura.jpg",
+  aboutMe: "Hi my name is Vytas and I like to party."
+}
+
+let newUser3 = {
+  username: "MarcoPrincip",
+  password: bcrypt.hashSync("tallymanbanana", bcrypt.genSaltSync(8), null),
+  zipcode: 27713,
+  age: 39,
+  interests: ["Video Games", "Movies", "Real Estate", "Recreation", "Medicine", "Coding", "Sports", "Remodelling", "Music"],
+  img: "https://media.licdn.com/media/AAMAAQDGAAwAAQAAAAAAAA74AAAAJDk2MjFkYzRlLTg3ZjUtNDZkYy1hZGJkLTgyYjMzOGMyNTIzYg.jpg",
+  aboutMe: "Hi my name is Marco and I like to party."
+}
+
+let newUser4 = {
+  username: "TallyManBanana",
+  password: bcrypt.hashSync("tallymanbanana", bcrypt.genSaltSync(8), null),
+  zipcode: 27713,
+  age: 38,
+  interests: ["Animals", "Science", "Movies", "Computers", "Medicine", "Coding", "Sports", "Remodelling", "Music"],
+  img: "https://media.licdn.com/media/AAMAAQDGAAwAAQAAAAAAAAuzAAAAJDlhZDU2YWY3LTlhZGMtNDhhMy04NmJiLTA5M2QyYTIxMzcwNg.jpg",
+  aboutMe: "Hi my name is Tally and I like to party."
+}
+
+//Events
+let newEvent1 = {
+  title: "Woodworking for Beginners",
+  zipcode: 27713,
+  username: "MarcoPrincip",
+  date: moment().add(5, 'days').format("M-D-YYYY"),
+  time: '7:00 pm',
+  isRemote: 0,
+  cost: '$10',
+  category: 'Remodelling',
+  imgURL: 'http://www.woodworkingtalk.com/members/cricket-48570/albums/featured-topics/40050-4-tips-choosing-woodworking-hand-tools.jpg',
+  description: "Join me on a journey into the fabulous world of woodworking! We'll have oodles of fun exploring joins, types of saws, sustainable building, etc... Bring your saw and a smile!",
+  minAttending: 10,
+  maxAttending: 30,
+  attendees: []
+}
+
+let newEvent2 = {
+  title: "An Intro to Plant-Based Medicines",
+  zipcode: 27713,
+  username: "TallyManBanana",
+  date: moment().add(13, 'days').format("M-D-YYYY"),
+  time: '9:30 pm',
+  isRemote: 1,
+  cost: '$15',
+  category: "Medicine",
+  imgURL: "http://images.indianexpress.com/2016/07/herbs-759.jpg",
+  description: "We'll be wandering through the wilderness in loin cloths, eating strange mushrooms off of the ground, and dancing around a fire well into the morning. Bring water, a sweater, and a positive attitude.",
+  minAttending: 5,
+  maxAttending: 12,
+  attendees: []
+}
+
+let newEvent3 = {
+  title: "Tennis Trick Shots",
+  zipcode: 27713,
+  username: "VytasForYou",
+  date: moment().add(24, 'days').format("M-D-YYYY"),
+  time: '1:00 pm',
+  isRemote: 0,
+  cost: '$8',
+  category: "Sports",
+  imgURL: "https://i.ytimg.com/vi/zOlnL31GWsM/maxresdefault.jpg",
+  description: "FOR ADVANCED PLAYERS ONLY. We'll warm up with some light stretching and volleys and progress into behind the back and between the legs shots. It's important not to get discouraged! Oh, and I play in the nude.",
+  minAttending: 10,
+  maxAttending: 20,
+  attendees: []
+}
+
+let newEvent4 = {
+  title: "School of Rock",
+  zipcode: 27713,
+  username: "TheEJMorgan",
+  date: moment().add(46, 'days').format("M-D-YYYY"),
+  time: '8:30 pm',
+  isRemote: ~~(Math.random()*2),
+  cost: '$10',
+  category: "Music",
+  imgURL: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/20/Chuck_Berry_1957.jpg/215px-Chuck_Berry_1957.jpg",
+  description: "Are you ready to rock? Topics covered include stage dives, grabbing your crotch, eating lit cigarettes, and screaming at club promoters while you're unreasonably drunk. No previous experience necessary",
+  minAttending: 150,
+  maxAttending: 1000,
+  attendees: []
+}
+
+let newEvent5 = {
+  title: "Coding Class",
+  zipcode: 27713,
+  username: "TallyManBanana",
+  date: moment().add(14, 'days').format("M-D-YYYY"),
+  time: '6:30 pm',
+  isRemote: ~~(Math.random()*2),
+  cost: '$18',
+  category: "Coding",
+  imgURL: "http://www.allabttech.com/wp-content/uploads/2017/03/Computer-Programming-Certifications.jpg",
+  description: "Learn to code with TallyManBanana!",
+  minAttending: 12,
+  maxAttending: 25,
+  attendees: []
+}
+
+const eventSeed = [newEvent1, newEvent2, newEvent3, newEvent4, newEvent5];
+const userSeed = [newUser1, newUser2, newUser3, newUser4];
+
+db.User
+  .remove({})
+  .then(() => {
+    db.User.create(userSeed)
+      .catch(err => console.error(err));
+  })
+  .catch(err => console.error(err));
 
 db.Event
   .remove({})
-  .then(() => db.Event.collection.insertMany(Seed))
-  .then(data => {
-    console.log(data.insertedIds.length + " records inserted!");
-    process.exit(0);
+  .then(() => {
+    db.Event.create(eventSeed)
+      .catch(err => console.error(err))
   })
-  .catch(err => {
-    console.error(err);
-    process.exit(1);
-  });
+  .catch(err => console.error(err));
