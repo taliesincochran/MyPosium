@@ -158,7 +158,7 @@ class Profile extends Component {
                 </Box>
               </Column>
               <Column isSize={8}>
-              
+
             {/*Area for interests update*/}
                 <Box style={{ position: 'relative', display: 'grid', gridTemplateColumns: '19% 19% 19% 19% 19%', gridGap:'10px'}} className="has-text-centered">
                   <Title className="has-text-grey-light" isSize={1} style={{position: 'absolute', top: '-37px', right: '5%', background: 'white'}}>Interests</Title>

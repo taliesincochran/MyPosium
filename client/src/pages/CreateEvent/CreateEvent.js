@@ -336,7 +336,6 @@ export default class CreateEvent extends Component {
         {/*End of the event fields*/}
 
           </Column>
-        
         </Columns>
 
       {/*Redirects processed via state change*/}
