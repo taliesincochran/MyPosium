@@ -102,8 +102,7 @@ export default class Landing extends Component {
 						<Container className="is-clearfix">
 							<Title isSize={1}  style={{marginLeft: '150px'}} className="titleOne">...MyPosium</Title>
 							<br/>
-								<Title isSize={3} className="is-pulled-right" >A New Way to Create, Discover, and Connect!</Title>
-
+								<Title isSize={3} className="is-pulled-right titleTwo" >A New Way to Create, Discover, and Connect!</Title>
 						</Container>
 			    </Section>
 
