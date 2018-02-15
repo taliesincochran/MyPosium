@@ -33,6 +33,13 @@ export default class Landing extends Component {
 	      });
 	    }
 	  });//end soft scroll function
+		$(window).scroll(function (event){
+			let wScroll = $(this).scrollTop();
+			console.log(wScroll)
+			$('.titleOne, .titleTwo').css({
+				'transform': 'translateY(-'+wScroll/2+'px) translateX(-'+wScroll/2+'px)'
+			})
+		})
 	}
 
   onClickNav = () => {

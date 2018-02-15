@@ -123,7 +123,7 @@ export default class CreateEvent extends Component {
         console.log('date not verified', moment().isBefore(newEvent.date))
       }
     }).then(result => {
-      if(this.state.zipcodeVerified 
+      if(this.state.zipcodeVerified
         && this.state.maxAttendingVerified
         && this.state.descriptionVerified
         && this.state.dateVerified
@@ -336,7 +336,7 @@ export default class CreateEvent extends Component {
         {/*End of the event fields*/}
 
           </Column>
-        }
+        
         </Columns>
 
       {/*Redirects processed via state change*/}
