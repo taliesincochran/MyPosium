@@ -43,7 +43,6 @@ export default class CreateEvent extends Component {
     zipcodeVerified: false,
     timeVerified: false,
     dateVerified: false,
-    imageVerified: false,
     maxAttendingVerified: false,
     descriptionVerified: false,
     costPlaceholder: '0',
@@ -51,8 +50,6 @@ export default class CreateEvent extends Component {
     maxAttendingPlaceholder: 'Maximum number to attend.',
     zipcodePlaceholder: 'Zipcode',
     eventTitlePlaceholder: "Enter Event Title",
-    imagePlaceholder: 'Image Url',
-    dateText: 'Date of Event:'
   }
 
 
@@ -64,9 +61,12 @@ export default class CreateEvent extends Component {
 
   handleChange = e => {
     let { name, value } = e.target;
+    console.log('!!!!!!!!!!!!!!!', name, value, this.state)
     this.setState({ [name]: value });
   }
-
+  changeRemote = e => {
+    this.setState({isRemote: !this.state.isRemote})
+  }
 
 //Set new event information to be passed from state
   handleSubmit = e=> {
@@ -78,56 +78,60 @@ export default class CreateEvent extends Component {
     //===================================================================================================================
     //Validate before the post, start with async call for location validation, then after this resolves, everything else
     //===================================================================================================================
-    // axios.get(`https://maps.googleapis.com/maps/api/distancematrix/json?origins=${newEvent.zipcode || 5000}&destinations=27510&key=AIzaSyDpwnTjzyOwCRmPRQhpu0eREKplFV0TCDI`).then(result=>{
-    //   console.log(result.data.rows[0].elements[0].status)
-    //   //Check if google found the zipcode
-    //   if(result.data.rows[0].elements[0].status==="OK") {
-    //     this.setState({zipcodeVerified: true})
-    //     console.log('zipcode verified')
-    //   } else{
-    //     this.setState({zipcodePlaceholder: "Google couldn't find your zipcode.", zipcode: this.state.initialZipcode})
-    //     console.log('zip code not found')
-    //   }
-    //   //Check if image url is in the proper form
-    //   var validateImage = new RegExp('(?:(?:https?:\/\/))[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,4}\b(?:[-a-zA-Z0-9@:%_\+.~#?&\/=]*(\.gif\.jpg|\.png|\.jpeg))')
-    //   if(validateImage.test(newEvent.imgURL)) {
-    //     this.setState({imageVerified: true})
-    //     console.log('image verified')
-    //   } else {
-    //     this.setState({imagePlaceholder: "Please use a Url in starting with http:// or https:// and ending with the ending of .jpg, .png, or .gif", imgURL: ''})
-    //     console.log('image not verified')
-    //   }
-    //   //Check if maxAttending is over 0
-    //   if(newEvent.maxAttending >0) {
-    //     this.setState({maxAttendingVerified: true})
-    //   } else {
-    //     this.setState({maxAttendingPlaceholder: 'Please Enter a Number Greater Than Zero.', maxAttending: ''})
-    //   }
-    //   //Check if there is a description that is not too big or too small.
-    //   if(newEvent.description.length > 10 && newEvent.description.length<255) {
-    //     this.setState({descriptionVerified: true})
-    //   } else {
-    //     this.setState({descriptionPlaceholder: "Needs to be between 10 and 255 characters."})
-    //   }
-    //   var now = moment()
-    //   console.log('moment date', moment(moment()).isBefore(newEvent.date, 'year'))
-    //   console.log('now', moment())
-    //   console.log('then', newEvent.date)
-    //   if(moment().isBefore(newEvent.date)){
-    //     this.setState({datePlaceholder: "The event can not be in the past."})
-    //   } else{
-    //     this.setState({dateVerified: true})
-    //   }
-    // }).then(result => {
-    //   if(this.state.zipcodeVerified
-    //     && this.imageVerified
-    //     && this.maxAttendingVerified
-    //     && this.descriptionVerified
-    //     && this.state.dateVerified
-    //     ){
+    axios.get(`https://maps.googleapis.com/maps/api/distancematrix/json?origins=${newEvent.zipcode || 5000}&destinations=27510&key=AIzaSyDpwnTjzyOwCRmPRQhpu0eREKplFV0TCDI`).then(result=>{
+      console.log(result.data.rows[0].elements[0].status)
+      //Check if google found the zipcode
+      if(result.data.rows[0].elements[0].status==="OK" || this.state.isRemote) {
+        this.setState({zipcodeVerified: true})
+        console.log('zipcode verified')
+      } else{
+        this.setState({zipcodePlaceholder: "Google couldn't find your zipcode.", zipcode: this.state.initialZipcode})
+        console.log('zip code not found')
+      }
+      //Check if maxAttending is over 0
+      if(newEvent.maxAttending >0) {
+        this.setState({maxAttendingVerified: true})
+        console.log('max attending verified')
+      } else {
+        this.setState({maxAttendingPlaceholder: 'Please Enter a Number Greater Than Zero.', maxAttending: ''})
+        console.log('max attending not verified')
+      }
+      //Check if there is a description that is not too big or too small.
+      if(newEvent.description.length > 10 && newEvent.description.length<255) {
+        this.setState({descriptionVerified: true})
+        console.log('description verified')
+      } else {
+        this.setState({descriptionPlaceholder: "Needs to be between 10 and 255 characters."})
+      }
+      if(newEvent.time === '') {
+        this.setState({eventTimePlaceholder: 'Please enter a time.'})
+      } else {
+        this.setState({timeVerified: true})
+        console.log('time verified')
+      }
+      var now = moment()
+      console.log('moment date', moment(moment()).isBefore(newEvent.date, 'year'))
+      console.log('now', moment())
+      console.log('then', newEvent.date)
+      if (newEvent.date === '') {
+        this.setState({datePlaceholder: 'Please enter a date'})
+      } else if(moment().isBefore(newEvent.date)){
+        this.setState({dateVerified: true})
+        console.log('date verified', moment().isBefore(newEvent.date))
+      }else {
+        this.setState({datePlaceholder: "The event can not be in the past."})
+        console.log('date not verified', moment().isBefore(newEvent.date))
+      }
+    }).then(result => {
+      if(this.state.zipcodeVerified 
+        && this.state.maxAttendingVerified
+        && this.state.descriptionVerified
+        && this.state.dateVerified
+        && this.state.timeVerified
+        ){
   	    this.submitEvent(newEvent);
-	   //  }
-    // })
+	    }
+    })
   }
 
 
@@ -233,9 +237,10 @@ export default class CreateEvent extends Component {
               		</Select>
           		  </Control>
       		    </Field>
+              <p>{this.state.datePlaceholder}</p>
+              <p>{this.state.eventTimePlaceholder}</p>
               <Field>
-              	<Label className="has-text-left">Event Date</Label>
-                <p>{this.eventDatePlaceholder}</p>
+              	<Label className="has-text-left">Event Date: </Label>
               	<Control>
               		<Input
               			type="date"
@@ -244,7 +249,6 @@ export default class CreateEvent extends Component {
               			onChange={this.handleChange}
               		/>
               	</Control>
-                <p>{this.eventTimePlaceholder}</p>
               	<Control>
               		<Input
               			type="time"
@@ -271,7 +275,7 @@ export default class CreateEvent extends Component {
             			<Checkbox
             				name="isRemote"
             				value={this.state.isRemote}
-            				onChange={this.handleChange}
+            				onChange={this.changeRemote}
             				>Event will be held remotely
                   </Checkbox>
             		</Control>
@@ -282,7 +286,7 @@ export default class CreateEvent extends Component {
             			<Input
             				type="number"
             				name="maxAttending"
-                    placeholder='Maximum number to attend event.'
+                    placeholder={this.state.maxAttendingPlaceholder}
             				value={this.state.maxAttending}
             				onChange={this.handleChange}
             			/>
@@ -317,7 +321,7 @@ export default class CreateEvent extends Component {
             		<Control>
             			<Input
             				type="text"
-            				placeholder={this.imagePlaceholder}
+            				placeholder= 'Image Url'
             				name="imgURL"
             				value={this.state.imgURL}
             				onChange={this.handleChange}

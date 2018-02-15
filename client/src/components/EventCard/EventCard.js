@@ -38,7 +38,7 @@ const EventCard = props => {
         </Columns>
         <Columns style={{margin: '20px', marginTop: '-30px'}}>
           <Column>
-            <Title isSize={6}>Event Date: {moment(props.event.date).format("dddd, MMMM Do YYYY")} {'   '}{moment(props.event.time).format("h:mm a")}</Title>
+            <Title isSize={6}>Event Date: {moment(props.event.date).format("dddd, MMMM Do YYYY")} {'   '}{moment(props.event.time, "HH:mm").format("h:mm a")}</Title>
             <Title isSize={6}>Event Cost: {props.event.cost}</Title>
           </Column>
           <Column>

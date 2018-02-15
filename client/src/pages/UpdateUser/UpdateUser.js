@@ -180,7 +180,7 @@ class Profile extends Component {
                   <Field>
                     <Label className="has-text-left">Zipcode:</Label>
                     <Control>
-                      <Input type="text" name="zipcode" value={this.state.zipcode} placeholder= '' onChange={this.handleInput} />
+                      <Input type="text" name="zipcode" value={this.state.zipcode} onChange={this.handleInput} />
                     </Control>
                   </Field>
                   <Field>
