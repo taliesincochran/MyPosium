@@ -66,7 +66,7 @@ let newEvent1 = {
   cost: '$10',
   category: 'Remodelling',
   imgURL: 'http://www.woodworkingtalk.com/members/cricket-48570/albums/featured-topics/40050-4-tips-choosing-woodworking-hand-tools.jpg',
-  description: "Join me on a journey into the fabulous world of woodworking! We'll have oodles of fun exploring joins, types of saws, sustainable building, etc... Bring your saw and a smile!",
+  description: "Join me on a journey into the fabulous world of woodworking! We'll have oodles of fun exploring joinery, types of saws, sustainable building, etc... Bring your saw and a smile!",
   minAttending: 10,
   maxAttending: 30,
   attendees: []
@@ -82,7 +82,7 @@ let newEvent2 = {
   cost: '$15',
   category: "Medicine",
   imgURL: "http://images.indianexpress.com/2016/07/herbs-759.jpg",
-  description: "We'll be wandering through the wilderness in loin cloths, eating strange mushrooms off of the ground, and dancing around a fire well into the morning. Bring water, a sweater, and a positive attitude.",
+  description: "We'll be taking long hikes through the woods while I point out different plants and their medicinal uses. Bring water, a sweater, and a positive attitude.",
   minAttending: 5,
   maxAttending: 12,
   attendees: []
@@ -98,12 +98,12 @@ let newEvent3 = {
   cost: '$8',
   category: "Sports",
   imgURL: "https://i.ytimg.com/vi/zOlnL31GWsM/maxresdefault.jpg",
-  description: "FOR ADVANCED PLAYERS ONLY. We'll warm up with some light stretching and volleys and progress into behind the back and between the legs shots. It's important not to get discouraged! Oh, and I play in the nude.",
+  description: "FOR ADVANCED PLAYERS ONLY. We'll warm up with some light stretching and volleys and progress into behind the back and between the legs shots. It's important not to get discouraged!",
   minAttending: 10,
   maxAttending: 20,
   attendees: []
 }
-
+console.log("newEvent3.date", newEvent3.date);
 let newEvent4 = {
   title: "School of Rock",
   zipcode: 27713,
@@ -114,7 +114,7 @@ let newEvent4 = {
   cost: '$10',
   category: "Music",
   imgURL: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/20/Chuck_Berry_1957.jpg/215px-Chuck_Berry_1957.jpg",
-  description: "Are you ready to rock? Topics covered include stage dives, grabbing your crotch, eating lit cigarettes, and screaming at club promoters while you're unreasonably drunk. No previous experience necessary",
+  description: "Are you ready to rock? Learn how to play an instrument of your choosing. No previous experience necessary",
   minAttending: 150,
   maxAttending: 1000,
   attendees: []
