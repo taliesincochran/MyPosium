@@ -28,16 +28,13 @@ const eventController = require("../../controllers/");
   //Used to filter events by distance, I think--VR
   router.post('/distances', (req,res) => {
     var query = req.params.query;
-    console.log('query', req)
     axios.get(query).then(result=> {
       res.send(result)
     })
   })
 
-//Route to add attendees 
+//Route to add attendees
   router.post('/:id', (req,res) => {
-    console.log("id", req.params.id)
-    console.log("user", req.user._id)
     db.Event.findOneAndUpdate({_id : req.params.id}, {$push: { attendees: req.user._id}})
       .then(result => {
         db.User.findOneAndUpdate({_id: req.user._id}, {$push: { attending: req.params.id}})
