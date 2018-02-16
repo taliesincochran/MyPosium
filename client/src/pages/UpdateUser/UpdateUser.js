@@ -83,7 +83,7 @@ class Profile extends Component {
       username: this.props.location.state.username
     }
     //validate zip code
-    axios.get(`https://maps.googleapis.com/maps/api/distancematrix/json?origins=${this.state.zipcode || 5000}&destinations=27510&key=AIzaSyDpwnTjzyOwCRmPRQhpu0eREKplFV0TCDI`).then(result=>{
+    axios.get(`https://maps.googleapis.com/maps/api/distancematrix/json?origins=${this.state.zipcode || 5000}&destinations=27510&key=AIzaSyBY_QfgpJ6PNGRWJA3k9td_FfO7tDoKn9I`).then(result=>{
       if(result.data.rows[0].elements[0].status==="OK") {
         return true
       } else{

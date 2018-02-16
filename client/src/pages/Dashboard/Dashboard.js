@@ -130,7 +130,7 @@ class Dashboard extends Component {
       //event array                                                   ==
       //================================================================
       if(remote === false) {
-        const queryUrl = `https://maps.googleapis.com/maps/api/distancematrix/json?origins=${userLocation}&destinations=${destinations}&key=AIzaSyDpwnTjzyOwCRmPRQhpu0eREKplFV0TCDI`
+        const queryUrl = `https://maps.googleapis.com/maps/api/distancematrix/json?origins=${userLocation}&destinations=${destinations}&key=AIzaSyBY_QfgpJ6PNGRWJA3k9td_FfO7tDoKn9I`
         axios.get(queryUrl).then(result=> {
           var eventsWithinDistance = [];
           console.log(result.data.status)

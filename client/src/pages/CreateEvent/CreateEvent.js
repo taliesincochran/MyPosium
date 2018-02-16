@@ -78,7 +78,7 @@ export default class CreateEvent extends Component {
     //===================================================================================================================
     //Validate before the post, start with async call for location validation, then after this resolves, everything else
     //===================================================================================================================
-    axios.get(`https://maps.googleapis.com/maps/api/distancematrix/json?origins=${newEvent.zipcode || 5000}&destinations=27510&key=AIzaSyDpwnTjzyOwCRmPRQhpu0eREKplFV0TCDI`).then(result=>{
+    axios.get(`https://maps.googleapis.com/maps/api/distancematrix/json?origins=${newEvent.zipcode || 5000}&destinations=27510&key=AIzaSyBY_QfgpJ6PNGRWJA3k9td_FfO7tDoKn9I`).then(result=>{
       console.log(result.data.rows[0].elements[0].status)
       //Check if google found the zipcode
       if(result.data.rows[0].elements[0].status==="OK" || this.state.isRemote) {
