@@ -27,7 +27,6 @@ const EventCard = props => {
         <Columns style={{margin: '20px'}}>
           <Column isSize='1/2'>
             <CardImage style={{marginBottom: '20px'}}>
-              {console.log("props.event", props.event)}
               <Image isRatio='4:3' src={props.event.imgURL || 'https://images.pexels.com/photos/6227/hands-technology-photo-phone.jpg?w=1260&h=750&auto=compress&cs=tinysrgb'} alt={props.event.title} />
             </CardImage>
           </Column>

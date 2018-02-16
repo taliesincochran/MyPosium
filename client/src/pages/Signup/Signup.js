@@ -13,6 +13,7 @@ export default class Signup extends Component {
       password: '',
       password2: '',
       zipcode: '',
+      user: {},
       isLoggedIn: false,
       isActive: false,
       usernamePlaceholder: "Enter Username",
@@ -70,13 +71,13 @@ export default class Signup extends Component {
         }
         if(this.state.username.length < this.state.usernameMinLength) {
           this.setState({username: '', usernamePlaceholder: "Please enter a username with at least " + this.state.usernameMinLength + " characters."})
-        } 
+        }
         if(this.state.password < this.state.passwordMinLength) {
           this.setState({passwordPlaceholder: 'Your password needs to be ' + this.state.passwordMinLength + ' characters long.', password2Placeholder: 'Re-Enter Password'})
-        } 
+        }
         if(this.state.password !== this.state.password2) {
           this.setState({password: '', password2: '', passwordPlaceholder: 'Your passwords did not match.', password2Placeholder: 'Please Try Again.'})
-        } 
+        }
       }).then(result => {
         //Submits data to the backend or fails
         if(this.state.username.length >= this.state.usernameMinLength
@@ -93,7 +94,9 @@ export default class Signup extends Component {
                 .authenticate()
                 .then(response => {
                   authObj.isAuthenticated = response.data.isAuth;
-                  this.setState({isLoggedIn: true});
+                  this.setState({user: response.data.user}, function() {
+                    this.setState({isLoggedIn: true});
+                  })
                 })
                 .catch(err => console.log(err));
             })
@@ -155,7 +158,7 @@ export default class Signup extends Component {
           <Columns>
             <Column isSize={8} isOffset={2}>
               <Box style={{marginTop: '15%', position: 'relative'}}>
-                
+
                 {/*----------------------------------*/}
                 {/*Fields for user input*/}
                 <Title className="has-text-grey-light" isSize={1} style={{position: 'absolute', top: '-8%', right: '5%', background: 'white'}}>Sign Up</Title>
@@ -220,7 +223,7 @@ export default class Signup extends Component {
         {/*Move on to profile settings*/}
           {this.state.isLoggedIn ? (<Redirect to={{
             pathname: "/profile",
-            state: this.state
+            state: this.state.user
           }} />) : console.log("User isn't logged in")}
         </Container>
       </Section>

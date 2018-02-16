@@ -23,11 +23,9 @@ const axios = require('axios')
   router.get('/logout', function(req, res) {
     // if(req.sessions !== undefined) {
       req.logout();
-      console.log("User routes are working");
       req.session.destroy(function (err) {
         if (!err) {
           res.clearCookie('connect.sid', {path: '/'}).sendStatus(200);
-          console.log('no error')
         } else {
           console.log('Error from session destroy:', err)
         }
@@ -54,7 +52,11 @@ const axios = require('axios')
   //Route to update profile, post because multiple points can be edited
   router.post('/updateprofile', function(req, res) {
     UC.updateUser(req.body).then(result=> {
-      res.send(req.body)
+      db.User
+        .findOne({username: req.user.username})
+        .then(user => {
+          res.json(user)
+        })
       })
   });
 

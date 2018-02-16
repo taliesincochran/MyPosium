@@ -112,7 +112,7 @@ export default class Login extends Component {
           <Column isSize={8} isOffset={2}>
             <Box style={{marginTop: '15%', position: 'relative'}}>
               <Title className="has-text-grey-light" isSize={1} style={{position: 'absolute', top: '-15%', right: '5%', background: 'white'}}>Login</Title>
-              
+
               {/*The login fields*/}
 
               <Field>
