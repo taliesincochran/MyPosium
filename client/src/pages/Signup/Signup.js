@@ -5,6 +5,7 @@ import axios from 'axios';
 import {authObj} from '../../authenticate'
 import NavbarHeader from '../../components/Nav/Navbar'
 
+
 export default class Signup extends Component {
   constructor(props) {
     super(props);
@@ -13,7 +14,6 @@ export default class Signup extends Component {
       password: '',
       password2: '',
       zipcode: '',
-      user: {},
       isLoggedIn: false,
       isActive: false,
       usernamePlaceholder: "Enter Username",
@@ -55,62 +55,59 @@ export default class Signup extends Component {
 
 //Submits user to the backend first validating the data
   submitUser = user => {
-    //Validate zip code with google
-    axios.get(`https://maps.googleapis.com/maps/api/distancematrix/json?origins=${this.state.zipcode || 5000}&destinations=27510&key=AIzaSyBY_QfgpJ6PNGRWJA3k9td_FfO7tDoKn9I`).then(result=>{
-      if(result.data.rows[0].elements[0].status==="OK") {
+    axios.get('api/location/zipcode/27510').then(
+      result=>{
+      if(result.data.rows[0].elements[0].status === 'OK'){
         this.setState({zipcodeValidated: true})
-      }
-    })
-    .then(results => {
-      //Validating all the user data
-      axios.get('/api/users/checkUsername/' + this.state.username).then(result=> {
-        if(result.data === null) {
-          this.setState({usernameUnique: true})
-        } else {
-          this.setState({usernamePlaceholder: 'That username already exists.  Please try another.'})
-        }
-        if(this.state.username.length < this.state.usernameMinLength) {
-          this.setState({username: '', usernamePlaceholder: "Please enter a username with at least " + this.state.usernameMinLength + " characters."})
-        }
-        if(this.state.password < this.state.passwordMinLength) {
-          this.setState({passwordPlaceholder: 'Your password needs to be ' + this.state.passwordMinLength + ' characters long.', password2Placeholder: 'Re-Enter Password'})
-        }
-        if(this.state.password !== this.state.password2) {
-          this.setState({password: '', password2: '', passwordPlaceholder: 'Your passwords did not match.', password2Placeholder: 'Please Try Again.'})
-        }
-      }).then(result => {
-        //Submits data to the backend or fails
-        if(this.state.username.length >= this.state.usernameMinLength
-          && this.state.usernameUnique
-          && this.state.zipcodeValidated
-          && this.state.password.length >= this.state.passwordMinLength
-          && this.state.password === this.state.password2
-          ) {
-          console.log('User data validated')
-          axios
-            .post('api/users/signup', user)
-            .then(result => {
-              authObj
-                .authenticate()
-                .then(response => {
-                  authObj.isAuthenticated = response.data.isAuth;
-                  this.setState({user: response.data.user}, function() {
+        console.log(result)
+        axios.get('/api/users/checkUsername/' + this.state.username).then(result=> {
+          if(result.data === null) {
+            this.setState({usernameUnique: true})
+          } else {
+            this.setState({usernamePlaceholder: 'That username already exists.  Please try another.'})
+          }
+          if(this.state.username.length < this.state.usernameMinLength) {
+            this.setState({username: '', usernamePlaceholder: "Please enter a username with at least " + this.state.usernameMinLength + " characters."})
+          } 
+          if(this.state.password < this.state.passwordMinLength) {
+            this.setState({passwordPlaceholder: 'Your password needs to be ' + this.state.passwordMinLength + ' characters long.', password2Placeholder: 'Re-Enter Password'})
+          } 
+          if(this.state.password !== this.state.password2) {
+            this.setState({password: '', password2: '', passwordPlaceholder: 'Your passwords did not match.', password2Placeholder: 'Please Try Again.'})
+          } 
+        }).then(result => {
+          //Submits data to the backend or fails
+          if(this.state.username.length >= this.state.usernameMinLength
+            && this.state.usernameUnique
+            && this.state.zipcodeValidated
+            && this.state.password.length >= this.state.passwordMinLength
+            && this.state.password === this.state.password2
+            ) {
+            console.log('User data validated')
+            axios
+              .post('api/users/signup', user)
+              .then(result => {
+                authObj
+                  .authenticate()
+                  .then(response => {
+                    authObj.isAuthenticated = response.data.isAuth;
                     this.setState({isLoggedIn: true});
                   })
-                })
-                .catch(err => console.log(err));
-            })
-            .catch(err => console.log(err));
-        }
-        else{
-          console.log("Validation failed ", this.state)
-        }
-
-      })
+                  .catch(err => console.log(err));
+              })
+              .catch(err => console.log(err));
+          }
+          else{
+            console.log("Validation failed ", this.state)
+          }
+        })
+      }
     })
-    .catch(err => console.log(err));
-
   }
+
+    // .catch(err => console.log(err));
+
+
 
 
   render() {
@@ -158,7 +155,7 @@ export default class Signup extends Component {
           <Columns>
             <Column isSize={8} isOffset={2}>
               <Box style={{marginTop: '15%', position: 'relative'}}>
-
+                
                 {/*----------------------------------*/}
                 {/*Fields for user input*/}
                 <Title className="has-text-grey-light" isSize={1} style={{position: 'absolute', top: '-8%', right: '5%', background: 'white'}}>Sign Up</Title>
@@ -223,7 +220,7 @@ export default class Signup extends Component {
         {/*Move on to profile settings*/}
           {this.state.isLoggedIn ? (<Redirect to={{
             pathname: "/profile",
-            state: this.state.user
+            state: this.state
           }} />) : console.log("User isn't logged in")}
         </Container>
       </Section>

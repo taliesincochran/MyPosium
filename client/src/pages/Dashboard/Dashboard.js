@@ -81,6 +81,7 @@ class Dashboard extends Component {
   getEvents =(remote) => {
     var setState = this.setState;
     var state = this.state;
+    console.log('state', state)
     axios.get("/api/event/").then(events => {
       var userCreatedArray = [];
       var eventsMatchArray = [];
@@ -103,7 +104,7 @@ class Dashboard extends Component {
         if(this.state.user.username === event.username) {
           userCreatedArray.push(event)
         }
-        if (this.state.user.interests.indexOf(category) > -1 && event.attendees.indexOf(user._id) === -1 && this.state.user.attending.indexOf(user._id) === -1){
+        else if (this.state.user.interests.indexOf(category) > -1 && event.attendees.indexOf(user._id) === -1 && this.state.user.attending.indexOf(user._id) === -1){
           eventsMatchArray.push(event)
         }
       })
@@ -116,6 +117,8 @@ class Dashboard extends Component {
         if(event.isRemote === remote) {
           destinations = destinations + event.zipcode + "|"
           eventsToShow.push(event);
+        console.log('zipcode', event.zipcode)
+        console.log('destination', destinations)
         }
         return({events: eventsArray, eventsToShow: eventsToShow})
       })
@@ -127,11 +130,12 @@ class Dashboard extends Component {
       //event array                                                   ==
       //================================================================
       if(remote === false) {
-        const queryUrl = `https://maps.googleapis.com/maps/api/distancematrix/json?origins=${userLocation}&destinations=${destinations}&key=AIzaSyBY_QfgpJ6PNGRWJA3k9td_FfO7tDoKn9I`
-        axios.get(queryUrl).then(result=> {
+        axios.get(`/api/location/destinations/${destinations}`).then(result=> {
           var eventsWithinDistance = [];
+          console.log(result.data.status)
           result.data.status==="OK"?(
             result.data.rows[0].elements.map((destination, i)=> {
+            console.log(destination)
             if(destination.status !== "NOT_FOUND") {
               if(destination.distance.value < travelMeters) {
                 eventsWithinDistance.push(eventsToShow[i])
@@ -158,10 +162,7 @@ class Dashboard extends Component {
   openMessageModal = (recipient) => {
     this.setState({activeMessageModal: true, messageRecipient: recipient});
   }
-
-
   closeMessageModal = () => {
-
     this.setState({activeMessageModal: false})
   }
 
@@ -261,6 +262,7 @@ class Dashboard extends Component {
         //Code for sending message
         this.setState({cancelEventModal: false}, ()=> {
           this.getEvents(false);
+          this.sendToAllAttendees();
         })
       })
     }
@@ -503,6 +505,7 @@ class Dashboard extends Component {
 
 {/*==================================================*/}
 {/*Here's the Event modal. Pretty much just styling and formatting in here */}
+
         <Modal isActive={this.state.activeEventModal ? true : false} >
           <ModalBackground />
           <ModalContent style={{padding: '20px'}}>
@@ -530,7 +533,7 @@ class Dashboard extends Component {
                 </Column>
               </Columns>
               {this.state.user.attending.includes(this.state.modalEvent._id)?(<Button isColor='primary' onClick={this.sendMessageToOrganizer} className="is-fullWidth">Send Message To Organizer</Button>):null}
-              {(this.state.user.username !== this.state.modalEvent.username && !this.state.user.attending.includes(this.state.modalEvent._id))?(<Button isColor="primary" onClick={this.attend} className="is-fullwidth">Attend</Button>):null}
+              {(this.state.user.username !== this.state.modalEvent.username && !this.state.user.attending.includes(this.state.modalEvent._id))?(<Button isColor="primary" onClick={this.attend} value={this.state.modalEvent._id} className="is-fullwidth">Attend</Button>):null}
               {(this.state.modalEvent.username === this.state.user.username)?(
                 <div>
                   <Button isColor="primary" onClick={this.sendToAllAttendees} className='is-fullwidth'>Send Message To All Attending</Button>
@@ -557,9 +560,15 @@ class Dashboard extends Component {
               </Control>
             </Field>
             <Field>
-              <Label className="has-text-left">Send A Message To All Attending</Label>
+              <Label className="has-text-left">"Subject"</Label>
               <Control>
-                <TextArea name='cancelEventMessage' placeholder="Type Message Here" onChange={this.handleInput} value={this.state.cancelEventMessage}/>
+                <Input name='subject' type="text" placeholder="Type your username here." onChange={this.handleInput} value={this.state.subject}/>
+              </Control>
+            </Field>
+            <Field>
+              <Label className="has-text-left">"Send A Message To All Attending"</Label>
+              <Control>
+                <TextArea name='message' placeholder="Type Message Here" onChange={this.handleInput} value={this.state.message}/>
               </Control>
             </Field>
             <Control>
