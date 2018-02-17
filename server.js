@@ -20,7 +20,6 @@ mongoose.connect(
 );
 //setting up cookie parser middleware
 app.use(cookieParser());
-
 // Configure body parser for AJAX requests
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());

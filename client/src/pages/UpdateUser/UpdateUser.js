@@ -83,7 +83,7 @@ class Profile extends Component {
       username: this.props.location.state.username
     }
     //validate zip code
-    axios.get(`https://maps.googleapis.com/maps/api/distancematrix/json?origins=${this.state.zipcode || 5000}&destinations=27510&key=AIzaSyDpwnTjzyOwCRmPRQhpu0eREKplFV0TCDI`).then(result=>{
+    axios.get(`/api/location/${this.state.zipcode}`).then(result=>{
       if(result.data.rows[0].elements[0].status==="OK") {
         return true
       } else{
@@ -93,6 +93,7 @@ class Profile extends Component {
       if(result){
         axios.post("/api/users/updateprofile", data).then(result =>{
           this.setState({user: result.data})
+          console.log(this.state)
         }).then(()=> {
           this.setState({finishedProfile:true})
         }).catch(err => console.error(err));
