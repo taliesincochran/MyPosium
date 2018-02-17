@@ -82,8 +82,10 @@ class Profile extends Component {
       zipcode,
       username: this.props.location.state.username
     }
+    console.log(data)
     //validate zip code
-    axios.get(`/api/location/${this.state.zipcode}`).then(result=>{
+    axios.get(`/api/location/zipcode/${data.zipcode}`).then(result=>{
+      console.log(result)
       if(result.data.rows[0].elements[0].status==="OK") {
         return true
       } else{

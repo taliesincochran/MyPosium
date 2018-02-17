@@ -55,7 +55,7 @@ export default class Signup extends Component {
 
 //Submits user to the backend first validating the data
   submitUser = user => {
-    axios.get('api/location/zipcode/27510').then(
+    axios.get(`api/location/zipcode/${user.zipcode}`).then(
       result=>{
       if(result.data.rows[0].elements[0].status === 'OK'){
         this.setState({zipcodeValidated: true})
