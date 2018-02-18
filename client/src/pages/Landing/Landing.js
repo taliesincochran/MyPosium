@@ -35,12 +35,11 @@ export default class Landing extends Component {
 	  });//end soft scroll function
 		$(window).scroll(function (event){
 			let wScroll = $(this).scrollTop();
-			console.log(wScroll)
 			$('.titleOne, .titleTwo').css({
-				'transform': 'translateY(-'+wScroll/2+'px) translateX(-'+wScroll/2+'px)'
-			})
-		})
-	}
+				'transform': 'translateY(-'+wScroll/2+'px) translateX(-'+wScroll/2+'px)',
+			});
+		})//end scroll function
+	}//end componentDidMount
 
   onClickNav = () => {
       this.setState((state) => ({ isActive: !state.isActive }));
@@ -120,11 +119,11 @@ export default class Landing extends Component {
 						<Section className='is-vertical-center'>
 					    <Columns>
 					    	<Column isSize={4}>
-					    		<Image src = "/img/gearBrain.jpg" className="createImg" />
+					    		<Image src = "/img/gearBrain.jpg" className="createImg"/>
 					    	</Column>
 					    	<Column isSize={6} isOffset={2}>
-					            <Title className='text-center' style={{marginTop: '10%'}}>Create</Title>
-											<Content className="is-size-4">MyPosium allows real people with real knowledge to create a connection with others who want and need that knowledge.  <span className="highlight">CREATE</span> an event, either in person or virtually, and share your wisdom with the world!</Content>
+					            <Title className='text-center' style={{marginTop: '10%'}} >Create</Title>
+											<Content className="is-size-4 createText">MyPosium allows real people with real knowledge to create a connection with others who want and need that knowledge.  <span className="highlight">CREATE</span> an event, either in person or virtually, and share your wisdom with the world!</Content>
 					      </Column>
 					    </Columns>
 				    </Section>
@@ -145,7 +144,7 @@ export default class Landing extends Component {
 						<Section className='is-vertical-center'>
 					    <Columns>
 					    	<Column isSize={4}>
-					    		<Image src = "/img/connect.jpg" className="createImg"/>
+					    		<Image src = "/img/connect.jpg" className="connectImg"/>
 					    	</Column>
 					    	<Column isSize={6} isOffset={2}>
 					            <Title className='text-center' style={{marginTop: '15%'}}>Connect</Title>

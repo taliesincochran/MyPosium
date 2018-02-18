@@ -55,6 +55,16 @@ let newUser4 = {
   aboutMe: "Hi my name is Tally and I like to party."
 }
 
+let newUser5 = {
+  username: "Demo",
+  password: bcrypt.hashSync("tallymanbanana", bcrypt.genSaltSync(8), null),
+  zipcode: 27713,
+  age: 30,
+  interests: ["Animals", "Science", "Movies", "Computers", "Medicine", "Coding", "Sports", "Remodelling", "Music"],
+  img: "https://media.licdn.com/media/AAMAAQDGAAwAAQAAAAAAAAuzAAAAJDlhZDU2YWY3LTlhZGMtNDhhMy04NmJiLTA5M2QyYTIxMzcwNg.jpg",
+  aboutMe: "Hi my name is Tally and I like to party."
+}
+
 //Events
 let newEvent1 = {
   title: "Woodworking for Beginners",
@@ -136,9 +146,34 @@ let newEvent5 = {
   attendees: []
 }
 
-const eventSeed = [newEvent1, newEvent2, newEvent3, newEvent4, newEvent5];
-const userSeed = [newUser1, newUser2, newUser3, newUser4];
+function generateEvent() {
+  let eventArr = [];
+  for (let i = 0; i < 50; i++){
+    let ranNum = ~~(Math.random()*categories.length)
+    let event = {
+      title: categories[ranNum] + "Class",
+      zipcode: 27713,
+      username:  categories[ranNum] +  "Dude",
+      date: moment().add(14, 'days').format("M-D-YYYY"),
+      time: '6:30 pm',
+      isRemote: ~~(Math.random()*2),
+      cost: '$18',
+      category: "Coding",
+      imgURL: "http://www.allabttech.com/wp-content/uploads/2017/03/Computer-Programming-Certifications.jpg",
+      description: categories[ranNum] +  " lesson!",
+      minAttending: 1,
+      maxAttending: 25,
+      attendees: []
+    }
+    eventArr.push(event);
+  }
+  return eventArr;
+}
+let procedurallyGeneratedEvents = generateEvent();
 
+let eventSeed = [newEvent1, newEvent2, newEvent3, newEvent4, newEvent5];
+eventSeed = [...eventSeed, ...procedurallyGeneratedEvents]
+const userSeed = [newUser1, newUser2, newUser3, newUser4, newUser5];
 db.User
   .remove({})
   .then(() => {
@@ -146,11 +181,11 @@ db.User
       .catch(err => console.error(err));
   })
   .catch(err => console.error(err));
-
 db.Event
   .remove({})
   .then(() => {
     db.Event.create(eventSeed)
       .catch(err => console.error(err))
+      process.exit(0)
   })
   .catch(err => console.error(err));
