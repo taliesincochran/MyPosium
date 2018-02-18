@@ -132,16 +132,15 @@ class Dashboard extends Component {
       if(remote === false) {
         axios.get(`/api/location/destinations/${destinations}`).then(result=> {
           var eventsWithinDistance = [];
-          console.log(result.data.status)
           result.data.status==="OK"?(
-            result.data.rows[0].elements.map((destination, i)=> {
-            console.log(destination)
-            if(destination.status !== "NOT_FOUND") {
-              if(destination.distance.value < travelMeters) {
+            result.data.rows.map((destination, i)=> {
+            if(destination.elements[0].status !== "NOT_FOUND") {
+              if(destination.elements[0].distance.value < travelMeters) {
                 eventsWithinDistance.push(eventsToShow[i])
               }
             }
           })): ''
+
 
           //=============================================================
           //To insure the axios call is done before setting the state, ==
