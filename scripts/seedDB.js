@@ -23,7 +23,7 @@ let newUser1 = {
   interests: ["Real Estate", "Self Improvement", "Computers", "Movies", "Medicine", "Coding", "Sports", "Remodelling", "Music"],
   img: "https://media.licdn.com/mpr/mpr/shrinknp_200_200/AAEAAQAAAAAAAA1jAAAAJGM3MWQ2OTdjLTkwNWMtNDU3ZS04ZmY5LTAyMTA5ODBlNDEzNw.jpg",
   aboutMe: "Hi my name is EJ and I like to party."
-}
+};
 
 let newUser2 = {
   username: "VytasForYou",
@@ -33,7 +33,7 @@ let newUser2 = {
   interests: ["Cooking", "Philosophy", "Social", "Travel", "Medicine", "Coding", "Sports", "Remodelling", "Music"],
   img: "https://4.bp.blogspot.com/-g4J8lGxRAAU/Wk74n8hybpI/AAAAAAAAC9k/w4gWkp4j6zUHkz6W14Iw1hgrRA33_4KSQCLcBGAs/s1600/REILY%2BJura.jpg",
   aboutMe: "Hi my name is Vytas and I like to party."
-}
+};
 
 let newUser3 = {
   username: "MarcoPrincip",
@@ -43,7 +43,7 @@ let newUser3 = {
   interests: ["Video Games", "Movies", "Real Estate", "Recreation", "Medicine", "Coding", "Sports", "Remodelling", "Music"],
   img: "https://media.licdn.com/media/AAMAAQDGAAwAAQAAAAAAAA74AAAAJDk2MjFkYzRlLTg3ZjUtNDZkYy1hZGJkLTgyYjMzOGMyNTIzYg.jpg",
   aboutMe: "Hi my name is Marco and I like to party."
-}
+};
 
 let newUser4 = {
   username: "TallyManBanana",
@@ -53,7 +53,7 @@ let newUser4 = {
   interests: ["Animals", "Science", "Movies", "Computers", "Medicine", "Coding", "Sports", "Remodelling", "Music"],
   img: "https://media.licdn.com/media/AAMAAQDGAAwAAQAAAAAAAAuzAAAAJDlhZDU2YWY3LTlhZGMtNDhhMy04NmJiLTA5M2QyYTIxMzcwNg.jpg",
   aboutMe: "Hi my name is Tally and I like to party."
-}
+};
 
 let newUser5 = {
   username: "Demo",
@@ -63,7 +63,7 @@ let newUser5 = {
   interests: ["Animals", "Science", "Movies", "Computers", "Medicine", "Coding", "Sports", "Remodelling", "Music"],
   img: "https://media.licdn.com/media/AAMAAQDGAAwAAQAAAAAAAAuzAAAAJDlhZDU2YWY3LTlhZGMtNDhhMy04NmJiLTA5M2QyYTIxMzcwNg.jpg",
   aboutMe: "Hi my name is Tally and I like to party."
-}
+};
 
 //Events
 let newEvent1 = {
@@ -80,7 +80,7 @@ let newEvent1 = {
   minAttending: 10,
   maxAttending: 30,
   attendees: []
-}
+};
 
 let newEvent2 = {
   title: "An Intro to Plant-Based Medicines",
@@ -96,7 +96,7 @@ let newEvent2 = {
   minAttending: 5,
   maxAttending: 12,
   attendees: []
-}
+};
 
 let newEvent3 = {
   title: "Tennis Trick Shots",
@@ -112,7 +112,7 @@ let newEvent3 = {
   minAttending: 10,
   maxAttending: 20,
   attendees: []
-}
+};
 console.log("newEvent3.date", newEvent3.date);
 let newEvent4 = {
   title: "School of Rock",
@@ -128,7 +128,7 @@ let newEvent4 = {
   minAttending: 150,
   maxAttending: 1000,
   attendees: []
-}
+};
 
 let newEvent5 = {
   title: "Coding Class",
@@ -144,12 +144,12 @@ let newEvent5 = {
   minAttending: 12,
   maxAttending: 25,
   attendees: []
-}
+};
 
 function generateEvent() {
   let eventArr = [];
   for (let i = 0; i < 50; i++){
-    let ranNum = ~~(Math.random()*categories.length)
+    let ranNum = ~~(Math.random()*categories.length);
     let event = {
       title: categories[ranNum] + "Class",
       zipcode: 27713,
@@ -164,7 +164,7 @@ function generateEvent() {
       minAttending: 1,
       maxAttending: 25,
       attendees: []
-    }
+    };
     eventArr.push(event);
   }
   return eventArr;
@@ -172,8 +172,9 @@ function generateEvent() {
 let procedurallyGeneratedEvents = generateEvent();
 
 let eventSeed = [newEvent1, newEvent2, newEvent3, newEvent4, newEvent5];
-eventSeed = [...eventSeed, ...procedurallyGeneratedEvents]
+eventSeed = [...eventSeed, ...procedurallyGeneratedEvents];
 const userSeed = [newUser1, newUser2, newUser3, newUser4, newUser5];
+console.log(eventSeed);
 db.User
   .remove({})
   .then(() => {
@@ -185,7 +186,7 @@ db.Event
   .remove({})
   .then(() => {
     db.Event.create(eventSeed)
-      .catch(err => console.error(err))
-      process.exit(0)
+      .catch(err => console.error(err));
+      process.exit(0);
   })
   .catch(err => console.error(err));

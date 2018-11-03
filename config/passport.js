@@ -1,5 +1,5 @@
 const LocalStrategy    = require('passport-local').Strategy;
-const db = require('../models/')
+const db = require('../models/');
 
 
 module.exports = function(passport) {
@@ -36,7 +36,7 @@ module.exports = function(passport) {
         //"validPassword" is a method of the User schema using bcrypt
         else if(!user.validPassword(password)) {return done(null, false);}
         else {return done(null, user);}
-      })
+      });
   }));
 
   // =========================================================================
