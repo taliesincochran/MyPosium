@@ -130,12 +130,16 @@ class Dashboard extends Component {
       //event array                                                   ==
       //================================================================
       if(remote === false) {
+        destinations = "origins=" + this.state.user.zipcode + "&destinations=" + destinations;
         axios.get(`/api/location/destinations/${destinations}`).then(result=> {
+          console.log('destination result', result);
           var eventsWithinDistance = [];
           result.data.status==="OK"?(
-            result.data.rows.map((destination, i)=> {
-            if(destination.elements[0].status !== "NOT_FOUND") {
-              if(destination.elements[0].distance.value < travelMeters) {
+            result.data.rows[0].elements.map((destination, i)=> {
+            if(destination.status !== "NOT_FOUND") {
+              console.log('status', destination.status)
+              if(destination.distance.value < travelMeters) {
+                console.log("distance of event ", destination.distance.value)
                 eventsWithinDistance.push(eventsToShow[i])
               }
             }
@@ -266,13 +270,10 @@ class Dashboard extends Component {
       })
     }
   }
-
-  //Opens cancel event modal
+//Opens cancel event modal
   toggleCancelEventModal = () => {
     this.setState({cancelEventModal: !this.state.cancelEventModal, activeEventModal: !this.state.activeEventModal})
   }
-
-
   render() {
     var events = this.state.events;
     var hasGotEvents = this.state.hasGotEvents;

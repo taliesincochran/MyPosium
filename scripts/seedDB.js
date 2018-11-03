@@ -7,7 +7,7 @@ const bcrypt = require('bcrypt-nodejs');
 
 mongoose.Promise = global.Promise;
 
-// This file empties the Books collection and inserts the books below
+// This file empties the events collection and inserts the events below
 mongoose.connect(
   process.env.MONGODB_URI || "mongodb://localhost/myposium",
   { useMongoClient: true }
@@ -57,7 +57,16 @@ let newUser4 = {
 
 let newUser5 = {
   username: "Demo",
-  password: bcrypt.hashSync("tallymanbanana", bcrypt.genSaltSync(8), null),
+  password: bcrypt.hashSync("password", bcrypt.genSaltSync(8), null),
+  zipcode: 27713,
+  age: 30,
+  interests: ["Animals", "Science", "Movies", "Computers", "Medicine", "Coding", "Sports", "Remodelling", "Music"],
+  img: "https://www.fillmurray.com/200/200",
+  aboutMe: "Hi my name is Tally and I like to party."
+};
+let newUser6 = {
+  username: "asdf",
+  password: bcrypt.hashSync("asdf", bcrypt.genSaltSync(8), null),
   zipcode: 27713,
   age: 30,
   interests: ["Animals", "Science", "Movies", "Computers", "Medicine", "Coding", "Sports", "Remodelling", "Music"],
@@ -113,6 +122,10 @@ let newEvent3 = {
   maxAttending: 20,
   attendees: []
 };
+<<<<<<< HEAD
+=======
+
+>>>>>>> dad792ecc599ce8556ea05a859c92099987a2f53
 console.log("newEvent3.date", newEvent3.date);
 let newEvent4 = {
   title: "School of Rock",
@@ -173,7 +186,7 @@ let procedurallyGeneratedEvents = generateEvent();
 
 let eventSeed = [newEvent1, newEvent2, newEvent3, newEvent4, newEvent5];
 eventSeed = [...eventSeed, ...procedurallyGeneratedEvents];
-const userSeed = [newUser1, newUser2, newUser3, newUser4, newUser5];
+const userSeed = [newUser1, newUser2, newUser3, newUser4, newUser5, newUser6];
 console.log(eventSeed);
 db.User
   .remove({})
