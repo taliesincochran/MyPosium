@@ -122,10 +122,7 @@ let newEvent3 = {
   maxAttending: 20,
   attendees: []
 };
-<<<<<<< HEAD
-=======
 
->>>>>>> dad792ecc599ce8556ea05a859c92099987a2f53
 console.log("newEvent3.date", newEvent3.date);
 let newEvent4 = {
   title: "School of Rock",
