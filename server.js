@@ -14,8 +14,8 @@ mongoose.Promise = global.Promise;
 const MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/myposium"
 mongoose.connect(
   MONGODB_URI,
-  {
-    useMongoClient: true
+  { useNewUrlParser: true,
+    useUnifiedTopology: true
   }
 );
 //setting up cookie parser middleware
