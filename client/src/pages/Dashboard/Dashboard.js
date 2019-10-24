@@ -88,7 +88,6 @@ class Dashboard extends Component {
       //================================================================
       //Set up parameters of google maps distance matrix api call=======
       //================================================================
-      const userLocation = this.state.user.zipcode;
       const metersPerMile = 1609.344;
       const travelMiles = this.state.eventsWithin;
       const travelMeters = travelMiles * metersPerMile;
@@ -99,7 +98,7 @@ class Dashboard extends Component {
       // and other events that match the users interests================
       //================================================================
       var eventsArray = events.data;
-      eventsArray.map(event=> {
+      eventsArray.forEach(event=> {
         var category = event.category
         if(this.state.user.username === event.username) {
           userCreatedArray.push(event)
@@ -134,16 +133,17 @@ class Dashboard extends Component {
         axios.get(`/api/location/destinations/${destinations}`).then(result=> {
           console.log('destination result', result);
           var eventsWithinDistance = [];
-          result.data.status==="OK"?(
-            result.data.rows[0].elements.map((destination, i)=> {
-            if(destination.status !== "NOT_FOUND") {
-              console.log('status', destination.status)
-              if(destination.distance.value < travelMeters) {
-                console.log("distance of event ", destination.distance.value)
-                eventsWithinDistance.push(eventsToShow[i])
+          if (result.data.status==="OK") {
+            result.data.rows[0].elements.forEach((destination, i)=> {
+              if(destination.status !== "NOT_FOUND") {
+                console.log('status', destination.status)
+                if(destination.distance.value < travelMeters) {
+                  console.log("distance of event ", destination.distance.value)
+                  eventsWithinDistance.push(eventsToShow[i])
+                }
               }
-            }
-          })): ''
+            });
+          }
 
 
           //=============================================================

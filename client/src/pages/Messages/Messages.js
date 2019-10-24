@@ -130,7 +130,7 @@ export default class SentMessages extends Component {
       if (message.read) {
         return (<li key={i}><MenuLink style={{whiteSpace: 'pre', textDecoration: 'none'}} onClick={() => {clickFunction(message._id)}}>&#9993;{" "}From: {message.sender} <br/>{"     "}Subject: {message.subject}</MenuLink></li>)
       } else {
-        return (<li key={i}><MenuLink style={{whiteSpace: 'pre', textDecoration: 'none'}} onClick={() => {clickFunction(message._id)}}><b>&#128232;{" "}From: {message.sender} <br/>{"     "}Subject: {message.subject}</b></MenuLink></li>)
+        return (<li key={i}><MenuLink style={{whiteSpace: 'pre', textDecoration: 'none'}} onClick={() => {clickFunction(message._id)}}><b><span role="img" aria-label="incoming envelope emoji">&#128232;</span>{" "}From: {message.sender} <br/>{"     "}Subject: {message.subject}</b></MenuLink></li>)
       }
     })
     return mappedArr;

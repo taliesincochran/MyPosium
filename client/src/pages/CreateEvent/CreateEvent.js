@@ -1,3 +1,4 @@
+/*jshint esversion: 6 */
 import React, { Component } from 'react';
 import {
   Column,
@@ -8,7 +9,6 @@ import {
   Button,
   Select,
   Input,
-  option,
   Label,
   Control,
   Field,
@@ -18,7 +18,7 @@ import axios from 'axios';
 import categories from "../../categories";
 import { authObj } from '../../authenticate';
 import Navbar from '../../components/Nav/Navbar';
-import moment from 'moment'
+import moment from 'moment';
 export default class CreateEvent extends Component {
   state = {
   	title:'',
@@ -62,10 +62,10 @@ export default class CreateEvent extends Component {
   handleChange = e => {
     let { name, value } = e.target;
     console.log('!!!!!!!!!!!!!!!', name, value, this.state)
-    this.setState({ [name]: value });
+    this.setState({ [name]: value })
   }
   changeRemote = e => {
-    this.setState({isRemote: !this.state.isRemote})
+    this.setState({isRemote: !this.state.isRemote});
   }
 
 //Set new event information to be passed from state
@@ -109,7 +109,6 @@ export default class CreateEvent extends Component {
         this.setState({timeVerified: true})
         console.log('time verified')
       }
-      var now = moment()
       console.log('moment date', moment(moment()).isBefore(newEvent.date, 'year'))
       console.log('now', moment())
       console.log('then', newEvent.date)

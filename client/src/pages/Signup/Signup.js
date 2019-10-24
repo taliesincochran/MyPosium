@@ -26,17 +26,17 @@ export default class Signup extends Component {
       usernameMinLength: 1,
       passwordMinLength: 1,
       signupError: false
-    }
+    };
     this.onClickNav = this.onClickNav.bind(this);
   }
 
 //Function to let the background image render and clear the cookies
   componentDidMount() {
     let body = document.querySelector('body');
-    body.style.backgroundImage = "url('img/coloredLines.jpg')"
+    body.style.backgroundImage = "url('img/coloredLines.jpg')";
     body.style.backgroundSize = '100% 100%';
     body.style.backgroundAttachment = 'fixed';
-    axios.get("api/users/logout")
+    axios.get("api/users/logout");
   }
 
   onClickNav = () => {
@@ -44,7 +44,7 @@ export default class Signup extends Component {
   }
   handleChange = e => {
     let { name, value } = e.target;
-    this.setState({ [name]: value });
+    this.setState({ [name]: value })
   }
 
 //sets the new user data from the state
