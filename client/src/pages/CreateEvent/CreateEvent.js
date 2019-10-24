@@ -20,36 +20,44 @@ import { authObj } from '../../authenticate';
 import Navbar from '../../components/Nav/Navbar';
 import moment from 'moment';
 export default class CreateEvent extends Component {
-  state = {
-  	title:'',
-  	zipcode: this.props.location.state.zipcode,
-    initialZipcode: this.props.location.state.zipcode,
-  	username: this.props.location.state.username,
-  	date:'',
-  	time:'',
-  	isRemote: false,
-  	cost:'',
-  	category: '',
-  	imgURL:'',
-  	description:'',
-  	maxAttending:'',
-    isSubmitted: false,
-    checkMessages: false,
-    dashboard: false,
-    logout: false,
-    updateProfile: false,
-    user: this.props.location.state,
-    //Validation variables
-    zipcodeVerified: false,
-    timeVerified: false,
-    dateVerified: false,
-    maxAttendingVerified: false,
-    descriptionVerified: false,
-    costPlaceholder: '0',
-    descriptionPlaceholder: 'Please Describe Your Event.',
-    maxAttendingPlaceholder: 'Maximum number to attend.',
-    zipcodePlaceholder: 'Zipcode',
-    eventTitlePlaceholder: "Enter Event Title",
+  constructor(props) {
+    super(props);
+    this.state = {
+      title:'',
+      zipcode: this.props.location.state.zipcode,
+      initialZipcode: this.props.location.state.zipcode,
+      username: this.props.location.state.username,
+      date:'',
+      time:'',
+      isRemote: false,
+      cost:'',
+      category: '',
+      imgURL:'',
+      description:'',
+      maxAttending:'',
+      isSubmitted: false,
+      checkMessages: false,
+      dashboard: false,
+      logout: false,
+      updateProfile: false,
+      user: this.props.location.state,
+      //Validation variables
+      zipcodeVerified: false,
+      timeVerified: false,
+      dateVerified: false,
+      maxAttendingVerified: false,
+      descriptionVerified: false,
+      costPlaceholder: '0',
+      descriptionPlaceholder: 'Please Describe Your Event.',
+      maxAttendingPlaceholder: 'Maximum number to attend.',
+      zipcodePlaceholder: 'Zipcode',
+      eventTitlePlaceholder: "Enter Event Title",
+    };
+
+    this.handleChange = this.handleChange.bind(this);
+    this.changeRemote = this.changeRemote.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.submitEvent = this.submitEvent.bind(this);
   }
 
 
@@ -59,17 +67,18 @@ export default class CreateEvent extends Component {
     this.setState({category:categories[0]});
   }
 
-  handleChange = e => {
+  handleChange(e) {
     let { name, value } = e.target;
-    console.log('!!!!!!!!!!!!!!!', name, value, this.state)
-    this.setState({ [name]: value })
+    console.log('!!!!!!!!!!!!!!!', name, value, this.state);
+    this.setState({ [name]: value });
   }
-  changeRemote = e => {
+
+  changeRemote(e) {
     this.setState({isRemote: !this.state.isRemote});
   }
 
 //Set new event information to be passed from state
-  handleSubmit = e=> {
+  handleSubmit(e) {
     e.preventDefault();
     console.log("Submit button clicked");
     let {title, zipcode, username, date, time, isRemote, cost, category, imgURL, description, minAttending, maxAttending} = this.state;
@@ -79,68 +88,68 @@ export default class CreateEvent extends Component {
     //Validate before the post, start with async call for location validation, then after this resolves, everything else
     //===================================================================================================================
     axios.get(`/api/location/zipcode/${newEvent.zipcode || 5000}`).then(result=>{
-      console.log(result.data.rows[0].elements[0].status)
+      console.log(result.data.rows[0].elements[0].status);
       //Check if google found the zipcode
       if(result.data.rows[0].elements[0].status==="OK" || this.state.isRemote) {
-        this.setState({zipcodeVerified: true})
-        console.log('zipcode verified')
+        this.setState({zipcodeVerified: true});
+        console.log('zipcode verified');
       } else{
-        this.setState({zipcodePlaceholder: "Google couldn't find your zipcode.", zipcode: this.state.initialZipcode})
-        console.log('zip code not found')
+        this.setState({zipcodePlaceholder: "Google couldn't find your zipcode.", zipcode: this.state.initialZipcode});
+        console.log('zip code not found');
       }
       //Check if maxAttending is over 0
       if(newEvent.maxAttending >0) {
-        this.setState({maxAttendingVerified: true})
-        console.log('max attending verified')
+        this.setState({maxAttendingVerified: true});
+        console.log('max attending verified');
       } else {
-        this.setState({maxAttendingPlaceholder: 'Please Enter a Number Greater Than Zero.', maxAttending: ''})
-        console.log('max attending not verified')
+        this.setState({maxAttendingPlaceholder: 'Please Enter a Number Greater Than Zero.', maxAttending: ''});
+        console.log('max attending not verified');
       }
       //Check if there is a description that is not too big or too small.
       if(newEvent.description.length > 10 && newEvent.description.length<255) {
-        this.setState({descriptionVerified: true})
-        console.log('description verified')
+        this.setState({descriptionVerified: true});
+        console.log('description verified');
       } else {
-        this.setState({descriptionPlaceholder: "Needs to be between 10 and 255 characters."})
+        this.setState({descriptionPlaceholder: "Needs to be between 10 and 255 characters."});
       }
       if(newEvent.time === '') {
-        this.setState({eventTimePlaceholder: 'Please enter a time.'})
+        this.setState({eventTimePlaceholder: 'Please enter a time.'});
       } else {
-        this.setState({timeVerified: true})
-        console.log('time verified')
+        this.setState({timeVerified: true});
+        console.log('time verified');
       }
-      console.log('moment date', moment(moment()).isBefore(newEvent.date, 'year'))
-      console.log('now', moment())
-      console.log('then', newEvent.date)
+      console.log('moment date', moment(moment()).isBefore(newEvent.date, 'year'));
+      console.log('now', moment());
+      console.log('then', newEvent.date);
       if (newEvent.date === '') {
-        this.setState({datePlaceholder: 'Please enter a date'})
+        this.setState({datePlaceholder: 'Please enter a date'});
       } else if(moment().isBefore(newEvent.date)){
-        this.setState({dateVerified: true})
-        console.log('date verified', moment().isBefore(newEvent.date))
+        this.setState({dateVerified: true});
+        console.log('date verified', moment().isBefore(newEvent.date));
       }else {
-        this.setState({datePlaceholder: "The event can not be in the past."})
-        console.log('date not verified', moment().isBefore(newEvent.date))
+        this.setState({datePlaceholder: "The event can not be in the past."});
+        console.log('date not verified', moment().isBefore(newEvent.date));
       }
     }).then(result => {
-      if(this.state.zipcodeVerified
-        && this.state.maxAttendingVerified
-        && this.state.descriptionVerified
-        && this.state.dateVerified
-        && this.state.timeVerified
+      if(this.state.zipcodeVerified &&
+        this.state.maxAttendingVerified &&
+        this.state.descriptionVerified &&
+        this.state.dateVerified &&
+        this.state.timeVerified
         ){
-  	    this.submitEvent(newEvent);
-	    }
-    })
+        this.submitEvent(newEvent);
+      }
+    });
   }
 
 
 //submit to the backend
-  submitEvent = event=>{
+  submitEvent(event) {
       axios
       .post("/api/event/create", event)
       .then(result =>{
-      	   this.setState({isSubmitted: true});
-        })
+          this.setState({isSubmitted: true});
+      })
       .catch(err=> console.log(err));
   }
   render(){
@@ -204,7 +213,7 @@ export default class CreateEvent extends Component {
       {/*END OF NAVBAR STUFF*/}
 {/*======================================================================================================================================*/}
 
-        <div style={{height: '100px'}}></div>
+        <div style={{height: '100px'}} />
       	<Columns>
           <Column isSize={8} isOffset={2}>
             <Box style={{marginTop: '5%', position: 'relative'}}>

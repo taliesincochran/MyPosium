@@ -1,6 +1,7 @@
+/*jshint esversion: 6 */
 import React, { Component } from 'react';
 import { Redirect, Link } from 'react-router-dom';
-import Navbar from '../../components/Nav/Navbar'
+import Navbar from '../../components/Nav/Navbar';
 import axios from 'axios';
 import { authObj } from '../../authenticate';
 import EventCard from '../../components/EventCard/EventCard';
@@ -28,7 +29,7 @@ import moment from 'moment';
 
 
 
-class Dashboard extends Component {
+export default class Dashboard extends Component {
     constructor(props) {
     super(props);
     this.state = {
@@ -56,32 +57,47 @@ class Dashboard extends Component {
       eventsWithin: 5,
       eventsWithinDistance: [],
       unread: 0
-    }
-    this.burgerOnClick = this.burgerOnClick.bind(this)
-    this.setState = this.setState.bind(this)
-    this.handleInput = this.handleInput.bind(this)
+    };
+    this.burgerOnClick = this.burgerOnClick.bind(this);
+    this.setState = this.setState.bind(this);
+    this.handleInput = this.handleInput.bind(this);
+    this.getEvents = this.getEvents.bind(this);
+    this.openMessageModal = this.openMessageModal.bind(this);
+    this.closeMessageModal = this.closeMessageModal.bind(this);
+    this.closeEventModal = this.closeEventModal.bind(this);
+    this.handleInput = this.handleInput.bind(this);
+    this.setDistance = this.setDistance.bind(this);
+    this.submitMessage = this.submitMessage.bind(this);
+    this.sendToAllAttendees = this.sendToAllAttendees.bind(this);
+    this.sendMessageToOrganizer = this.sendMessageToOrganizer.bind(this);
+    this.handleLogout = this.handleLogout.bind(this);
+    this.attend = this.attend.bind(this);
+    this.burgerOnClick = this.burgerOnClick.bind(this);
+    this.eventModal = this.eventModal.bind(this);
+    this.cancelEvent = this.cancelEvent.bind(this);
+    this.toggleCancelEventModal = this.toggleCancelEventModal.bind(this);
   }
 
   //On load page checks for, in order, Messages then events. Also removes background image
-  componentDidMount =() => {
+  componentDidMount() {
     axios
       .get('api/message/checkForNewMessage')
       .then(response => {
         let unread = 0;
-        response.data.map(message => message.read===false? unread++: message)
+        response.data.map(message => message.read===false? unread++: message);
         this.setState({unread});
-      })
+      });
       axios.get("/api/users/" + this.state.user.username).then(result=>{
-        this.setState({user: result.data})
-      }).then(res=>this.getEvents(false))
+        this.setState({user: result.data});
+      }).then(res=>this.getEvents(false));
       document.querySelector('body').style.backgroundImage = 'none';
   }
 
   //Function to get the local events
-  getEvents =(remote) => {
+  getEvents(remote) {
     var setState = this.setState;
     var state = this.state;
-    console.log('state', state)
+    console.log('state', state);
     axios.get("/api/event/").then(events => {
       var userCreatedArray = [];
       var eventsMatchArray = [];
@@ -99,14 +115,14 @@ class Dashboard extends Component {
       //================================================================
       var eventsArray = events.data;
       eventsArray.forEach(event=> {
-        var category = event.category
+        var category = event.category;
         if(this.state.user.username === event.username) {
-          userCreatedArray.push(event)
+          userCreatedArray.push(event);
         }
         else if (this.state.user.interests.indexOf(category) > -1 && event.attendees.indexOf(user._id) === -1 && this.state.user.attending.indexOf(user._id) === -1){
-          eventsMatchArray.push(event)
+          eventsMatchArray.push(event);
         }
-      })
+      });
       //================================================================
       //Seperating local from remote if remote === true then only ======
       //remote events events============================================
@@ -114,13 +130,13 @@ class Dashboard extends Component {
       var eventsToShow =[];
       eventsMatchArray.map(event=> {
         if(event.isRemote === remote) {
-          destinations = destinations + event.zipcode + "|"
+          destinations = destinations + event.zipcode + "|";
           eventsToShow.push(event);
-        console.log('zipcode', event.zipcode)
-        console.log('destination', destinations)
+        console.log('zipcode', event.zipcode);
+        console.log('destination', destinations);
         }
-        return({events: eventsArray, eventsToShow: eventsToShow})
-      })
+        return({events: eventsArray, eventsToShow: eventsToShow});
+      });
       //================================================================
       //Query google maps distance matrix to get rough distance of    ==
       //event by zipcodes, as google maps returns the distances in    ==
@@ -136,10 +152,10 @@ class Dashboard extends Component {
           if (result.data.status==="OK") {
             result.data.rows[0].elements.forEach((destination, i)=> {
               if(destination.status !== "NOT_FOUND") {
-                console.log('status', destination.status)
+                console.log('status', destination.status);
                 if(destination.distance.value < travelMeters) {
-                  console.log("distance of event ", destination.distance.value)
-                  eventsWithinDistance.push(eventsToShow[i])
+                  console.log("distance of event ", destination.distance.value);
+                  eventsWithinDistance.push(eventsToShow[i]);
                 }
               }
             });
@@ -150,55 +166,55 @@ class Dashboard extends Component {
           //To insure the axios call is done before setting the state, ==
           //return query results and arrays and set up a .then         ==
           //=============================================================
-          return({eventsMatch: eventsToShow, userCreated: userCreatedArray, events: eventsArray, eventsWithinDistance: eventsWithinDistance})
+          return({eventsMatch: eventsToShow, userCreated: userCreatedArray, events: eventsArray, eventsWithinDistance: eventsWithinDistance});
         }).then(results =>{
-        setState({eventsWithinDistance: results.eventsWithinDistance, events: results.events, eventsMatchInterests: results.eventsMatch, userCreated: results.userCreated, hasGotEvents: true, userAttending: state.user.attending}, ()=> console.log('state set', state))
-        })
+        setState({eventsWithinDistance: results.eventsWithinDistance, events: results.events, eventsMatchInterests: results.eventsMatch, userCreated: results.userCreated, hasGotEvents: true, userAttending: state.user.attending}, ()=> console.log('state set', state));
+        });
       } else{
-        setState({eventsMatch: eventsToShow, userCreated: userCreatedArray, events: eventsArray, eventsWithinDistance: eventsToShow, userAttending: state.user.attending, hasGotEvents: true})
+        setState({eventsMatch: eventsToShow, userCreated: userCreatedArray, events: eventsArray, eventsWithinDistance: eventsToShow, userAttending: state.user.attending, hasGotEvents: true});
       }
-   })
+   });
   }
 
 //Sets the recipient for messages before opening the message modal, necessary in case of multiple recipients
 
-  openMessageModal = (recipient) => {
+  openMessageModal(recipient){
     this.setState({activeMessageModal: true, messageRecipient: recipient});
   }
-  closeMessageModal = () => {
-    this.setState({activeMessageModal: false})
+
+  closeMessageModal(){
+    this.setState({activeMessageModal: false});
   }
 
   //Close the Event Modal
-  closeEventModal = () => {
-    this.setState({activeEventModal: false})
+  closeEventModal(){
+    this.setState({activeEventModal: false});
   }
 
-
-  handleInput = e => {
+  handleInput(e){
     let { name, value } = e.target;
     this.setState({ [name]: value });
   }
 
  // Sets distance preferred and gets events
-  setDistance = (x) => {
+  setDistance(x){
     if(isNaN(x)) {
-      this.getEvents(true)
+      this.getEvents(true);
     }
     else {
-      this.setState({eventsWithin: x}, () => this.getEvents(false))
+      this.setState({eventsWithin: x}, () => this.getEvents(false));
     }
   }
 
   //Message submission on click
-  submitMessage = e => {
-    this.setState({activeMessageModal: false})
+  submitMessage(e) {
+    this.setState({activeMessageModal: false});
     let newMessage = {
       sender: this.state.user,
       recipient: this.state.messageRecipient,
       subject: this.state.subject,
       message: this.state.message
-    }
+    };
     axios
       .post('api/message/create', newMessage)
       .then(response => {
@@ -207,26 +223,26 @@ class Dashboard extends Component {
   }
 
   //This is hit before message modal opens to make sure multiple recipients is an option
-  sendToAllAttendees= () => {
+  sendToAllAttendees() {
     axios.get('api/event/attendees/' + this.state.modalEvent._id)
       .then(response=> {
         let attendeeArr = [];
-        response.data.attendees.forEach((username)=>{
+        response.data.attendees.forEach((username) => {
           attendeeArr.push(username.username);
-        })
+        });
         this.openMessageModal(attendeeArr);
-      })
+      });
     this.closeEventModal();
   }
 
   //This is hit to set recipient for messages to host before opening the message modal
-  sendMessageToOrganizer = () => {
+  sendMessageToOrganizer() {
     this.openMessageModal(this.state.modalEvent.username);
     this.closeEventModal();
   }
 
   //Logout, clear cookies.
-  handleLogout = () => {
+  handleLogout() {
     axios
       .get('api/users/logout')
       .then(response => {
@@ -239,40 +255,42 @@ class Dashboard extends Component {
   }
 
   //Function to add user to attending for event and add event to attending for user
-  attend = (e) => {
-    var id = e.target.value
+  attend(e) {
+    var id = e.target.value;
     var attending = this.state.userAttending;
     axios.post("/api/event/" + e.target.value, this.state.user._id).then(result=>{
       this.getEvents(false);
-      attending.push(id)
-      this.setState({userAttending: attending, activeEventModal: false})
-    })
+      attending.push(id);
+      this.setState({userAttending: attending, activeEventModal: false});
+    });
   }
 
-  burgerOnClick = () =>this.setState((state) => ({isActive:!this.state.isActive}))
+  burgerOnClick() {
+    this.setState((state) => ({isActive:!this.state.isActive}));
+  }
 
 //Sets the event information in state upon click
-  eventModal = (event) => {
+  eventModal(event) {
     if(event._id !== '0'){
-      this.setState({modalEvent: event, activeEventModal: !this.state.activeEventModal})
+      this.setState({modalEvent: event, activeEventModal: !this.state.activeEventModal});
     }
   }
 
 //Sets event to be cancelled
-  cancelEvent = () => {
+  cancelEvent() {
     if(this.state.usernameForEventCancellation === this.state.modalEvent.username) {
       axios.get("api/event/cancelEvent/" + this.state.modalEvent._id).then(result =>{
         //Code for sending message
         this.setState({cancelEventModal: false}, ()=> {
           this.getEvents(false);
           this.sendToAllAttendees();
-        })
-      })
+        });
+      });
     }
   }
 //Opens cancel event modal
-  toggleCancelEventModal = () => {
-    this.setState({cancelEventModal: !this.state.cancelEventModal, activeEventModal: !this.state.activeEventModal})
+  toggleCancelEventModal() {
+    this.setState({cancelEventModal: !this.state.cancelEventModal, activeEventModal: !this.state.activeEventModal});
   }
   render() {
     var events = this.state.events;
@@ -593,4 +611,3 @@ class Dashboard extends Component {
     )
   }
 }
-export default Dashboard;
