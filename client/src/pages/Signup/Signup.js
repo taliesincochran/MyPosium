@@ -2,8 +2,9 @@ import React, { Component } from 'react';
 import { Section, Container, Field, Label, Control, Input, Button, Columns, Column, Box, Title } from 'bloomer';
 import { Redirect } from "react-router-dom";
 import axios from 'axios';
-import {authObj} from '../../authenticate'
-import NavbarHeader from '../../components/Nav/Navbar'
+import {authObj} from '../../authenticate';
+import NavbarHeader from '../../components/Nav/Navbar';
+import './signup.css';
 
 
 export default class Signup extends Component {
@@ -23,7 +24,8 @@ export default class Signup extends Component {
       usernameUnique: false,
       zipcodeValidated: false,
       usernameMinLength: 1,
-      passwordMinLength: 1
+      passwordMinLength: 1,
+      signupError: false
     }
     this.onClickNav = this.onClickNav.bind(this);
   }
@@ -51,20 +53,24 @@ export default class Signup extends Component {
     let { username, password, password2, zipcode } = this.state;
     let newUser = { username, password, password2, zipcode };
     this.submitUser(newUser);
-  }
+  };
 
 //Submits user to the backend first validating the data
   submitUser = user => {
     axios.get(`api/location/zipcode/${user.zipcode}`).then(
-      result=>{
-      if(result.data.rows[0].elements[0].status === 'OK'){
-        this.setState({zipcodeValidated: true})
-        console.log(result)
-        axios.get('/api/users/checkUsername/' + this.state.username).then(result=> {
+      result => {
+        console.log('result: ', result);
+      if(result.data.rows[0] && 
+        result.data.rows[0].elements && 
+        result.data.rows[0].elements[0] && 
+        result.data.rows[0].elements[0].status === 'OK'){
+        this.setState({zipcodeValidated: true});
+        console.log('result from api call',result);
+        axios.get('/api/users/checkUsername/' + this.state.username).then(result => {
           if(result.data === null) {
-            this.setState({usernameUnique: true})
+            this.setState({usernameUnique: true});
           } else {
-            this.setState({usernamePlaceholder: 'That username already exists.  Please try another.'})
+            this.setState({usernamePlaceholder: 'That username already exists.  Please try another.'});
           }
           if(this.state.username.length < this.state.usernameMinLength) {
             this.setState({username: '', usernamePlaceholder: "Please enter a username with at least " + this.state.usernameMinLength + " characters."})
@@ -101,6 +107,8 @@ export default class Signup extends Component {
             console.log("Validation failed ", this.state)
           }
         })
+      } else {
+        this.setState({ signupError: true });
       }
     })
   }
@@ -155,7 +163,11 @@ export default class Signup extends Component {
           <Columns>
             <Column isSize={8} isOffset={2}>
               <Box style={{marginTop: '15%', position: 'relative'}}>
-                
+                {
+                  this.state.signupError ? 
+                  <p className='error-message'>There was an error with your request, please try again later.</p> 
+                  : null
+                }
                 {/*----------------------------------*/}
                 {/*Fields for user input*/}
                 <Title className="has-text-grey-light" isSize={1} style={{position: 'absolute', top: '-8%', right: '5%', background: 'white'}}>Sign Up</Title>

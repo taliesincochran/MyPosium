@@ -1,0 +1,4 @@
+.error-message {
+    color: red;
+    transition: display 300ms ease;
+}
