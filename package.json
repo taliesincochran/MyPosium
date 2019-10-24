@@ -19,7 +19,7 @@
     "nodemon": "^1.11.0"
   },
   "dependencies": {
-    "axios": "^0.16.2",
+    "axios": "^0.19.0",
     "bcrypt-nodejs": "^0.0.3",
     "bloomer": "^0.6.3",
     "body-parser": "^1.17.2",
