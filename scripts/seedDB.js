@@ -9,9 +9,10 @@ mongoose.Promise = global.Promise;
 
 // This file empties the events collection and inserts the events below
 mongoose.connect(
-  process.env.MONGODB_URI || "mongodb://localhost/myposium",
-  { useMongoClient: true }
-);
+  process.env.MONGODB_URI || "mongodb://localhost/myposium", {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+  });
 
 const currentDate = new moment().format("M-D-YYYY");
 

@@ -80,13 +80,13 @@ export default class Dashboard extends Component {
 
   //On load page checks for, in order, Messages then events. Also removes background image
   componentDidMount() {
-    axios
-      .get('api/message/checkForNewMessage')
-      .then(response => {
-        let unread = 0;
-        response.data.map(message => message.read===false? unread++: message);
-        this.setState({unread});
-      });
+    // axios
+    //   .get('api/message/checkForNewMessage')
+    //   .then(response => {
+    //     let unread = 0;
+    //     response.data.map(message => message.read===false? unread++: message);
+    //     this.setState({unread});
+    //   });
       axios.get("/api/users/" + this.state.user.username).then(result=>{
         this.setState({user: result.data});
       }).then(res=>this.getEvents(false));
@@ -106,7 +106,6 @@ export default class Dashboard extends Component {
       //================================================================
       const metersPerMile = 1609.344;
       const travelMiles = this.state.eventsWithin;
-      const travelMeters = travelMiles * metersPerMile;
       var destinations = '';
       var user = this.state.user;
       //================================================================
@@ -130,10 +129,8 @@ export default class Dashboard extends Component {
       var eventsToShow =[];
       eventsMatchArray.map(event=> {
         if(event.isRemote === remote) {
-          destinations = destinations + event.zipcode + "|";
+          destinations = destinations + event.zipcode + ",";
           eventsToShow.push(event);
-        console.log('zipcode', event.zipcode);
-        console.log('destination', destinations);
         }
         return({events: eventsArray, eventsToShow: eventsToShow});
       });
@@ -145,21 +142,17 @@ export default class Dashboard extends Component {
       //event array                                                   ==
       //================================================================
       if(remote === false) {
-        destinations = "origins=" + this.state.user.zipcode + "&destinations=" + destinations;
-        axios.get(`/api/location/destinations/${destinations}`).then(result=> {
-          console.log('destination result', result);
-          var eventsWithinDistance = [];
-          if (result.data.status==="OK") {
-            result.data.rows[0].elements.forEach((destination, i)=> {
-              if(destination.status !== "NOT_FOUND") {
-                console.log('status', destination.status);
-                if(destination.distance.value < travelMeters) {
-                  console.log("distance of event ", destination.distance.value);
-                  eventsWithinDistance.push(eventsToShow[i]);
-                }
-              }
-            });
-          }
+        axios.post('/api/location/destinations/', {destinations, zip: this.state.user.zipcode }).then(result=> {
+          var eventsWithinDistance = eventsToShow;
+          // if (result.status === 200) {
+          //   const distances = Object.entries(result.data.distances);
+          //   console.log('firing inside');
+          //   distances.length > 0 && distances.forEach((destination, i)=> {
+          //     console.log('destination object: ', destination);
+          //       console.log('eventsToShow: ', eventsToShow);
+          //       eventsWithinDistance.push(eventsToShow[i]);
+          //   });
+          // }
 
 
           //=============================================================
@@ -476,10 +469,11 @@ export default class Dashboard extends Component {
               <Box>
                 <Title isSize={5}>Events you may be interested in.</Title>
                 <div style={{height: '50px'}} />
-                {this.state.eventsWithinDistance.map(event=>{
+                {this.state.eventsWithinDistance.map((event, i)=>{
                     return(
                       <div>
                         <EventCard
+                          key={`event-${i}`}
                           event={event}
                           state={this.state}
                           onClick={this.attend}
