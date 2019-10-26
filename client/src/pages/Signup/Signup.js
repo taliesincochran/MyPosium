@@ -60,12 +60,8 @@ export default class Signup extends Component {
     axios.get(`api/location/zipcode/${user.zipcode}`).then(
       result => {
         console.log('result: ', result);
-      if(result.data.rows[0] && 
-        result.data.rows[0].elements && 
-        result.data.rows[0].elements[0] && 
-        result.data.rows[0].elements[0].status === 'OK'){
+      if(result.status === 200 && result.data && result.data.zip_code){
         this.setState({zipcodeValidated: true});
-        console.log('result from api call',result);
         axios.get('/api/users/checkUsername/' + this.state.username).then(result => {
           if(result.data === null) {
             this.setState({usernameUnique: true});
@@ -89,7 +85,7 @@ export default class Signup extends Component {
             && this.state.password.length >= this.state.passwordMinLength
             && this.state.password === this.state.password2
             ) {
-            console.log('User data validated')
+            console.log('User data validated');
             axios
               .post('api/users/signup', user)
               .then(result => {

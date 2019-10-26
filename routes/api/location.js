@@ -3,11 +3,10 @@ const axios = require('axios');
 //================================================================
 //fix the destination and origin issue by making get route a post.
 //================================================================
-router.get('/zipcode/:zipcode', function(req,res) {
-	axios.get(`https://maps.googleapis.com/maps/api/distancematrix/json?origins=${req.params.zipcode || 5000}&destinations=27510&key=AIzaSyCEBI9Lm5hy3v-Dx18hokmV6_fXbVbXEm0`).then(result=>{
-		console.log('zipcode', req.params.zipcode);
-		res.json(result.data)
-	})
+router.get('/zipcode/:zipcode', async function(req,res) {
+	const queryUrl = `https://www.zipcodeapi.com/rest/vnI7ZbrLcsJ1kwwkXWeBOM2dkWu0Fn63eNKWAwWAVYuvypn5p20NeIaiIHLeQntK/info.json/${req.params.zipcode}/degrees`;
+	const result = await axios.get(queryUrl);
+	res.json(result.data);
 })
 router.get('/destinations/:destinations', function(req,res) {
 	console.log(req.params.destinations);
