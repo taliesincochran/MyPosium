@@ -88,6 +88,7 @@ class Profile extends Component {
       console.log(result)
       return result.data.status === 200;
     }).then(result => {
+      console.log('result: ', result);
       if(result){
         axios.post("/api/users/updateprofile", data).then(result =>{
           this.setState({user: result.data})
