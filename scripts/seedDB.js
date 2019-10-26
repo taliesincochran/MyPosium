@@ -13,7 +13,7 @@ mongoose.connect(
     useNewUrlParser: true,
     useUnifiedTopology: true
   }, () => {
-    console.log('CONNECTED ==================================================================================', process.env.MONGODB_URI)
+    console.log('CONNECTED ==================================================================================')
   });
 
 
@@ -125,7 +125,6 @@ let newEvent3 = {
   attendees: []
 };
 
-console.log("newEvent3.date", newEvent3.date);
 let newEvent4 = {
   title: "School of Rock",
   zipcode: 27713,
@@ -187,17 +186,17 @@ let eventSeed = [newEvent1, newEvent2, newEvent3, newEvent4, newEvent5];
 eventSeed = [...eventSeed, ...procedurallyGeneratedEvents];
 const userSeed = [newUser1, newUser2, newUser3, newUser4, newUser5, newUser6];
 db.User
-  .deleteMany({})
+  .remove({})
   .then(() => {
     db.User.create(userSeed)
       .catch(err => console.error(err));
   })
   .catch(err => console.error(err));
 db.Event
-  .deleteMany({})
+  .remove({})
   .then(() => {
     db.Event.create(eventSeed)
       .catch(err => console.error(err));
-      process.exit(0);
+      // process.exit(0);
   })
   .catch(err => console.error(err));
