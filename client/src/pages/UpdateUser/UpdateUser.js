@@ -40,7 +40,7 @@ class Profile extends Component {
 
 //Sorts the categories for pretty reasons
   componentWillMount() {
-    categories.sort()
+    categories.sort();
   }
 
 
@@ -63,7 +63,7 @@ class Profile extends Component {
 
   handleInput = (e) => {
     let {name, value} = e.target;
-    this.setState({[name]: value})
+    this.setState({[name]: value});
   }
 
 //On submission sends the info to the db via axios
@@ -77,17 +77,13 @@ class Profile extends Component {
       zipcode,
       username: this.props.location.state.username
     }
-    console.log(data)
     //validate zip code
     axios.get(`/api/location/zipcode/${data.zipcode}`).then(result=>{
-      console.log(result)
       return result.status === 200;
     }).then(result => {
-      console.log('result: ', result);
       if(result){
         axios.post("/api/users/updateprofile", data).then(result =>{
           this.setState({user: result.data})
-          console.log(this.state)
         }).then(()=> {
           this.setState({finishedProfile:true})
         }).catch(err => console.error(err));
