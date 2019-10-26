@@ -104,8 +104,6 @@ export default class Dashboard extends Component {
       //================================================================
       //Set up parameters of google maps distance matrix api call=======
       //================================================================
-      const metersPerMile = 1609.344;
-      const travelMiles = this.state.eventsWithin;
       var destinations = '';
       var user = this.state.user;
       //================================================================

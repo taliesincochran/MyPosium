@@ -15,6 +15,10 @@ import {
 import moment from 'moment';
 
 const EventCard = props => {
+  console.log('props.event.date: ', props.event.date);
+  const date = moment(props.event.date, 'MM-DD-YYYY').format("dddd, MMMM Do YYYY");
+  const time = moment(props.event.time, "HH:mm").format("h:mm a");
+  console.log('date: ', date);
   if(!props.isSmall) {
     //Fullsize card render
     return(
@@ -37,8 +41,9 @@ const EventCard = props => {
         </Columns>
         <Columns style={{margin: '20px', marginTop: '-30px'}}>
           <Column>
-            <Title isSize={6}>Event Date: {moment(props.event.date).format("dddd, MMMM Do YYYY")} {'   '}{moment(props.event.time, "HH:mm").format("h:mm a")}</Title>
-            <Title isSize={6}>Event Cost: {props.event.cost}</Title>
+            <Title isSize={6}>{`Date: ${date}`}</Title>
+            <Title isSize={6}>{`Time: ${time}`}</Title>
+            <Title isSize={6}>{`Cost: ${props.event.cost}`}</Title>
           </Column>
           <Column>
             <Button value={props.event._id} onClick={props.onClick} style={{width: '50%'}} className="is-success">Attend</Button>
