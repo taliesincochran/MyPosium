@@ -48,22 +48,17 @@ class Profile extends Component {
     //store name interest clicked, and it's index (if any)
     let name = e.target.name;
     let index = this.state.interests.indexOf(name);
-
-    if(index>-1){
+    let interests = [ ...this.state.interests ];
+    
+    if(index>-1) {
       //if interest exists in the array, the user must be trying to remove it
-      let arr =[...this.state.interests];
-      arr.splice(index, 1);//splice it out and then set state
-      this.setState({interests: arr},()=>{
-
-      });
-    }
-    else{
+      interests.splice(index, 1);//splice it out and then set state
+    } else {
       //otherwise, the user is trying to add it concatenate
       //it with existing interests and change state
-      let arr =[...this.state.interests, name];
-      this.setState({interests: arr},()=>{
-    });
+      interests.push(name);
     }
+    this.setState({ interests });
   }
 
   handleInput = (e) => {
@@ -86,7 +81,7 @@ class Profile extends Component {
     //validate zip code
     axios.get(`/api/location/zipcode/${data.zipcode}`).then(result=>{
       console.log(result)
-      return result.data.status === 200;
+      return result.status === 200;
     }).then(result => {
       console.log('result: ', result);
       if(result){
