@@ -12,9 +12,10 @@ mongoose.connect(
   process.env.MONGODB_URI || "mongodb://localhost/myposium", {
     useNewUrlParser: true,
     useUnifiedTopology: true
+  }, () => {
+    console.log('CONNECTED ==================================================================================', process.env.MONGODB_URI)
   });
 
-const currentDate = new moment().format("M-D-YYYY");
 
 let newUser1 = {
   username: "TheEJMorgan",
@@ -185,16 +186,15 @@ let procedurallyGeneratedEvents = generateEvent();
 let eventSeed = [newEvent1, newEvent2, newEvent3, newEvent4, newEvent5];
 eventSeed = [...eventSeed, ...procedurallyGeneratedEvents];
 const userSeed = [newUser1, newUser2, newUser3, newUser4, newUser5, newUser6];
-console.log(eventSeed);
 db.User
-  .remove({})
+  .deleteMany({})
   .then(() => {
     db.User.create(userSeed)
       .catch(err => console.error(err));
   })
   .catch(err => console.error(err));
 db.Event
-  .remove({})
+  .deleteMany({})
   .then(() => {
     db.Event.create(eventSeed)
       .catch(err => console.error(err));
