@@ -69,7 +69,6 @@ export default class CreateEvent extends Component {
 
   handleChange(e) {
     let { name, value } = e.target;
-    console.log('!!!!!!!!!!!!!!!', name, value, this.state);
     this.setState({ [name]: value });
   }
 
@@ -83,14 +82,12 @@ export default class CreateEvent extends Component {
     console.log("Submit button clicked");
     let {title, zipcode, username, date, time, isRemote, cost, category, imgURL, description, minAttending, maxAttending} = this.state;
     let newEvent = {title, zipcode, username, date, time, isRemote, cost, category, imgURL, description, minAttending, maxAttending};
-    console.log(newEvent);
     //===================================================================================================================
     //Validate before the post, start with async call for location validation, then after this resolves, everything else
     //===================================================================================================================
-    axios.get(`/api/location/zipcode/${newEvent.zipcode || 5000}`).then(result=>{
-      console.log(result.data.rows[0].elements[0].status);
+    axios.get(`/api/location/zipcode/${newEvent.zipcode}`).then(result=>{
       //Check if google found the zipcode
-      if(result.data.rows[0].elements[0].status==="OK" || this.state.isRemote) {
+      if(result.data.zip_code || this.state.isRemote) {
         this.setState({zipcodeVerified: true});
         console.log('zipcode verified');
       } else{

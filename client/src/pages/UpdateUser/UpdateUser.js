@@ -86,11 +86,7 @@ class Profile extends Component {
     //validate zip code
     axios.get(`/api/location/zipcode/${data.zipcode}`).then(result=>{
       console.log(result)
-      if(result.data.rows[0].elements[0].status==="OK") {
-        return true
-      } else{
-        return false
-      }
+      return result.data.status === 200;
     }).then(result => {
       if(result){
         axios.post("/api/users/updateprofile", data).then(result =>{

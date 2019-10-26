@@ -13,8 +13,9 @@ const NavDropdown = props => {
 				<NavbarItem hasDropdown isHoverable>
 					<NavbarLink href={props.dropdownHref}>{props.dropdownText}</NavbarLink>
 					<NavbarDropdown style={props.dropdownStyle}>
-						{props.navbarDropdown.map(item => 	
+						{props.navbarDropdown.map((item, i) => 	
 							(<NavbarItem href={item.href} 
+								key={`navBarItem${i}`}
 								style={item.style}>
 									<Button value={item.value} 
 										onClick={item.onClick} 

@@ -168,7 +168,7 @@ export default class Dashboard extends Component {
           //=============================================================
           return({eventsMatch: eventsToShow, userCreated: userCreatedArray, events: eventsArray, eventsWithinDistance: eventsWithinDistance});
         }).then(results =>{
-        setState({eventsWithinDistance: results.eventsWithinDistance, events: results.events, eventsMatchInterests: results.eventsMatch, userCreated: results.userCreated, hasGotEvents: true, userAttending: state.user.attending}, ()=> console.log('state set', state));
+        setState({eventsWithinDistance: results.eventsWithinDistance, events: results.events, eventsMatchInterests: results.eventsMatch, userCreated: results.userCreated, hasGotEvents: true, userAttending: state.user.attending});
         });
       } else{
         setState({eventsMatch: eventsToShow, userCreated: userCreatedArray, events: eventsArray, eventsWithinDistance: eventsToShow, userAttending: state.user.attending, hasGotEvents: true});
@@ -444,10 +444,10 @@ export default class Dashboard extends Component {
                 <h3>Events you've organized</h3>
                 <div style={{height: '15px'}} />
                 {this.state.events.length<0?(<p>You have organized no events</p>):
-                  (this.state.userCreated.map(event=>{
+                  (this.state.userCreated.map((event, i)=>{
                     return(
                       <div>
-                        <EventCard event={event} isSmall={true} eventModal={this.eventModal} />
+                        <EventCard key={`event-${i}`} event={event} isSmall={true} eventModal={this.eventModal} />
                         <div style={{height: '20px'}} />
                       </div>
                       )
