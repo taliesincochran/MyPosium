@@ -23,8 +23,8 @@ class Profile extends Component {
   }
 
 //Sorts the categories for pretty reasons
-  componentWillMount() {
-    categories.sort()
+  componentDidMount() {
+    categories.sort();
   }
 
   handleInterestClick = (e) => {

@@ -38,8 +38,8 @@ class Profile extends Component {
     }
   }
 
-//Sorts the categories for pretty reasons
-  componentWillMount() {
+  //Sorts the categories for pretty reasons
+  componentDidMount() {
     categories.sort();
   }
 
@@ -78,19 +78,20 @@ class Profile extends Component {
       username: this.props.location.state.username
     }
     //validate zip code
-    axios.get(`/api/location/zipcode/${data.zipcode}`).then(result=>{
-      return result.status === 200;
-    }).then(result => {
-      if(result){
+    // Commented out until I find a free api to use
+    // axios.get(`/api/location/zipcode/${data.zipcode}`).then(result=>{
+    //   return result.status === 200;
+    // }).then(result => {
+      // if(result){
         axios.post("/api/users/updateprofile", data).then(result =>{
           this.setState({user: result.data})
         }).then(()=> {
           this.setState({finishedProfile:true})
         }).catch(err => console.error(err));
-      } else{
-        this.setState({zipcodePlaceholder: 'Google can not find your zipcode.  Please try again.', zipcode: this.state.initialZipcode})
-      }
-    })
+      // } else{
+      //   this.setState({zipcodePlaceholder: 'Google can not find your zipcode.  Please try again.', zipcode: this.state.initialZipcode})
+      // }
+    // })
   }
 
   render() {

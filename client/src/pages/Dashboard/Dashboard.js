@@ -97,7 +97,6 @@ export default class Dashboard extends Component {
   getEvents(remote) {
     var setState = this.setState;
     var state = this.state;
-    console.log('state', state);
     axios.get("/api/event/").then(events => {
       var userCreatedArray = [];
       var eventsMatchArray = [];
@@ -469,9 +468,8 @@ export default class Dashboard extends Component {
                 <div style={{height: '50px'}} />
                 {this.state.eventsWithinDistance.map((event, i)=>{
                     return(
-                      <div>
+                      <div key={`event-${i}`}>
                         <EventCard
-                          key={`event-${i}`}
                           event={event}
                           state={this.state}
                           onClick={this.attend}
@@ -521,9 +519,9 @@ export default class Dashboard extends Component {
           <ModalContent style={{padding: '20px'}}>
             <Columns>
             <Delete onClick={this.closeEventModal} style={{margin: '20px 0'}}/>
-            <ModalCardTitle  className="has-text-centered">
+            <div  className="has-text-centered" style={{'margin': '0 auto'}}>
               <Title isSize={3}>{this.state.modalEvent.title}!</Title>
-            </ModalCardTitle>
+            </div>
               </Columns>
               <Columns>
                 <Column isSize='1/3'>
