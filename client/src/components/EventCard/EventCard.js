@@ -15,17 +15,15 @@ import {
 import moment from 'moment';
 
 const EventCard = props => {
-  console.log('props.event.date: ', props.event.date);
   const date = moment(props.event.date, 'MM-DD-YYYY').format("dddd, MMMM Do YYYY");
   const time = moment(props.event.time, "HH:mm").format("h:mm a");
-  console.log('date: ', date);
   if(!props.isSmall) {
     //Fullsize card render
     return(
       <Card>
         <CardHeader>
-          <CardHeaderTitle style={{width: '100%', background: 'MintCream'}}>
-            <Title isSize={4}>{props.event.title}</Title>
+          <CardHeaderTitle style={{width: '100%', background: 'MintCream', 'fontSize': '22px'}}>
+            {props.event.title}
           </CardHeaderTitle>
         </CardHeader>
         <Columns style={{margin: '20px'}}>

@@ -38,8 +38,8 @@ class Profile extends Component {
     }
   }
 
-//Sorts the categories for pretty reasons
-  componentWillMount() {
+  //Sorts the categories for pretty reasons
+  componentDidMount() {
     categories.sort();
   }
 
