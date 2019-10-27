@@ -85,15 +85,15 @@ export default class CreateEvent extends Component {
     //===================================================================================================================
     //Validate before the post, start with async call for location validation, then after this resolves, everything else
     //===================================================================================================================
-    axios.get(`/api/location/zipcode/${newEvent.zipcode}`).then(result=>{
+    // axios.get(`/api/location/zipcode/${newEvent.zipcode}`).then(result=>{
       //Check if google found the zipcode
-      if(result.data.zip_code || this.state.isRemote) {
+      // if(result.data.zip_code || this.state.isRemote) {
         this.setState({zipcodeVerified: true});
         console.log('zipcode verified');
-      } else{
-        this.setState({zipcodePlaceholder: "Google couldn't find your zipcode.", zipcode: this.state.initialZipcode});
-        console.log('zip code not found');
-      }
+      // } else{
+        // this.setState({zipcodePlaceholder: "Google couldn't find your zipcode.", zipcode: this.state.initialZipcode});
+        // console.log('zip code not found');
+      // }
       //Check if maxAttending is over 0
       if(newEvent.maxAttending >0) {
         this.setState({maxAttendingVerified: true});
@@ -127,7 +127,7 @@ export default class CreateEvent extends Component {
         this.setState({datePlaceholder: "The event can not be in the past."});
         console.log('date not verified', moment().isBefore(newEvent.date));
       }
-    }).then(result => {
+    // }).then(result => {
       if(this.state.zipcodeVerified &&
         this.state.maxAttendingVerified &&
         this.state.descriptionVerified &&
@@ -136,7 +136,7 @@ export default class CreateEvent extends Component {
         ){
         this.submitEvent(newEvent);
       }
-    });
+    // });
   }
 
 

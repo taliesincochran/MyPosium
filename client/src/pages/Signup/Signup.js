@@ -57,11 +57,11 @@ export default class Signup extends Component {
 
 //Submits user to the backend first validating the data
   submitUser = user => {
-    axios.get(`api/location/zipcode/${user.zipcode}`).then(
-      result => {
-        console.log('result: ', result);
-      if(result.status === 200 && result.data && result.data.zip_code){
-        this.setState({zipcodeValidated: true});
+    // axios.get(`api/location/zipcode/${user.zipcode}`).then(
+      // result => {
+        // console.log('result: ', result);
+      // if(result.status === 200 && result.data && result.data.zip_code){
+        // this.setState({zipcodeValidated: true});
         axios.get('/api/users/checkUsername/' + this.state.username).then(result => {
           if(result.data === null) {
             this.setState({usernameUnique: true});
@@ -103,10 +103,10 @@ export default class Signup extends Component {
             console.log("Validation failed ", this.state)
           }
         })
-      } else {
-        this.setState({ signupError: true });
-      }
-    })
+      // } else {
+      //   this.setState({ signupError: true });
+      // }
+    // })
   }
 
     // .catch(err => console.log(err));
